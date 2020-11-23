@@ -24,8 +24,8 @@ void main() async {
   */
   final db = await openDB();
   final reviews = db.collection("reviews");
-  await makeReview(reviews, "Woohyun", "KAIMARU", [], 10, 9, "Safe, since people are not allowed to sit face to face.");
-  await makeReview(reviews, "Anonymous", "KAIMARU", [], 5, 7, "People can't help taking off their masks while eating.");
+  await makeReview(reviews, "Woohyun", "KAIMARU", [], 5, 4.5, "Safe, since people are not allowed to sit face to face.");
+  await makeReview(reviews, "Anonymous", "KAIMARU", [], 2.5, 3.5, "People can't help taking off their masks while eating.");
 
   double safety = await averageSafety(reviews, "KAIMARU");
   double overall = await averageOverall(reviews, "KAIMARU");
@@ -57,7 +57,7 @@ Future<Db> openDB() async {
   return db;
 }
 
-Future makeReview(DbCollection reviews, String username, String place, List<int> imageByte, int safety, int overall, String content) async {
+Future makeReview(DbCollection reviews, String username, String place, List<int> imageByte, double safety, double overall, String content) async {
   //final reviews = db.collection("reviews");
   final picture = base64Encode(imageByte);
   await reviews.insert({
@@ -77,14 +77,14 @@ Future<double> averageSafety(DbCollection reviews, String place) async {
   //final reviews = db.collection("reviews");
   final sum = await reviews.find({"place": place}).fold(0.0, (sum, review) => sum + review["safety"]);
   final length = await reviews.find({"place": place}).length;
-  return sum / length / 2;
+  return sum / length;
 }
 
 Future<double> averageOverall(DbCollection reviews, String place) async {
   //final reviews = db.collection("reviews");
   final sum = await reviews.find({"place": place}).fold(0.0, (sum, review) => sum + review["overall"]);
   final length = await reviews.find({"place": place}).length;
-  return sum / length / 2;
+  return sum / length;
 }
 
 Stream<Map<String, dynamic>> getReviews(DbCollection reviews, String place) {
