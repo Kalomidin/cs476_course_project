@@ -280,13 +280,24 @@ class HomeScreen extends StatelessWidget {
             for (int i = 0; i < snapshot.data.length; i = i + 2) {
               widgetlist.add(new Text(snapshot.data[i + 0],
                   style: TextStyle(height: 1, fontSize: 25)));
-              widgetlist.add(new Padding(
-                  padding: EdgeInsets.only(right: 1.0),
-                  child: SizedBox(
-                    height: 400,
-                    child: Image.network(buildPhotoURL(snapshot.data[i + 1]),
-                        height: 400, fit: BoxFit.fill),
-                  )));
+              widgetlist.add(new Expanded(
+                  child: Container(
+                      child: ConstrainedBox(
+                          constraints: BoxConstraints(maxHeight: 500.0),
+                          child: FlatButton(
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => AllReviews2(
+                                                selectedPlace: [
+                                                  snapshot.data[i + 0],
+                                                  snapshot.data[i + 1]
+                                                ])));
+                              },
+                              padding: EdgeInsets.all(0.0),
+                              child: Image.network(
+                                  buildPhotoURL(snapshot.data[i + 1])))))));
             }
             return new ListView(
               children: widgetlist,
@@ -637,6 +648,253 @@ class AllReviews extends StatelessWidget {
                 Center(
                     child: RatingBar.builder(
                   initialRating: selectedPlace.rating,
+                  minRating: 1,
+                  direction: Axis.horizontal,
+                  allowHalfRating: true,
+                  itemCount: 5,
+                  itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+                  itemSize: 25.0,
+                  itemBuilder: (context, _) => Icon(
+                    Icons.star,
+                    color: Colors.lightBlue,
+                  ),
+                  onRatingUpdate: (rating) {
+                    print(rating);
+                  },
+                )),
+              ],
+            ),
+          ],
+        ));
+  }
+}
+
+class AllReviews2 extends StatelessWidget {
+  final List<String> selectedPlace;
+
+  String buildPhotoURL(String photoReference) {
+    return "https://maps.googleapis.com/maps/api/place/photo?maxwidth=1000&photoreference=${photoReference}&key=AIzaSyDqOOHRnNiYaCweRNtiXVQswGAb1Pz88Yc";
+  }
+
+  AllReviews2({@required this.selectedPlace});
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        appBar: AppBar(
+          title: Text("Reviews: " + selectedPlace[0]),
+        ),
+        body: ListView(
+          children: [
+            Padding(
+                padding: EdgeInsets.only(right: 1.0),
+                child: SizedBox(
+                  height: 200,
+                  child: Image.network(buildPhotoURL(selectedPlace[1]),
+                      height: 200, fit: BoxFit.fill),
+                )),
+            Padding(
+              padding: EdgeInsets.only(top: 16.0, left: 20.0, right: 20.0),
+              child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text('Safety Level',
+                        style: TextStyle(height: 1, fontSize: 20)),
+                    Text('Overall Experience',
+                        style: TextStyle(height: 1, fontSize: 20)),
+                  ]),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Center(
+                    child: RatingBar.builder(
+                  initialRating: 3,
+                  minRating: 1,
+                  direction: Axis.horizontal,
+                  allowHalfRating: true,
+                  itemCount: 5,
+                  itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+                  itemSize: 25.0,
+                  itemBuilder: (context, _) => Icon(
+                    Icons.star,
+                    color: Colors.amber,
+                  ),
+                  onRatingUpdate: (rating) {
+                    print(rating);
+                  },
+                )),
+                Center(
+                    child: RatingBar.builder(
+                  initialRating: 3,
+                  minRating: 1,
+                  direction: Axis.horizontal,
+                  allowHalfRating: true,
+                  itemCount: 5,
+                  itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+                  itemSize: 25.0,
+                  itemBuilder: (context, _) => Icon(
+                    Icons.star,
+                    color: Colors.lightBlue,
+                  ),
+                  onRatingUpdate: (rating) {
+                    print(rating);
+                  },
+                )),
+              ],
+            ),
+            Row(
+              children: [
+                Icon(Icons.account_box),
+                Column(children: [
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Container(
+                      child: Text(
+                          'Anonymous                                          ',
+                          style: TextStyle(height: 3, fontSize: 20)),
+                    ),
+                  ),
+                  Text("People can't help taking off their masks while eating.",
+                      style: TextStyle(height: 1, fontSize: 15))
+                ])
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Center(
+                    child: RatingBar.builder(
+                  initialRating: 2,
+                  minRating: 1,
+                  direction: Axis.horizontal,
+                  allowHalfRating: true,
+                  itemCount: 5,
+                  itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+                  itemSize: 25.0,
+                  itemBuilder: (context, _) => Icon(
+                    Icons.star,
+                    color: Colors.amber,
+                  ),
+                  onRatingUpdate: (rating) {
+                    print(rating);
+                  },
+                )),
+                Center(
+                    child: RatingBar.builder(
+                  initialRating: 3,
+                  minRating: 1,
+                  direction: Axis.horizontal,
+                  allowHalfRating: true,
+                  itemCount: 5,
+                  itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+                  itemSize: 25.0,
+                  itemBuilder: (context, _) => Icon(
+                    Icons.star,
+                    color: Colors.lightBlue,
+                  ),
+                  onRatingUpdate: (rating) {
+                    print(rating);
+                  },
+                )),
+              ],
+            ),
+            Row(
+              children: [
+                Icon(Icons.account_box),
+                Column(children: [
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Container(
+                      child: Text(
+                          'Will kenny                                           ',
+                          style: TextStyle(height: 3, fontSize: 20)),
+                    ),
+                  ),
+                  Text(
+                      'Safe, since people are not allowed to sit face to face.',
+                      style: TextStyle(height: 1, fontSize: 15))
+                ])
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Center(
+                    child: RatingBar.builder(
+                  initialRating: 3,
+                  minRating: 1,
+                  direction: Axis.horizontal,
+                  allowHalfRating: true,
+                  itemCount: 5,
+                  itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+                  itemSize: 25.0,
+                  itemBuilder: (context, _) => Icon(
+                    Icons.star,
+                    color: Colors.amber,
+                  ),
+                  onRatingUpdate: (rating) {
+                    print(rating);
+                  },
+                )),
+                Center(
+                    child: RatingBar.builder(
+                  initialRating: 3,
+                  minRating: 1,
+                  direction: Axis.horizontal,
+                  allowHalfRating: true,
+                  itemCount: 5,
+                  itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+                  itemSize: 25.0,
+                  itemBuilder: (context, _) => Icon(
+                    Icons.star,
+                    color: Colors.lightBlue,
+                  ),
+                  onRatingUpdate: (rating) {
+                    print(rating);
+                  },
+                )),
+              ],
+            ),
+            Row(
+              children: [
+                Icon(Icons.account_box),
+                Column(children: [
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Container(
+                      child: Text(
+                          '    Harry Kim                                           ',
+                          style: TextStyle(height: 3, fontSize: 20)),
+                    ),
+                  ),
+                  Text('This place is very clean and neat!',
+                      style: TextStyle(height: 1, fontSize: 15))
+                ])
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Center(
+                    child: RatingBar.builder(
+                  initialRating: 4,
+                  minRating: 1,
+                  direction: Axis.horizontal,
+                  allowHalfRating: true,
+                  itemCount: 5,
+                  itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+                  itemSize: 25.0,
+                  itemBuilder: (context, _) => Icon(
+                    Icons.star,
+                    color: Colors.amber,
+                  ),
+                  onRatingUpdate: (rating) {
+                    print(rating);
+                  },
+                )),
+                Center(
+                    child: RatingBar.builder(
+                  initialRating: 3,
                   minRating: 1,
                   direction: Axis.horizontal,
                   allowHalfRating: true,
