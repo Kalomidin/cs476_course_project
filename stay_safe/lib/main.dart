@@ -495,12 +495,45 @@ class MakeReview extends StatelessWidget {
                     decoration: InputDecoration(
     	                border: OutlineInputBorder(),
     	                labelText: 'Write your comment here',
-                    )
+                      suffixIcon: IconButton (
+                        icon: Icon(Icons.help_center),
+                        onPressed: () {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: Text('How should I make a review?'),
+                                content: const Text(
+'''
+You can determine the level of safety using these criteria:\n\
+1. The number of people in the place (crowdiness) \n
+2. Percentage of people (especially staffs) wearing masks \n 
+3. Whether hand sanitizers are well equipped or not \n
+4. Other policies enforced in that place (e.g. In cafeteria, people are not allowed to sit face-to-face.) 
+'''
+                                  ),
+                                actions: [
+                                  FlatButton(
+                                    child: Text('Ok'),
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                      //Navigator.popUntil(context, ModalRoute.withName(Navigator.defaultRouteName));
+                                    },
+                                  ),
+                                ],
+                              );
+                            },
+                          );
+                        },
+                      ),
+                    ),
+                    maxLines: null
                   )
                 ),
                 Padding (
                   padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
                   child: RaisedButton (
+                    color: Colors.lightBlue,
                     onPressed: () {
                       content = myController.text;
                       showDialog(
@@ -522,7 +555,7 @@ class MakeReview extends StatelessWidget {
                         },
                       );
                     },
-                    child: Icon(Icons.publish)
+                    child: Icon(Icons.publish, color: Colors.white)
                   )
                 )
               ],
