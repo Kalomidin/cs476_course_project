@@ -157,7 +157,86 @@ class _HomePageState extends State<HomePage> {
               ),
               IconButton(
                 icon: Icon(Icons.add),
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) {
+                        return Scaffold(
+                            appBar: AppBar(
+                              title: Text('Search Places. Add Review'),
+                              automaticallyImplyLeading: false,
+                            ),
+                            body: PlacePicker(
+                              apiKey: "AIzaSyDqOOHRnNiYaCweRNtiXVQswGAb1Pz88Yc",
+                              initialPosition: HomePage.kInitialPosition,
+                              useCurrentLocation: true,
+                              selectInitialPosition: true,
+
+                              //usePlaceDetailSearch: true,
+                              onPlacePicked: (result) {
+                                selectedPlace = result;
+                                Navigator.of(context).pop();
+                                setState(() {});
+                              },
+                              //forceSearchOnZoomChanged: true,
+                              //automaticallyImplyAppBarLeading: false,
+                              //autocompleteLanguage: "ko",
+                              //region: 'au',
+                              //selectInitialPosition: true,
+                              selectedPlaceWidgetBuilder: (_, selectedPlace,
+                                  state, isSearchBarFocused) {
+                                print(
+                                    "state: $state, isSearchBarFocused: $isSearchBarFocused");
+                                return isSearchBarFocused
+                                    ? Container()
+                                    : FloatingCard(
+                                        bottomPosition:
+                                            0.0, // MediaQuery.of(context) will cause rebuild. See MediaQuery document for the information.
+                                        leftPosition: 0.0,
+                                        rightPosition: 0.0,
+                                        width: 500,
+                                        borderRadius:
+                                            BorderRadius.circular(12.0),
+                                        child: state == SearchingState.Searching
+                                            ? Center(
+                                                child:
+                                                    CircularProgressIndicator())
+                                            : RaisedButton(
+                                                child: Text("Pick Here"),
+                                                onPressed: () {
+                                                  // IMPORTANT: You MUST manage selectedPlace data yourself as using this build will not invoke onPlacePicker as
+                                                  //            this will override default 'Select here' Button.
+                                                  print(
+                                                      "do something with [selectedPlace] data");
+                                                  print(selectedPlace.placeId);
+                                                  print(selectedPlace.rating);
+                                                  Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          MakeReview(
+                                                              selectedPlace:
+                                                                  selectedPlace),
+                                                    ),
+                                                  );
+                                                  //Navigator.of(context).pop();
+                                                },
+                                              ),
+                                      );
+                              },
+                              // pinBuilder: (context, state) {
+                              //   if (state == PinState.Idle) {
+                              //     return Icon(Icons.favorite_border);
+                              //   } else {
+                              //     return Icon(Icons.favorite);
+                              //   }
+                              // },
+                            ));
+                      },
+                    ),
+                  );
+                },
               ),
               IconButton(
                 icon: Icon(Icons.account_box),
@@ -325,5 +404,27 @@ class AllReviews extends StatelessWidget {
             )
           ],
         ));
+  }
+}
+
+class MakeReview extends StatelessWidget {
+  final PickResult selectedPlace;
+
+  MakeReview({@required this.selectedPlace});
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Make Review"),
+      ),
+      body: Center(
+        child: ElevatedButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          child: Text('Implement adding review here'),
+        ),
+      ),
+    );
   }
 }
