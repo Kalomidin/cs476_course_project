@@ -2,11 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_place_picker/google_maps_place_picker.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 // Your api key storage.
 // import 'keys.dart';
 
 void main() => runApp(MyApp());
+
+String lat = "36.37379078760264";
+String lng = "127.35905994710093";
 
 class MyApp extends StatelessWidget {
   // Light Theme
@@ -48,7 +53,7 @@ class MyApp extends StatelessWidget {
 class HomePage extends StatefulWidget {
   const HomePage({Key key}) : super(key: key);
 
-  static final kInitialPosition = LatLng(-33.8567844, 151.213108);
+  static final kInitialPosition = LatLng(36.37379078760264, 127.35905994710093);
 
   @override
   _HomePageState createState() => _HomePageState();
@@ -244,10 +249,10 @@ class _HomePageState extends State<HomePage> {
                   );
                 },
               ),
-              IconButton(
-                icon: Icon(Icons.account_box),
-                onPressed: () {},
-              ),
+              // IconButton(
+              //   icon: Icon(Icons.account_box),
+              //   onPressed: () {},
+              // ),
             ],
           ),
         ));
@@ -259,29 +264,68 @@ class HomeScreen extends StatelessWidget {
     return "https://maps.googleapis.com/maps/api/place/photo?maxwidth=1000&photoreference=${photoReference}&key=AIzaSyDqOOHRnNiYaCweRNtiXVQswGAb1Pz88Yc";
   }
 
-  String searchNearBy(String lat, String lon) {
-    return "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=36.37379078760264,127.35905994710093&radius=1500&key=AIzaSyDqOOHRnNiYaCweRNtiXVQswGAb1Pz88Yc";
-  }
-
   @override
   Widget build(BuildContext context) {
-    print(Image.network(searchNearBy("lat", "lon")));
+    Future<List<dynamic>> info = fetchAlbum();
     return Scaffold(
-        appBar: AppBar(
-          title: Text("Discover places"),
-        ),
-        body: ListView(
-          children: [
-            Container(
-                child: ConstrainedBox(
-                    constraints: BoxConstraints.expand(),
-                    child: FlatButton(
-                        onPressed: null,
-                        padding: EdgeInsets.all(0.0),
-                        child: Icon(Icons.account_box))))
-          ],
-        ));
+      appBar: AppBar(
+        title: Text("Discover places"),
+      ),
+      body: FutureBuilder<List<dynamic>>(
+        future: info,
+        builder: (BuildContext context, AsyncSnapshot<List<dynamic>> snapshot) {
+          if (snapshot.hasData) {
+            List<Widget> widgetlist = new List<Widget>();
+            print("snaplength:" + snapshot.data.length.toString());
+            for (int i = 0; i < snapshot.data.length; i = i + 2) {
+              widgetlist.add(new Text(snapshot.data[i + 0],
+                  style: TextStyle(height: 1, fontSize: 25)));
+              widgetlist.add(new Padding(
+                  padding: EdgeInsets.only(right: 1.0),
+                  child: SizedBox(
+                    height: 400,
+                    child: Image.network(buildPhotoURL(snapshot.data[i + 1]),
+                        height: 400, fit: BoxFit.fill),
+                  )));
+            }
+            return new ListView(
+              children: widgetlist,
+            );
+          } else if (snapshot.hasError) {
+            return ListView(
+              children: [
+                Text("Searching for places",
+                    style: TextStyle(height: 1, fontSize: 25)),
+              ],
+            );
+          } else {
+            return CircularProgressIndicator();
+          }
+        },
+      ),
+    );
   }
+}
+
+String searchNearBy() {
+  print(lat + lng);
+  return "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=$lat,$lng&radius=100&type=restaurant&key=AIzaSyDqOOHRnNiYaCweRNtiXVQswGAb1Pz88Yc";
+}
+
+Future<List<dynamic>> fetchAlbum() async {
+  final response = await http.get(searchNearBy());
+  Map<String, dynamic> user = jsonDecode(response.body);
+  var list = new List();
+  for (int i = 0; i < user["results"].length; i++) {
+    if (user["results"][i]["name"] != null &&
+        user["results"][i]["photos"] != null) {
+      list.add(user["results"][i]["name"]);
+      list.add(user["results"][i]["photos"][0]["photo_reference"]);
+    }
+  }
+  await Future.delayed(const Duration(seconds: 1), () {});
+  print(user["results"][0]["name"]);
+  return list;
 }
 
 class SearchResult extends StatelessWidget {
@@ -294,6 +338,8 @@ class SearchResult extends StatelessWidget {
   SearchResult({@required this.selectedPlace});
   @override
   Widget build(BuildContext context) {
+    lat = selectedPlace.geometry.location.lat.toString();
+    lng = selectedPlace.geometry.location.lng.toString();
     return Scaffold(
         appBar: AppBar(
           title: Text(selectedPlace.name),
@@ -437,12 +483,180 @@ class AllReviews extends StatelessWidget {
                   },
                 )),
               ],
-            )
+            ),
+            Row(
+              children: [
+                Icon(Icons.account_box),
+                Column(children: [
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Container(
+                      child: Text(
+                          'Anonymous                                          ',
+                          style: TextStyle(height: 3, fontSize: 20)),
+                    ),
+                  ),
+                  Text("People can't help taking off their masks while eating.",
+                      style: TextStyle(height: 1, fontSize: 15))
+                ])
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Center(
+                    child: RatingBar.builder(
+                  initialRating: 2,
+                  minRating: 1,
+                  direction: Axis.horizontal,
+                  allowHalfRating: true,
+                  itemCount: 5,
+                  itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+                  itemSize: 25.0,
+                  itemBuilder: (context, _) => Icon(
+                    Icons.star,
+                    color: Colors.amber,
+                  ),
+                  onRatingUpdate: (rating) {
+                    print(rating);
+                  },
+                )),
+                Center(
+                    child: RatingBar.builder(
+                  initialRating: selectedPlace.rating,
+                  minRating: 1,
+                  direction: Axis.horizontal,
+                  allowHalfRating: true,
+                  itemCount: 5,
+                  itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+                  itemSize: 25.0,
+                  itemBuilder: (context, _) => Icon(
+                    Icons.star,
+                    color: Colors.lightBlue,
+                  ),
+                  onRatingUpdate: (rating) {
+                    print(rating);
+                  },
+                )),
+              ],
+            ),
+            Row(
+              children: [
+                Icon(Icons.account_box),
+                Column(children: [
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Container(
+                      child: Text(
+                          'Will kenny                                           ',
+                          style: TextStyle(height: 3, fontSize: 20)),
+                    ),
+                  ),
+                  Text(
+                      'Safe, since people are not allowed to sit face to face.',
+                      style: TextStyle(height: 1, fontSize: 15))
+                ])
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Center(
+                    child: RatingBar.builder(
+                  initialRating: 3,
+                  minRating: 1,
+                  direction: Axis.horizontal,
+                  allowHalfRating: true,
+                  itemCount: 5,
+                  itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+                  itemSize: 25.0,
+                  itemBuilder: (context, _) => Icon(
+                    Icons.star,
+                    color: Colors.amber,
+                  ),
+                  onRatingUpdate: (rating) {
+                    print(rating);
+                  },
+                )),
+                Center(
+                    child: RatingBar.builder(
+                  initialRating: selectedPlace.rating,
+                  minRating: 1,
+                  direction: Axis.horizontal,
+                  allowHalfRating: true,
+                  itemCount: 5,
+                  itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+                  itemSize: 25.0,
+                  itemBuilder: (context, _) => Icon(
+                    Icons.star,
+                    color: Colors.lightBlue,
+                  ),
+                  onRatingUpdate: (rating) {
+                    print(rating);
+                  },
+                )),
+              ],
+            ),
+            Row(
+              children: [
+                Icon(Icons.account_box),
+                Column(children: [
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Container(
+                      child: Text(
+                          '    Harry Kim                                           ',
+                          style: TextStyle(height: 3, fontSize: 20)),
+                    ),
+                  ),
+                  Text('This place is very clean and neat!',
+                      style: TextStyle(height: 1, fontSize: 15))
+                ])
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Center(
+                    child: RatingBar.builder(
+                  initialRating: 4,
+                  minRating: 1,
+                  direction: Axis.horizontal,
+                  allowHalfRating: true,
+                  itemCount: 5,
+                  itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+                  itemSize: 25.0,
+                  itemBuilder: (context, _) => Icon(
+                    Icons.star,
+                    color: Colors.amber,
+                  ),
+                  onRatingUpdate: (rating) {
+                    print(rating);
+                  },
+                )),
+                Center(
+                    child: RatingBar.builder(
+                  initialRating: selectedPlace.rating,
+                  minRating: 1,
+                  direction: Axis.horizontal,
+                  allowHalfRating: true,
+                  itemCount: 5,
+                  itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+                  itemSize: 25.0,
+                  itemBuilder: (context, _) => Icon(
+                    Icons.star,
+                    color: Colors.lightBlue,
+                  ),
+                  onRatingUpdate: (rating) {
+                    print(rating);
+                  },
+                )),
+              ],
+            ),
           ],
         ));
   }
 }
-
 
 class MakeReview extends StatelessWidget {
   final PickResult selectedPlace;
@@ -459,6 +673,8 @@ class MakeReview extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    lat = selectedPlace.geometry.location.lat.toString();
+    lng = selectedPlace.geometry.location.lng.toString();
     return Scaffold(
         appBar: AppBar(
           title: Text("Make Review on: ${selectedPlace.name}"),
@@ -473,16 +689,16 @@ class MakeReview extends StatelessWidget {
                       buildPhotoURL(selectedPlace.photos[0].photoReference),
                       height: 200,
                       fit: BoxFit.fill),
-                )
-            ),
+                )),
             Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Padding (
+                Padding(
                   padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
-                  child: Text('Safety Level', style: TextStyle(height: 1, fontSize: 20)),
+                  child: Text('Safety Level',
+                      style: TextStyle(height: 1, fontSize: 20)),
                 ),
-                Padding (
+                Padding(
                   padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
                   child: RatingBar.builder(
                     initialRating: 0,
@@ -501,59 +717,88 @@ class MakeReview extends StatelessWidget {
                     },
                   ),
                 ),
-                Padding (
+                Padding(
                   padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
-                  child: Text('Overall Experience', style: TextStyle(height: 1, fontSize: 20)),
+                  child: Text('Overall Experience',
+                      style: TextStyle(height: 1, fontSize: 20)),
                 ),
-                Padding (
-                  padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
-                  child: RatingBar.builder(
-                    initialRating: 0,
-                    minRating: 1,
-                    direction: Axis.horizontal,
-                    allowHalfRating: true,
-                    itemCount: 5,
-                    itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
-                    itemSize: 25.0,
-                    itemBuilder: (context, _) => Icon(
-                      Icons.star,
-                      color: Colors.lightBlue,
-                    ),
-                    onRatingUpdate: (rating) {
-                      overall = rating;
-                    },
-                  )
-                ),
-                Padding (
-                  padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
-                  child: TextField (
-                    controller: myController,
-                    decoration: InputDecoration(
-    	                border: OutlineInputBorder(),
-    	                labelText: 'Write your comment here',
-                      suffixIcon: IconButton (
-                        icon: Icon(Icons.help_center),
-                        onPressed: () {
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return AlertDialog(
-                                title: Text('How should I make a review?'),
-                                content: const Text(
-'''
+                Padding(
+                    padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
+                    child: RatingBar.builder(
+                      initialRating: 0,
+                      minRating: 1,
+                      direction: Axis.horizontal,
+                      allowHalfRating: true,
+                      itemCount: 5,
+                      itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+                      itemSize: 25.0,
+                      itemBuilder: (context, _) => Icon(
+                        Icons.star,
+                        color: Colors.lightBlue,
+                      ),
+                      onRatingUpdate: (rating) {
+                        overall = rating;
+                      },
+                    )),
+                Padding(
+                    padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
+                    child: TextField(
+                        controller: myController,
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(),
+                          labelText: 'Write your comment here',
+                          suffixIcon: IconButton(
+                            icon: Icon(Icons.help_center),
+                            onPressed: () {
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: Text('How should I make a review?'),
+                                    content: const Text('''
 You can determine the level of safety using these criteria:\n\
 1. The number of people in the place (crowdiness) \n
 2. Percentage of people (especially staffs) wearing masks \n 
 3. Whether hand sanitizers are well equipped or not \n
 4. Other policies enforced in that place (e.g. In cafeteria, people are not allowed to sit face-to-face.) 
-'''
-                                  ),
+'''),
+                                    actions: [
+                                      FlatButton(
+                                        child: Text('Ok'),
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                          //Navigator.popUntil(context, ModalRoute.withName(Navigator.defaultRouteName));
+                                        },
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
+                            },
+                          ),
+                        ),
+                        maxLines: null)),
+                Padding(
+                    padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
+                    child: RaisedButton(
+                        color: Colors.lightBlue,
+                        onPressed: () {
+                          content = myController.text;
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: Text('Submission Successful'),
+                                content: const Text('Thanks for your support!'),
                                 actions: [
                                   FlatButton(
                                     child: Text('Ok'),
                                     onPressed: () {
-                                      Navigator.of(context).pop();
-                                      //Navigator.popUntil(context, ModalRoute.withName(Navigator.defaultRouteName));
+                                      //Navigator.of(context).pop();
+                                      Navigator.popUntil(
+                                          context,
+                                          ModalRoute.withName(
+                                              Navigator.defaultRouteName));
                                     },
                                   ),
                                 ],
@@ -561,46 +806,13 @@ You can determine the level of safety using these criteria:\n\
                             },
                           );
                         },
-                      ),
-                    ),
-                    maxLines: null
-                  )
-                ),
-                Padding (
-                  padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
-                  child: RaisedButton (
-                    color: Colors.lightBlue,
-                    onPressed: () {
-                      content = myController.text;
-                      showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return AlertDialog(
-                            title: Text('Submission Successful'),
-                            content: const Text('Thanks for your support!'),
-                            actions: [
-                              FlatButton(
-                                child: Text('Ok'),
-                                onPressed: () {
-                                  //Navigator.of(context).pop();
-                                  Navigator.popUntil(context, ModalRoute.withName(Navigator.defaultRouteName));
-                                },
-                              ),
-                            ],
-                          );
-                        },
-                      );
-                    },
-                    child: Icon(Icons.publish, color: Colors.white)
-                  )
-                )
+                        child: Icon(Icons.publish, color: Colors.white)))
               ],
             ),
           ],
         ));
   }
 }
-
 
 /*
 class MakeReview extends StatefulWidget {
