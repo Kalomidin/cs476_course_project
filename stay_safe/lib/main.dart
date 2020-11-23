@@ -70,7 +70,12 @@ class _HomePageState extends State<HomePage> {
             children: <Widget>[
               IconButton(
                 icon: Icon(Icons.home),
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => HomeScreen()),
+                  );
+                },
               ),
               IconButton(
                 icon: Icon(Icons.search),
@@ -104,7 +109,8 @@ class _HomePageState extends State<HomePage> {
                               selectedPlaceWidgetBuilder: (_, selectedPlace,
                                   state, isSearchBarFocused) {
                                 print(
-                                    "state: $state, isSearchBarFocused: $isSearchBarFocused");
+                                    "state: $state, isSearchBarFocused: $isSearchBarFocused" +
+                                        selectedPlace.name);
                                 return isSearchBarFocused
                                     ? Container()
                                     : FloatingCard(
@@ -244,6 +250,36 @@ class _HomePageState extends State<HomePage> {
               ),
             ],
           ),
+        ));
+  }
+}
+
+class HomeScreen extends StatelessWidget {
+  String buildPhotoURL(String photoReference) {
+    return "https://maps.googleapis.com/maps/api/place/photo?maxwidth=1000&photoreference=${photoReference}&key=AIzaSyDqOOHRnNiYaCweRNtiXVQswGAb1Pz88Yc";
+  }
+
+  String searchNearBy(String lat, String lon) {
+    return "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=36.37379078760264,127.35905994710093&radius=1500&key=AIzaSyDqOOHRnNiYaCweRNtiXVQswGAb1Pz88Yc";
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    print(Image.network(searchNearBy("lat", "lon")));
+    return Scaffold(
+        appBar: AppBar(
+          title: Text("Discover places"),
+        ),
+        body: ListView(
+          children: [
+            Container(
+                child: ConstrainedBox(
+                    constraints: BoxConstraints.expand(),
+                    child: FlatButton(
+                        onPressed: null,
+                        padding: EdgeInsets.all(0.0),
+                        child: Icon(Icons.account_box))))
+          ],
         ));
   }
 }
