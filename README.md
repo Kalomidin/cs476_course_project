@@ -8,3 +8,7 @@ Instruction
 1. Add Reviews by pressing '+' button
 2. Search for public spaces, and find their safety
 3. See recommended public spaces
+
+
+Main code is implemented at stay_safe/lib/main.dart
+database code is implemented at stay_safe/lib/database.dart
