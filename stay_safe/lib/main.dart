@@ -8,6 +8,7 @@ import 'package:http/http.dart' as http;
 import './homepage.dart';
 import 'dart:convert';
 import './const.dart';
+import 'login_page.dart';
 
 // Your api key storage.
 // import 'keys.dart';
@@ -45,8 +46,11 @@ class MyApp extends StatelessWidget {
       theme: lightTheme,
       darkTheme: darkTheme,
       themeMode: ThemeMode.light,
-      home: HomePage(),
+      home: LoginPage(),
       debugShowCheckedModeBanner: false,
+      routes: {
+        "/homepage": (_) => new HomePage(),
+      },
     );
   }
 }
