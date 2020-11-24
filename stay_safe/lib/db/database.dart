@@ -1,6 +1,3 @@
-//! This file is used to show Reviews for the given place
-//! TODO: Make review2 and review file into one
-//!
 //! authors @castlecowrice
 
 import 'dart:convert';
