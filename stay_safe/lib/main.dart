@@ -4,12 +4,16 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'database.dart';
 
 // Your api key storage.
 // import 'keys.dart';
 
-void main() => runApp(MyApp());
-
+final _db = openDB();
+void main() async {
+  runApp(MyApp());
+  await closeDB(await _db);
+}
 String lat = "36.37379078760264";
 String lng = "127.35905994710093";
 
@@ -1078,85 +1082,3 @@ You can determine the level of safety using these criteria:\n\
         ));
   }
 }
-
-/*
-class MakeReview extends StatefulWidget {
-  final PickResult selectedPlace;
-
-  @override
-  MakeReview({@required this.selectedPlace});
-
-  _MakeReviewState createState() => _MakeReviewState();
-}
-
-class _MakeReviewState extends State<MakeReview> {
-
-  int safety = 0;
-  int overall = 0;
-
-  String buildPhotoURL(String photoReference) {
-    return "https://maps.googleapis.com/maps/api/place/photo?maxwidth=1000&photoreference=${photoReference}&key=AIzaSyDqOOHRnNiYaCweRNtiXVQswGAb1Pz88Yc";
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          title: Text("Make Review on: ${widget.selectedPlace.name}"),
-        ),
-        body: ListView(
-          children: [
-            Padding(
-                padding: EdgeInsets.only(),
-                child: SizedBox(
-                  height: 200,
-                  child: Image.network(
-                      buildPhotoURL(widget.selectedPlace.photos[0].photoReference),
-                      height: 200,
-                      fit: BoxFit.fill),
-                )
-            ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text('Safety Level', style: TextStyle(height: 1, fontSize: 20)),
-                RatingBar.builder(
-                  initialRating: 0,
-                  minRating: 1,
-                  direction: Axis.horizontal,
-                  allowHalfRating: true,
-                  itemCount: 5,
-                  itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
-                  itemSize: 25.0,
-                  itemBuilder: (context, _) => Icon(
-                    Icons.star,
-                    color: Colors.amber,
-                  ),
-                  onRatingUpdate: (rating) {
-                    
-                  },
-                ),
-                Text('Overall Experience', style: TextStyle(height: 1, fontSize: 20)),
-                RatingBar.builder(
-                  initialRating: 0,
-                  minRating: 1,
-                  direction: Axis.horizontal,
-                  allowHalfRating: true,
-                  itemCount: 5,
-                  itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
-                  itemSize: 25.0,
-                  itemBuilder: (context, _) => Icon(
-                    Icons.star,
-                    color: Colors.lightBlue,
-                  ),
-                  onRatingUpdate: (rating) {
-                    print(rating);
-                  },
-                )
-              ],
-            ),
-          ],
-        ));
-  }
-}
-*/
