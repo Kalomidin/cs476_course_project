@@ -287,24 +287,23 @@ class HomeScreen extends StatelessWidget {
             for (int i = 0; i < snapshot.data.length; i = i + 2) {
               widgetlist.add(new Text(snapshot.data[i + 0],
                   style: TextStyle(height: 1, fontSize: 25)));
-              widgetlist.add(new Expanded(
-                  child: Container(
-                      child: ConstrainedBox(
-                          constraints: BoxConstraints(maxHeight: 500.0),
-                          child: FlatButton(
-                              onPressed: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => AllReviews2(
-                                                selectedPlace: [
-                                                  snapshot.data[i + 0],
-                                                  snapshot.data[i + 1]
-                                                ])));
-                              },
-                              padding: EdgeInsets.all(0.0),
-                              child: Image.network(
-                                  buildPhotoURL(snapshot.data[i + 1])))))));
+              widgetlist.add(Container(
+                  child: ConstrainedBox(
+                      constraints: BoxConstraints(maxHeight: 500.0),
+                      child: FlatButton(
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => AllReviews2(
+                                            selectedPlace: [
+                                              snapshot.data[i + 0],
+                                              snapshot.data[i + 1]
+                                            ])));
+                          },
+                          padding: EdgeInsets.all(0.0),
+                          child: Image.network(
+                              buildPhotoURL(snapshot.data[i + 1]))))));
             }
             return new ListView(
               children: widgetlist,
