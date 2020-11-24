@@ -1,3 +1,7 @@
+//! File used to connect to database
+//!
+//! author @kalo
+
 const mongoose = require('mongoose')
 const dbConfig = require('./dbconfig')
 

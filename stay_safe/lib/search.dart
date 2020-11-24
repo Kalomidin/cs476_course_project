@@ -1,4 +1,6 @@
-//! authors @rooknpown
+//! This file is used to search and find place for the given specific inputted place
+//!
+//! author @kalo, @rooknpown
 
 import 'package:flutter/material.dart';
 import 'package:google_maps_place_picker/google_maps_place_picker.dart';

@@ -1,3 +1,7 @@
+//! Entry point for the node server
+//!
+//! author @kalo
+
 const express = require('express')
 const morgan = require('morgan')
 const cors = require('cors')

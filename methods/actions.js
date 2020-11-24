@@ -1,3 +1,8 @@
+//! Actions taken by the server
+//!
+//! author @kalo
+
+
 var User = require('../models/user')
 var jwt = require('jwt-simple')
 var config = require('../config/dbconfig')
@@ -28,6 +33,7 @@ var functions = {
         }, function (err, user) {
                 if (err) throw err
                 if (!user) {
+                    console.log("Authentication failure user not found!!!!")
                     res.status(403).send({success: false, msg: 'Authentication Failed, User not found'})
                 }
 
@@ -38,6 +44,7 @@ var functions = {
                             res.json({success: true, token: token})
                         }
                         else {
+                            console.log("Authentication failure!!!!")
                             return res.status(403).send({success: false, msg: 'Authentication failed, wrong password'})
                         }
                     })

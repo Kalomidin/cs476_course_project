@@ -1,4 +1,5 @@
 //! This file includes login/signup futures of the application
+//! 
 //! authors @kalo
 
 import 'package:example/db/auth_server.dart';
@@ -30,7 +31,7 @@ class _LoginPageState extends State<LoginPage> {
   var token;
 
   final emailFieldController = TextEditingController();
-  final passwordFieldController = TextEditingController();
+  var passwordFieldController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -73,12 +74,18 @@ class _LoginPageState extends State<LoginPage> {
           print("Pressed Login: ${passwordField.controller.text}, ${emailField.controller.text}");
           // TODO: Make Some DB Calculations
           AuthService().login(emailField.controller.text, passwordField.controller.text).then((val) {
-            if (val.data['success']) {
-              print("Success happened");
-              token = val.data['token'];
-              Fluttertoast.showToast(msg: 'Autheticated haha');
-            } else {
-              print("Failure happened: $val");
+            try {
+              if (val.data['success']) {
+                print("Success happened");
+                token = val.data['token'];
+                Fluttertoast.showToast(msg: 'Autheticated haha');
+                Navigator.pushReplacementNamed(
+            context, '/homepage');
+              } else {
+                print("Failure happened: ${val.data['success']}");
+              }
+            } catch (e) {
+              print("Failure happened: received val: $val\ Error: $e");
             }
           });
         },
@@ -99,14 +106,24 @@ class _LoginPageState extends State<LoginPage> {
         onPressed: () {
           print("Pressed Login: ${passwordField.controller.text}, ${emailField.controller.text}");
           // TODO: Make Some DB Calculations
-          AuthService().login(emailField.controller.text, passwordField.controller.text).then((val) {
-            if (val.data['success']) {
-              token = val.data['token'];
-              Fluttertoast.showToast(msg: 'Autheticated haha');
+          AuthService().addUser(emailField.controller.text, passwordField.controller.text).then((val) {
+            try {
+              if (val.data['success']) {
+                print("Success happened");
+                token = val.data['token'];
+                Fluttertoast.showToast(msg: 'Autheticated');
+                passwordFieldController = TextEditingController();
+                Navigator.pushReplacementNamed(
+            context, '/signin');
+              } else {
+                print("Failure happened: ${val.data['success']}");
+              }
+            } catch (e) {
+              print("Failure happened: received val: $val\ Error: $e");
             }
           });
         },
-        child: Text("Login",
+        child: Text("Register",
             textAlign: TextAlign.center,
             style: style.copyWith(
                 color: Colors.white, fontWeight: FontWeight.bold)),

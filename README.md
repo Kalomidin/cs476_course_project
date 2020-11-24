@@ -18,3 +18,17 @@ class SearchResult implements the name, picture, safety/ overall experience leve
 class AllReviews, AllReviews2 implements showing all reviews for specific location.
 
 database code is implemented at stay_safe/lib/database.dart
+
+## Setup
+1. Implement `flutter` and connect virtual device
+2. `flutter run`
+
+## Futures
+1. Login/SignUp future
+2. Search/Review future
+3. Suggested places nearby
+
+## Incoming Futures
+1. Setting to control your profile
+2. More profound way of providing safety level information
+3. Fixing the UI failures(pationatily we are waiting feedback from users)

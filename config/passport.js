@@ -1,3 +1,7 @@
+//! Password for the mongo db
+//!
+//! author @kalo
+
 var JwtStrategy = require('passport-jwt').Strategy
 var ExtractJwt = require('passport-jwt').ExtractJwt
 

@@ -1,3 +1,7 @@
+//! Available routes defined by the server
+//!
+//! author @kalo
+
 const express = require('express')
 const actions = require('../methods/actions')
 const router = express.Router()

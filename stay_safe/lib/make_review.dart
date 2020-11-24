@@ -1,3 +1,5 @@
+//! This file is used to `maker_review` for the specified place and it sends to `server` which saves those datas
+//!
 //! author @rooknpown
 
 import 'package:flutter/material.dart';
@@ -146,10 +148,7 @@ You can determine the level of safety using these criteria:\n\
                                     child: Text('Ok'),
                                     onPressed: () {
                                       //Navigator.of(context).pop();
-                                      Navigator.popUntil(
-                                          context,
-                                          ModalRoute.withName(
-                                              Navigator.defaultRouteName));
+                                      Navigator.pushReplacementNamed(context, '/homepage');
                                     },
                                   ),
                                 ],
