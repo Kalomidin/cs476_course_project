@@ -31,7 +31,7 @@ void main() async {
 
 // Usage: await openDB()
 Future<Db> openDB() async {
-  final db = await Db.create("mongodb+srv://admin:vcxz4321@cluster0.r7txg.mongodb.net/cs473?retryWrites=true&w=majority");
+  final db = await Db.create("mongodb+srv://kalomidin:123kalom@cluster0.r7txg.mongodb.net/cs473?retryWrites=true&w=majority");
   await db.open();
   
   return db;
