@@ -20,8 +20,8 @@ class AllReviews, AllReviews2 implements showing all reviews for specific locati
 database code is implemented at stay_safe/lib/database.dart
 
 ## Setup
-1. Implement `flutter` and connect virtual device
-2. `flutter run`
+1. Install `flutter` and connect virtual device
+3. `flutter run`
 
 ## Futures
 1. Login/SignUp future
