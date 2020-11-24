@@ -255,6 +255,13 @@ class _HomePageState extends State<HomePage> {
               // ),
             ],
           ),
+        ),
+        body: new Image.network(
+          "https://s3-alpha-sig.figma.com/img/1706/4c0e/56adf1329a844173a7b98575ec9d39ac?Expires=1607299200&Signature=GXhxZ-kWs6ClBSTzAZSiS2Pvkiuh3wnR52hyr9hGDRcO7VDN6MM5DIeZi68WrWfGLm7TJ2VTxzPbS0a2XMBJ39kyP1mZ4d-Z7TYk90f2VwBh1NLM-8BUzx8JUwsw0rTzIVS2egnK4N57oyIpXzMwzQ~-XhM-YjFv4A1ab8WlMtLU0JTXL60I~g0VDVBBQThgMGjyFJOLMqvoVHpAlrrv7t5BYvBoWIGTrZazzzZd24YNe0C4AfKEIebzs5fpzZOxN53y9hR616mcuZoFGIv4vlW0bZM2L9u27uVPm-Lnw0Dq4AwHiHZNkWgUyNp1w8VZev95gg3Cs5xsgsdh9rXOFQ__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA",
+          fit: BoxFit.cover,
+          height: double.infinity,
+          width: double.infinity,
+          alignment: Alignment.center,
         ));
   }
 }
