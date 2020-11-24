@@ -74,8 +74,11 @@ class _LoginPageState extends State<LoginPage> {
           // TODO: Make Some DB Calculations
           AuthService().login(emailField.controller.text, passwordField.controller.text).then((val) {
             if (val.data['success']) {
+              print("Success happened");
               token = val.data['token'];
               Fluttertoast.showToast(msg: 'Autheticated haha');
+            } else {
+              print("Failure happened: $val");
             }
           });
         },
