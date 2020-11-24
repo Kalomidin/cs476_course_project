@@ -3,7 +3,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter/material.dart';
 
 class AuthService {
-   final dio = Dio(BaseOptions(baseUrl: 'http://143.248.243.134:3000/'));
+   final dio = Dio(BaseOptions(baseUrl: 'https://stay-safe-cs476.herokuapp.com/authenticate'));
 
   login(name, password) async {
     try {
