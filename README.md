@@ -11,4 +11,10 @@ Instruction
 
 
 Main code is implemented at stay_safe/lib/main.dart
+
+class HomePageState implements the main screen with the bottom navigationbar, and the google map picker when search button or add review button is pressed
+class HomeScreen implements recommendation system based on recent search, or reviewed location
+class SearchResult implements the name, picture, safety/ overall experience level of the search result
+class AllReviews, AllReviews2 implements showing all reviews for specific location.
+
 database code is implemented at stay_safe/lib/database.dart
