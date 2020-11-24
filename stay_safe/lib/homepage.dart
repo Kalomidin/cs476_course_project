@@ -1,4 +1,6 @@
-//! authors @rooknpown
+//! This file to show home page of the app
+//!
+//! authors @rooknpown, @kalo
 
 import 'package:flutter/material.dart';
 import 'package:google_maps_place_picker/google_maps_place_picker.dart';

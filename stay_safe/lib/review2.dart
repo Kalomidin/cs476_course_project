@@ -1,7 +1,7 @@
-//! This file is used to show Reviews for the given place
+//! This file is used to show Reviews that are stored in the database for the given place
 //! TODO: Make review2 and review file into one
 //!
-//! authors @rooknpown
+//! authors @rooknpown, @kalo
 
 import 'package:flutter/material.dart';
 import 'package:google_maps_place_picker/google_maps_place_picker.dart';
@@ -53,7 +53,8 @@ class AllReviews2 extends StatelessWidget {
                   initialRating: 3,
                   minRating: 1,
                   direction: Axis.horizontal,
-                  allowHalfRating: true,
+                  allowHalfRating: false,
+                  ignoreGestures: true,
                   itemCount: 5,
                   itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
                   itemSize: 25.0,
@@ -70,7 +71,8 @@ class AllReviews2 extends StatelessWidget {
                   initialRating: 3,
                   minRating: 1,
                   direction: Axis.horizontal,
-                  allowHalfRating: true,
+                  allowHalfRating: false,
+                  ignoreGestures: true,
                   itemCount: 5,
                   itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
                   itemSize: 25.0,
@@ -109,7 +111,8 @@ class AllReviews2 extends StatelessWidget {
                   initialRating: 2,
                   minRating: 1,
                   direction: Axis.horizontal,
-                  allowHalfRating: true,
+                  allowHalfRating: false,
+                  ignoreGestures: true,
                   itemCount: 5,
                   itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
                   itemSize: 25.0,
@@ -126,7 +129,7 @@ class AllReviews2 extends StatelessWidget {
                   initialRating: 3,
                   minRating: 1,
                   direction: Axis.horizontal,
-                  allowHalfRating: true,
+                  allowHalfRating: false,
                   itemCount: 5,
                   itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
                   itemSize: 25.0,
@@ -134,6 +137,7 @@ class AllReviews2 extends StatelessWidget {
                     Icons.star,
                     color: Colors.lightBlue,
                   ),
+                  ignoreGestures: true,
                   onRatingUpdate: (rating) {
                     print(rating);
                   },
@@ -166,7 +170,8 @@ class AllReviews2 extends StatelessWidget {
                   initialRating: 3,
                   minRating: 1,
                   direction: Axis.horizontal,
-                  allowHalfRating: true,
+                  allowHalfRating: false,
+                  ignoreGestures: true,
                   itemCount: 5,
                   itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
                   itemSize: 25.0,
@@ -183,7 +188,8 @@ class AllReviews2 extends StatelessWidget {
                   initialRating: 3,
                   minRating: 1,
                   direction: Axis.horizontal,
-                  allowHalfRating: true,
+                  allowHalfRating: false,
+                  ignoreGestures: true,
                   itemCount: 5,
                   itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
                   itemSize: 25.0,
@@ -222,7 +228,8 @@ class AllReviews2 extends StatelessWidget {
                   initialRating: 4,
                   minRating: 1,
                   direction: Axis.horizontal,
-                  allowHalfRating: true,
+                  allowHalfRating: false,
+                  ignoreGestures: true,
                   itemCount: 5,
                   itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
                   itemSize: 25.0,
@@ -239,7 +246,8 @@ class AllReviews2 extends StatelessWidget {
                   initialRating: 3,
                   minRating: 1,
                   direction: Axis.horizontal,
-                  allowHalfRating: true,
+                  allowHalfRating: false,
+                  ignoreGestures: true,
                   itemCount: 5,
                   itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
                   itemSize: 25.0,

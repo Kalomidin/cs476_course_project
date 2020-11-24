@@ -1,3 +1,5 @@
+//! Main function for the app
+//!
 //! authors @rooknpown
 
 import 'package:flutter/material.dart';
@@ -49,7 +51,8 @@ class MyApp extends StatelessWidget {
       home: LoginPage(),
       debugShowCheckedModeBanner: false,
       routes: {
-        "/homepage": (_) => new HomePage()
+        "/homepage": (_) => new HomePage(),
+        "/signin": (_) => new LoginPage()
       },
     );
   }

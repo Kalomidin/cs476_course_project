@@ -27,6 +27,8 @@ dependencies:
   flutter_rating_bar: ^3.2.0+1
   google_maps_place_picker: ^1.0.0
   http: ^0.12.2
+  dio: ^3.0.10 
+  fluttertoast: ^7.1.4
 
 dev_dependencies:
   flutter_test:
