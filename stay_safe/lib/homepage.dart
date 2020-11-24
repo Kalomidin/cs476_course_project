@@ -1,6 +1,6 @@
 //! This file to show home page of the app
 //!
-//! authors @rooknpown, @kalo
+//! authors @rooknpown,
 
 import 'package:flutter/material.dart';
 import 'package:google_maps_place_picker/google_maps_place_picker.dart';
@@ -8,22 +8,28 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import './home.dart';
 import './search.dart';
-import './review.dart';
+import './review2.dart';
 import './make_review.dart';
+import './const.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key key}) : super(key: key);
 
   static final kInitialPosition = LatLng(36.37379078760264, 127.35905994710093);
-
   @override
   _HomePageState createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
+  
   PickResult selectedPlace;
+  
+  Future<List<dynamic>> info = fetchAlbum();
+  
+  String buildPhotoURL(String photoReference) {
+    return "https://maps.googleapis.com/maps/api/place/photo?maxwidth=1000&photoreference=${photoReference}&key=AIzaSyDqOOHRnNiYaCweRNtiXVQswGAb1Pz88Yc";
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,10 +45,8 @@ class _HomePageState extends State<HomePage> {
               IconButton(
                 icon: Icon(Icons.home),
                 onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => HomeScreen()),
-                  );
+                  Navigator.pushReplacementNamed(
+            context, '/homepage');
                 },
               ),
               IconButton(
@@ -54,7 +58,7 @@ class _HomePageState extends State<HomePage> {
                       builder: (context) {
                         return Scaffold(
                             appBar: AppBar(
-                              title: Text('Search Places. Find Safety'),
+                              title: Text('Find Safety'),
                               automaticallyImplyLeading: false,
                             ),
                             body: PlacePicker(
@@ -219,12 +223,70 @@ class _HomePageState extends State<HomePage> {
             ],
           ),
         ),
-        body: new Image.network(
-          "https://s3-alpha-sig.figma.com/img/1706/4c0e/56adf1329a844173a7b98575ec9d39ac?Expires=1607299200&Signature=GXhxZ-kWs6ClBSTzAZSiS2Pvkiuh3wnR52hyr9hGDRcO7VDN6MM5DIeZi68WrWfGLm7TJ2VTxzPbS0a2XMBJ39kyP1mZ4d-Z7TYk90f2VwBh1NLM-8BUzx8JUwsw0rTzIVS2egnK4N57oyIpXzMwzQ~-XhM-YjFv4A1ab8WlMtLU0JTXL60I~g0VDVBBQThgMGjyFJOLMqvoVHpAlrrv7t5BYvBoWIGTrZazzzZd24YNe0C4AfKEIebzs5fpzZOxN53y9hR616mcuZoFGIv4vlW0bZM2L9u27uVPm-Lnw0Dq4AwHiHZNkWgUyNp1w8VZev95gg3Cs5xsgsdh9rXOFQ__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA",
-          fit: BoxFit.cover,
-          height: double.infinity,
-          width: double.infinity,
-          alignment: Alignment.center,
-        ));
+        body: FutureBuilder<List<dynamic>>(
+        future: info,
+        builder: (BuildContext context, AsyncSnapshot<List<dynamic>> snapshot) {
+          if (snapshot.hasData) {
+            List<Widget> widgetlist = new List<Widget>();
+            print("snaplength:" + snapshot.data.length.toString());
+            for (int i = 0; i < snapshot.data.length; i = i + 2) {
+              widgetlist.add(new Text(snapshot.data[i + 0],
+                  style: TextStyle(height: 1, fontSize: 25)));
+              widgetlist.add(new Expanded(
+                  child: Container(
+                      child: ConstrainedBox(
+                          constraints: BoxConstraints(maxHeight: 500.0),
+                          child: FlatButton(
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => AllReviews2(
+                                                selectedPlace: [
+                                                  snapshot.data[i + 0],
+                                                  snapshot.data[i + 1]
+                                                ])));
+                              },
+                              padding: EdgeInsets.all(0.0),
+                              child: Image.network(
+                                  buildPhotoURL(snapshot.data[i + 1])))))));
+            }
+            return new ListView(
+              children: widgetlist,
+            );
+          } else if (snapshot.hasError) {
+            return ListView(
+              children: [
+                Text("Searching for places... \n seems to be nothing found 😬. Please try to change your preferred location",
+                    style: TextStyle(height: 1, fontSize: 25)),
+              ],
+            );
+          } else {
+            return CircularProgressIndicator();
+          }
+        },
+      )
+      );
   }
+}
+
+String searchNearBy() {
+  print(lat + lng);
+  return "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=$lat,$lng&radius=100&type=restaurant&key=AIzaSyDqOOHRnNiYaCweRNtiXVQswGAb1Pz88Yc";
+}
+
+Future<List<dynamic>> fetchAlbum() async {
+  final response = await http.get(searchNearBy());
+  Map<String, dynamic> user = jsonDecode(response.body);
+  var list = new List();
+  for (int i = 0; i < user["results"].length; i++) {
+    if (user["results"][i]["name"] != null &&
+        user["results"][i]["photos"] != null) {
+      list.add(user["results"][i]["name"]);
+      list.add(user["results"][i]["photos"][0]["photo_reference"]);
+    }
+  }
+  await Future.delayed(const Duration(seconds: 1), () {});
+  print(user["results"][0]["name"]);
+  return list;
 }
