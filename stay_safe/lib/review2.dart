@@ -50,7 +50,7 @@ class AllReviews2 extends StatelessWidget {
               children: [
                 Center(
                     child: RatingBar.builder(
-                  initialRating: 3,
+                  initialRating: double.parse(selectedPlace[2]),
                   minRating: 1,
                   direction: Axis.horizontal,
                   allowHalfRating: false,

@@ -22,11 +22,10 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  
   PickResult selectedPlace;
-  
+
   Future<List<dynamic>> info = fetchAlbum();
-  
+
   String buildPhotoURL(String photoReference) {
     return "https://maps.googleapis.com/maps/api/place/photo?maxwidth=1000&photoreference=${photoReference}&key=AIzaSyDqOOHRnNiYaCweRNtiXVQswGAb1Pz88Yc";
   }
@@ -45,8 +44,7 @@ class _HomePageState extends State<HomePage> {
               IconButton(
                 icon: Icon(Icons.home),
                 onPressed: () {
-                  Navigator.pushReplacementNamed(
-            context, '/homepage');
+                  Navigator.pushReplacementNamed(context, '/homepage');
                 },
               ),
               IconButton(
@@ -224,49 +222,108 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
         body: FutureBuilder<List<dynamic>>(
-        future: info,
-        builder: (BuildContext context, AsyncSnapshot<List<dynamic>> snapshot) {
-          if (snapshot.hasData) {
-            List<Widget> widgetlist = new List<Widget>();
-            print("snaplength:" + snapshot.data.length.toString());
-            for (int i = 0; i < snapshot.data.length; i = i + 2) {
-              widgetlist.add(new Text(snapshot.data[i + 0],
-                  style: TextStyle(height: 1, fontSize: 25)));
-              widgetlist.add(new Expanded(
-                  child: Container(
-                      child: ConstrainedBox(
-                          constraints: BoxConstraints(maxHeight: 500.0),
-                          child: FlatButton(
-                              onPressed: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => AllReviews2(
-                                                selectedPlace: [
-                                                  snapshot.data[i + 0],
-                                                  snapshot.data[i + 1]
-                                                ])));
-                              },
-                              padding: EdgeInsets.all(0.0),
-                              child: Image.network(
-                                  buildPhotoURL(snapshot.data[i + 1])))))));
+          future: info,
+          builder:
+              (BuildContext context, AsyncSnapshot<List<dynamic>> snapshot) {
+            if (snapshot.hasData) {
+              List<Widget> widgetlist = new List<Widget>();
+              print("snaplength:" + snapshot.data.length.toString());
+              for (int i = 0; i < snapshot.data.length; i = i + 2) {
+                widgetlist.add(new Text(snapshot.data[i + 0],
+                    style: TextStyle(height: 1, fontSize: 25)));
+                widgetlist.add(
+                  new Padding(
+                    padding:
+                        EdgeInsets.only(top: 16.0, left: 20.0, right: 20.0),
+                    child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text('Safety Level',
+                              style: TextStyle(height: 1, fontSize: 20)),
+                          Text('Overall Experience',
+                              style: TextStyle(height: 1, fontSize: 20)),
+                        ]),
+                  ),
+                );
+                widgetlist.add(
+                  new Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Center(
+                          child: RatingBar.builder(
+                        initialRating: 5.0 - i / 2,
+                        minRating: 1,
+                        direction: Axis.horizontal,
+                        allowHalfRating: false,
+                        ignoreGestures: true,
+                        itemCount: 5,
+                        itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+                        itemSize: 25.0,
+                        itemBuilder: (context, _) => Icon(
+                          Icons.star,
+                          color: Colors.amber,
+                        ),
+                        onRatingUpdate: (rating) {
+                          print(rating);
+                        },
+                      )),
+                      Center(
+                          child: RatingBar.builder(
+                        initialRating: 3,
+                        minRating: 1,
+                        direction: Axis.horizontal,
+                        allowHalfRating: false,
+                        ignoreGestures: true,
+                        itemCount: 5,
+                        itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+                        itemSize: 25.0,
+                        itemBuilder: (context, _) => Icon(
+                          Icons.star,
+                          color: Colors.lightBlue,
+                        ),
+                        onRatingUpdate: (rating) {
+                          print(rating);
+                        },
+                      )),
+                    ],
+                  ),
+                );
+                widgetlist.add(new Expanded(
+                    child: Container(
+                        child: ConstrainedBox(
+                            constraints: BoxConstraints(maxHeight: 200.0),
+                            child: FlatButton(
+                                onPressed: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => AllReviews2(
+                                                  selectedPlace: [
+                                                    snapshot.data[i + 0],
+                                                    snapshot.data[i + 1],
+                                                    (5.0 - i / 2).toString()
+                                                  ])));
+                                },
+                                padding: EdgeInsets.all(0.0),
+                                child: Image.network(
+                                    buildPhotoURL(snapshot.data[i + 1])))))));
+              }
+              return new ListView(
+                children: widgetlist,
+              );
+            } else if (snapshot.hasError) {
+              return ListView(
+                children: [
+                  Text(
+                      "Searching for places... \n seems to be nothing found 😬. Please try to change your preferred location",
+                      style: TextStyle(height: 1, fontSize: 25)),
+                ],
+              );
+            } else {
+              return CircularProgressIndicator();
             }
-            return new ListView(
-              children: widgetlist,
-            );
-          } else if (snapshot.hasError) {
-            return ListView(
-              children: [
-                Text("Searching for places... \n seems to be nothing found 😬. Please try to change your preferred location",
-                    style: TextStyle(height: 1, fontSize: 25)),
-              ],
-            );
-          } else {
-            return CircularProgressIndicator();
-          }
-        },
-      )
-      );
+          },
+        ));
   }
 }
 
