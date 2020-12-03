@@ -12,7 +12,7 @@ class ReviewService {
   ReviewService._internal();
 
   final dio = new Dio();
-  final base = 'http://localhost:8081';
+  final base = 'http://10.0.2.2:8081';
 
   makeReview(String username, String place, double safety, double overall, List<String> content) async {
     Response response = await dio.post(
