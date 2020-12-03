@@ -1,6 +1,6 @@
 //! This file is used to `maker_review` for the specified place and it sends to `server` which saves those datas
 //!
-//! author @rooknpown
+//! author @rooknpown @castlecowrice
 
 import 'package:flutter/material.dart';
 import 'package:google_maps_place_picker/google_maps_place_picker.dart';
@@ -13,10 +13,12 @@ import './review.dart';
 
 class MakeReview extends StatelessWidget {
   final PickResult selectedPlace;
-  final myController = TextEditingController();
+  //final myController = TextEditingController();
+  final controllers = [TextEditingController(), TextEditingController(), TextEditingController(), TextEditingController(),];
+
   double safety;
   double overall;
-  String content;
+  List<String> content;
 
   String buildPhotoURL(String photoReference) {
     return "https://maps.googleapis.com/maps/api/place/photo?maxwidth=1000&photoreference=${photoReference}&key=AIzaSyDqOOHRnNiYaCweRNtiXVQswGAb1Pz88Yc";
@@ -43,6 +45,30 @@ class MakeReview extends StatelessWidget {
                       height: 200,
                       fit: BoxFit.fill),
                 )),
+            
+            Row(children: <Widget>[
+              Expanded(
+                child: new Container(
+                    margin: const EdgeInsets.only(left: 10.0, right: 20.0),
+                    child: Divider(
+                      color: Colors.black,
+                      height: 36,
+                    )),
+              ),
+              Text(
+                'Ratings',
+                style: TextStyle(height: 1, fontSize: 15)
+              ),
+              Expanded(
+                child: new Container(
+                    margin: const EdgeInsets.only(left: 20.0, right: 10.0),
+                    child: Divider(
+                      color: Colors.black,
+                      height: 36,
+                    )),
+              ),
+            ]),
+
             Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -93,6 +119,107 @@ class MakeReview extends StatelessWidget {
                         overall = rating;
                       },
                     )),
+
+                Row(children: <Widget>[
+                  Expanded(
+                    child: new Container(
+                        margin: const EdgeInsets.only(left: 10.0, right: 20.0),
+                        child: Divider(
+                          color: Colors.black,
+                          height: 36,
+                        )),
+                  ),
+                  Text(
+                    'Reviews',
+                    style: TextStyle(height: 1, fontSize: 15)
+                  ),
+                  Expanded(
+                    child: new Container(
+                        margin: const EdgeInsets.only(left: 20.0, right: 10.0),
+                        child: Divider(
+                          color: Colors.black,
+                          height: 36,
+                        )),
+                  ),
+                ]),
+
+                Padding(
+                  padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
+                  child: Text(
+                    '1. How many people are there?',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(height: 1, fontSize: 20),
+                  )
+                ),
+                Padding(
+                  padding: EdgeInsets.all(10.0),
+                  child: TextField(
+                    controller: controllers[0],
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: 'Your Answer',
+                    ),
+                    maxLines: 1,
+                  )
+                ),
+                Padding(
+                  padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
+                  child: Text(
+                    '2. How many people are wearing their masks?',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(height: 1, fontSize: 20),
+                  )
+                ),
+                Padding(
+                  padding: EdgeInsets.all(10.0),
+                  child: TextField(
+                    controller: controllers[1],
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: 'Your Answer',
+                    ),
+                    maxLines: 1,
+                  )
+                ),
+                Padding(
+                  padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
+                  child: Text(
+                    '3. Are hand sanitizers well equipped?',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(height: 1, fontSize: 20),
+                  )
+                ),
+                Padding(
+                  padding: EdgeInsets.all(10.0),
+                  child: TextField(
+                    controller: controllers[2],
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: 'Your Answer',
+                    ),
+                    maxLines: 1,
+                  )
+                ),
+                Padding(
+                  padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
+                  child: Text(
+                    '4. Are there any other policies for safety?\nFor example, some cafeterias do not allow people to sit face-to-face.',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(height: 1, fontSize: 20),
+                  )
+                ),
+                Padding(
+                  padding: EdgeInsets.all(10.0),
+                  child: TextField(
+                    controller: controllers[3],
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: 'Your Answer',
+                    ),
+                    maxLines: null,
+                  )
+                ),
+                /*
                 Padding(
                     padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
                     child: TextField(
@@ -131,12 +258,16 @@ You can determine the level of safety using these criteria:\n\
                           ),
                         ),
                         maxLines: null)),
+                */
+
+
+
                 Padding(
                     padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
                     child: RaisedButton(
                         color: Colors.lightBlue,
                         onPressed: () {
-                          content = myController.text;
+                          content = controllers.map((controller) => controller.text).toList();
                           showDialog(
                             context: context,
                             builder: (BuildContext context) {
