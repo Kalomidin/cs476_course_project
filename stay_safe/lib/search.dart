@@ -14,7 +14,7 @@ import './review.dart';
 
 class SearchResult extends StatelessWidget {
   final PickResult selectedPlace;
-
+  String title;
   String buildPhotoURL(String photoReference) {
     return "https://maps.googleapis.com/maps/api/place/photo?maxwidth=1000&photoreference=${photoReference}&key=AIzaSyDqOOHRnNiYaCweRNtiXVQswGAb1Pz88Yc";
   }
@@ -24,9 +24,14 @@ class SearchResult extends StatelessWidget {
   Widget build(BuildContext context) {
     lat = selectedPlace.geometry.location.lat.toString();
     lng = selectedPlace.geometry.location.lng.toString();
+    if (selectedPlace == Null) {
+      title = selectedPlace.name;
+    } else {
+      title = "Loading name...";
+    }
     return Scaffold(
         appBar: AppBar(
-          title: Text(selectedPlace.name),
+          title: Text(title),
         ),
         body: ListView(
           children: [
@@ -66,7 +71,7 @@ class SearchResult extends StatelessWidget {
               minRating: 1,
               direction: Axis.horizontal,
               allowHalfRating: false,
-ignoreGestures: true,
+              ignoreGestures: true,
               itemCount: 5,
               itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
               itemSize: 65.0,

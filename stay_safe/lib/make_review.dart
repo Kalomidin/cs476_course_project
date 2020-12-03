@@ -20,9 +20,11 @@ class MakeReview extends StatefulWidget {
 }
 
 class _MakeReviewState extends State<MakeReview> {
-  final controllers = [TextEditingController(), TextEditingController(), TextEditingController(), TextEditingController(),];
+  final controllers = [
+    TextEditingController(),
+  ];
 
-  double safety;
+  double safety1, safety2, safety3, safety4;
   double overall;
   List<String> content;
 
@@ -52,11 +54,11 @@ class _MakeReviewState extends State<MakeReview> {
                 child: SizedBox(
                   height: 200,
                   child: Image.network(
-                      buildPhotoURL(widget.selectedPlace.photos[0].photoReference),
+                      buildPhotoURL(
+                          widget.selectedPlace.photos[0].photoReference),
                       height: 200,
                       fit: BoxFit.fill),
                 )),
-            
             Row(children: <Widget>[
               Expanded(
                 child: new Container(
@@ -66,10 +68,7 @@ class _MakeReviewState extends State<MakeReview> {
                       height: 36,
                     )),
               ),
-              Text(
-                'Ratings',
-                style: TextStyle(height: 1, fontSize: 15)
-              ),
+              Text('Ratings', style: TextStyle(height: 1, fontSize: 15)),
               Expanded(
                 child: new Container(
                     margin: const EdgeInsets.only(left: 20.0, right: 10.0),
@@ -79,125 +78,166 @@ class _MakeReviewState extends State<MakeReview> {
                     )),
               ),
             ]),
-
             Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Padding(
                   padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
-                  child: Text('Safety Level',
+                  child: Text('Crowdedness',
                       style: TextStyle(height: 1, fontSize: 20)),
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Spacer(),
-                    Padding(
-                      padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
-                      child: RatingBar.builder(
-                        initialRating: 0,
-                        minRating: 1,
-                        direction: Axis.horizontal,
-                        allowHalfRating: true,
-                        itemCount: 5,
-                        itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
-                        itemSize: 25.0,
-                        itemBuilder: (context, _) => Icon(
-                          Icons.star,
-                          color: Colors.amber,
-                        ),
-                        onRatingUpdate: (rating) {
-                          safety = rating;
-                        },
+                Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                  Padding(
+                    padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
+                    child: RatingBar.builder(
+                      initialRating: 0,
+                      minRating: 1,
+                      direction: Axis.horizontal,
+                      allowHalfRating: true,
+                      itemCount: 5,
+                      itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+                      itemSize: 25.0,
+                      itemBuilder: (context, _) => Icon(
+                        Icons.star,
+                        color: Colors.red,
                       ),
+                      onRatingUpdate: (rating) {
+                        safety1 = rating;
+                      },
                     ),
-                    Expanded(
-                      child: IconButton(
-                        icon: Icon(Icons.help_center),
-                        onPressed: () {
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return AlertDialog(
-                                title: Text('What does safety level mean?'),
-                                content: const Text('''
-It refers to how safe the place is against the pandemic.\n
-You can determine the level of safety using the criteria listed below.
-'''),
-                                actions: [
-                                  FlatButton(
-                                    child: Text('Got it!'),
-                                    onPressed: () {
-                                      Navigator.of(context).pop();
-                                    },
-                                  ),
-                                ],
-                              );
-                            },
-                          );
-                        },
-                      )
-                    )
-                  ]
+                  ),
+                ]),
+                Padding(
+                  padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
+                  child: Text('Wearing Mask',
+                      style: TextStyle(height: 1, fontSize: 20)),
                 ),
+                Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                  Padding(
+                    padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
+                    child: RatingBar.builder(
+                      initialRating: 0,
+                      minRating: 1,
+                      direction: Axis.horizontal,
+                      allowHalfRating: true,
+                      itemCount: 5,
+                      itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+                      itemSize: 25.0,
+                      itemBuilder: (context, _) => Icon(
+                        Icons.star,
+                        color: Colors.orange,
+                      ),
+                      onRatingUpdate: (rating) {
+                        safety2 = rating;
+                      },
+                    ),
+                  ),
+                ]),
+                Padding(
+                  padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
+                  child: Text('Cleanliness',
+                      style: TextStyle(height: 1, fontSize: 20)),
+                ),
+                Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                  Padding(
+                    padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
+                    child: RatingBar.builder(
+                      initialRating: 0,
+                      minRating: 1,
+                      direction: Axis.horizontal,
+                      allowHalfRating: true,
+                      itemCount: 5,
+                      itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+                      itemSize: 25.0,
+                      itemBuilder: (context, _) => Icon(
+                        Icons.star,
+                        color: Colors.green,
+                      ),
+                      onRatingUpdate: (rating) {
+                        safety3 = rating;
+                      },
+                    ),
+                  ),
+                ]),
+                Padding(
+                  padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
+                  child: Text('Following Corona Polices',
+                      style: TextStyle(height: 1, fontSize: 20)),
+                ),
+                Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                  Padding(
+                    padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
+                    child: RatingBar.builder(
+                      initialRating: 0,
+                      minRating: 1,
+                      direction: Axis.horizontal,
+                      allowHalfRating: true,
+                      itemCount: 5,
+                      itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+                      itemSize: 25.0,
+                      itemBuilder: (context, _) => Icon(
+                        Icons.star,
+                        color: Colors.purple,
+                      ),
+                      onRatingUpdate: (rating) {
+                        safety4 = rating;
+                      },
+                    ),
+                  ),
+                ]),
                 Padding(
                   padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
                   child: Text('Overall Experience',
                       style: TextStyle(height: 1, fontSize: 20)),
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Spacer(),
-                    Padding(
-                      padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
-                      child: RatingBar.builder(
-                        initialRating: 0,
-                        minRating: 1,
-                        direction: Axis.horizontal,
-                        allowHalfRating: true,
-                        itemCount: 5,
-                        itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
-                        itemSize: 25.0,
-                        itemBuilder: (context, _) => Icon(
-                          Icons.star,
-                          color: Colors.lightBlue,
-                        ),
-                        onRatingUpdate: (rating) {
-                          overall = rating;
-                        },
+                Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                  Spacer(),
+                  Padding(
+                    padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
+                    child: RatingBar.builder(
+                      initialRating: 0,
+                      minRating: 1,
+                      direction: Axis.horizontal,
+                      allowHalfRating: true,
+                      itemCount: 5,
+                      itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+                      itemSize: 25.0,
+                      itemBuilder: (context, _) => Icon(
+                        Icons.star,
+                        color: Colors.lightBlue,
                       ),
+                      onRatingUpdate: (rating) {
+                        overall = rating;
+                      },
                     ),
-                    Expanded(
+                  ),
+                  Expanded(
                       child: IconButton(
-                        icon: Icon(Icons.help_center),
-                        onPressed: () {
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return AlertDialog(
-                                title: Text('What does overall experience mean?'),
-                                content: const Text('''
+                    icon: Icon(Icons.help_center),
+                    onPressed: () {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: Text('What does overall experience mean?'),
+                            content: const Text('''
 It literally refers to your overall rating to the place, not limited to its safety.\n
 Think of it as a rating you would made for a place when you use google maps.
 '''),
-                                actions: [
-                                  FlatButton(
-                                    child: Text('Got it!'),
-                                    onPressed: () {
-                                      Navigator.of(context).pop();
-                                    },
-                                  ),
-                                ],
-                              );
-                            },
+                            actions: [
+                              FlatButton(
+                                child: Text('Got it!'),
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                              ),
+                            ],
                           );
                         },
-                      )
-                    )
-                  ]
-                ),
-
+                      );
+                    },
+                  ))
+                ]),
                 Row(children: <Widget>[
                   Expanded(
                     child: new Container(
@@ -207,10 +247,7 @@ Think of it as a rating you would made for a place when you use google maps.
                           height: 36,
                         )),
                   ),
-                  Text(
-                    'Reviews',
-                    style: TextStyle(height: 1, fontSize: 15)
-                  ),
+                  Text('Reviews', style: TextStyle(height: 1, fontSize: 15)),
                   Expanded(
                     child: new Container(
                         margin: const EdgeInsets.only(left: 20.0, right: 10.0),
@@ -220,83 +257,55 @@ Think of it as a rating you would made for a place when you use google maps.
                         )),
                   ),
                 ]),
-
+                Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                  Spacer(),
+                  Padding(
+                      padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
+                      child: Text(
+                        'Write your review of the place!',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(height: 1, fontSize: 20),
+                      )),
+                  Expanded(
+                      child: IconButton(
+                    icon: Icon(Icons.help_center),
+                    onPressed: () {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: Text('What should I write here?'),
+                            content: const Text('''
+You can write anything related with the place. It would be good to include these information. \n
+2. How crowded is the place? \n
+2. How many people are wearing their masks? \n
+3. Are hand sanitizers well equipped? \n
+4. Are there any other policies for safety?\nFor example, some cafeterias do not allow people to sit face-to-face.
+'''),
+                            actions: [
+                              FlatButton(
+                                child: Text('Got it!'),
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                    },
+                  )),
+                ]),
                 Padding(
-                  padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
-                  child: Text(
-                    '1. How many people are there?',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(height: 1, fontSize: 20),
-                  )
-                ),
-                Padding(
-                  padding: EdgeInsets.all(10.0),
-                  child: TextField(
-                    controller: controllers[0],
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: 'Your Answer',
-                    ),
-                    maxLines: 1,
-                  )
-                ),
-                Padding(
-                  padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
-                  child: Text(
-                    '2. How many people are wearing their masks?',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(height: 1, fontSize: 20),
-                  )
-                ),
-                Padding(
-                  padding: EdgeInsets.all(10.0),
-                  child: TextField(
-                    controller: controllers[1],
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: 'Your Answer',
-                    ),
-                    maxLines: 1,
-                  )
-                ),
-                Padding(
-                  padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
-                  child: Text(
-                    '3. Are hand sanitizers well equipped?',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(height: 1, fontSize: 20),
-                  )
-                ),
-                Padding(
-                  padding: EdgeInsets.all(10.0),
-                  child: TextField(
-                    controller: controllers[2],
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: 'Your Answer',
-                    ),
-                    maxLines: 1,
-                  )
-                ),
-                Padding(
-                  padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
-                  child: Text(
-                    '4. Are there any other policies for safety?\nFor example, some cafeterias do not allow people to sit face-to-face.',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(height: 1, fontSize: 20),
-                  )
-                ),
-                Padding(
-                  padding: EdgeInsets.all(10.0),
-                  child: TextField(
-                    controller: controllers[3],
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: 'Your Answer',
-                    ),
-                    maxLines: null,
-                  )
-                ),
+                    padding: EdgeInsets.all(10.0),
+                    child: TextField(
+                      controller: controllers[0],
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(),
+                        labelText: 'Your Answer',
+                      ),
+                      maxLines: 1,
+                    )),
                 /*
                 Padding(
                     padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
@@ -338,17 +347,17 @@ You can determine the level of safety using these criteria:\n\
                         maxLines: null)),
                 */
 
-
-
                 Padding(
                     padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
                     child: RaisedButton(
                         color: Colors.lightBlue,
                         onPressed: () {
-                          content = controllers.map((controller) => controller.text).toList();
+                          content = controllers
+                              .map((controller) => controller.text)
+                              .toList();
                           //print(content[0]);
                           //print(content[0].runtimeType);
-                          ReviewService().makeReview("swh", widget.selectedPlace.name, safety, overall, content);
+                          //ReviewService().makeReview("swh", widget.selectedPlace.name, (safety1 + safety2 + safety3 +safety4)/4, overall, content);
                           showDialog(
                             context: context,
                             builder: (BuildContext context) {
@@ -360,7 +369,8 @@ You can determine the level of safety using these criteria:\n\
                                     child: Text('Ok'),
                                     onPressed: () {
                                       //Navigator.popUntil(context, ModalRoute.withName('/homepage'));
-                                      Navigator.pushReplacementNamed(context, '/homepage');
+                                      Navigator.pushReplacementNamed(
+                                          context, '/homepage');
                                     },
                                   ),
                                 ],
