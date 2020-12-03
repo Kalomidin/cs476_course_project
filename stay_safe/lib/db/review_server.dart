@@ -39,12 +39,16 @@ class ReviewServer {
     serv.post('/makereview', [
       setCors,
       (ServRequest req, ServResponse res) async {
+        //final x = req.body['content'];
+        //print(x[0]);
+        //print(x[0].runtimeType);
+
         await helper.makeReview(
           req.body['username'], 
           req.body['place'], 
           req.body['safety'], 
           req.body['overall'], 
-          req.body['content'].cast<String>().toList()
+          List<String>.from(req.body['content'].map((x) => x.toString()).toList()),
         );
         return res.status(200);
       }

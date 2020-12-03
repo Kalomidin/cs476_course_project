@@ -7,13 +7,19 @@ import 'package:google_maps_place_picker/google_maps_place_picker.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:http/http.dart' as http;
-import 'dart:convert';
 import './const.dart';
-import './review.dart';
+import 'db/review_service.dart';
 
-class MakeReview extends StatelessWidget {
+class MakeReview extends StatefulWidget {
   final PickResult selectedPlace;
-  //final myController = TextEditingController();
+
+  MakeReview({@required this.selectedPlace});
+
+  @override
+  _MakeReviewState createState() => _MakeReviewState();
+}
+
+class _MakeReviewState extends State<MakeReview> {
   final controllers = [TextEditingController(), TextEditingController(), TextEditingController(), TextEditingController(),];
 
   double safety;
@@ -24,15 +30,20 @@ class MakeReview extends StatelessWidget {
     return "https://maps.googleapis.com/maps/api/place/photo?maxwidth=1000&photoreference=${photoReference}&key=AIzaSyDqOOHRnNiYaCweRNtiXVQswGAb1Pz88Yc";
   }
 
-  MakeReview({@required this.selectedPlace});
+  @override
+  void dispose() {
+    // Clean up the controller when the widget is disposed.
+    controllers.forEach((controller) => controller.dispose());
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    lat = selectedPlace.geometry.location.lat.toString();
-    lng = selectedPlace.geometry.location.lng.toString();
+    lat = widget.selectedPlace.geometry.location.lat.toString();
+    lng = widget.selectedPlace.geometry.location.lng.toString();
     return Scaffold(
         appBar: AppBar(
-          title: Text("Make Review on: ${selectedPlace.name}"),
+          title: Text("Make Review on: ${widget.selectedPlace.name}"),
         ),
         body: ListView(
           children: [
@@ -41,7 +52,7 @@ class MakeReview extends StatelessWidget {
                 child: SizedBox(
                   height: 200,
                   child: Image.network(
-                      buildPhotoURL(selectedPlace.photos[0].photoReference),
+                      buildPhotoURL(widget.selectedPlace.photos[0].photoReference),
                       height: 200,
                       fit: BoxFit.fill),
                 )),
@@ -77,48 +88,115 @@ class MakeReview extends StatelessWidget {
                   child: Text('Safety Level',
                       style: TextStyle(height: 1, fontSize: 20)),
                 ),
-                Padding(
-                  padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
-                  child: RatingBar.builder(
-                    initialRating: 0,
-                    minRating: 1,
-                    direction: Axis.horizontal,
-                    allowHalfRating: true,
-                    itemCount: 5,
-                    itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
-                    itemSize: 25.0,
-                    itemBuilder: (context, _) => Icon(
-                      Icons.star,
-                      color: Colors.amber,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Spacer(),
+                    Padding(
+                      padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
+                      child: RatingBar.builder(
+                        initialRating: 0,
+                        minRating: 1,
+                        direction: Axis.horizontal,
+                        allowHalfRating: true,
+                        itemCount: 5,
+                        itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+                        itemSize: 25.0,
+                        itemBuilder: (context, _) => Icon(
+                          Icons.star,
+                          color: Colors.amber,
+                        ),
+                        onRatingUpdate: (rating) {
+                          safety = rating;
+                        },
+                      ),
                     ),
-                    onRatingUpdate: (rating) {
-                      safety = rating;
-                    },
-                  ),
+                    Expanded(
+                      child: IconButton(
+                        icon: Icon(Icons.help_center),
+                        onPressed: () {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: Text('What does safety level mean?'),
+                                content: const Text('''
+It refers to how safe the place is against the pandemic.\n
+You can determine the level of safety using the criteria listed below.
+'''),
+                                actions: [
+                                  FlatButton(
+                                    child: Text('Got it!'),
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                  ),
+                                ],
+                              );
+                            },
+                          );
+                        },
+                      )
+                    )
+                  ]
                 ),
                 Padding(
                   padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
                   child: Text('Overall Experience',
                       style: TextStyle(height: 1, fontSize: 20)),
                 ),
-                Padding(
-                    padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
-                    child: RatingBar.builder(
-                      initialRating: 0,
-                      minRating: 1,
-                      direction: Axis.horizontal,
-                      allowHalfRating: true,
-                      itemCount: 5,
-                      itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
-                      itemSize: 25.0,
-                      itemBuilder: (context, _) => Icon(
-                        Icons.star,
-                        color: Colors.lightBlue,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Spacer(),
+                    Padding(
+                      padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
+                      child: RatingBar.builder(
+                        initialRating: 0,
+                        minRating: 1,
+                        direction: Axis.horizontal,
+                        allowHalfRating: true,
+                        itemCount: 5,
+                        itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+                        itemSize: 25.0,
+                        itemBuilder: (context, _) => Icon(
+                          Icons.star,
+                          color: Colors.lightBlue,
+                        ),
+                        onRatingUpdate: (rating) {
+                          overall = rating;
+                        },
                       ),
-                      onRatingUpdate: (rating) {
-                        overall = rating;
-                      },
-                    )),
+                    ),
+                    Expanded(
+                      child: IconButton(
+                        icon: Icon(Icons.help_center),
+                        onPressed: () {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: Text('What does overall experience mean?'),
+                                content: const Text('''
+It literally refers to your overall rating to the place, not limited to its safety.\n
+Think of it as a rating you would made for a place when you use google maps.
+'''),
+                                actions: [
+                                  FlatButton(
+                                    child: Text('Got it!'),
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                  ),
+                                ],
+                              );
+                            },
+                          );
+                        },
+                      )
+                    )
+                  ]
+                ),
 
                 Row(children: <Widget>[
                   Expanded(
@@ -268,6 +346,9 @@ You can determine the level of safety using these criteria:\n\
                         color: Colors.lightBlue,
                         onPressed: () {
                           content = controllers.map((controller) => controller.text).toList();
+                          //print(content[0]);
+                          //print(content[0].runtimeType);
+                          ReviewService().makeReview("swh", widget.selectedPlace.name, safety, overall, content);
                           showDialog(
                             context: context,
                             builder: (BuildContext context) {
@@ -278,7 +359,7 @@ You can determine the level of safety using these criteria:\n\
                                   FlatButton(
                                     child: Text('Ok'),
                                     onPressed: () {
-                                      //Navigator.of(context).pop();
+                                      //Navigator.popUntil(context, ModalRoute.withName('/homepage'));
                                       Navigator.pushReplacementNamed(context, '/homepage');
                                     },
                                   ),
