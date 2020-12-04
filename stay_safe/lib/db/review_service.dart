@@ -15,6 +15,7 @@ class ReviewService {
   final base = 'http://10.0.2.2:8081';
 
   makeReview(String username, String place, double safety, double overall, List<String> content) async {
+    print("Message will be send");
     Response response = await dio.post(
         base + '/makereview',
         data: {
@@ -25,6 +26,7 @@ class ReviewService {
           "content": content,
         },
         options: Options(contentType: Headers.formUrlEncodedContentType));
+    print("Received response is: $response");
     return response;
   }
 
