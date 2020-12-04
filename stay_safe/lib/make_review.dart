@@ -89,6 +89,11 @@ class _MakeReviewState extends State<MakeReview> {
                 Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                   Padding(
                     padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
+                    child: Text('Very crowded',
+                        style: TextStyle(height: 1, fontSize: 15)),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
                     child: RatingBar.builder(
                       initialRating: 0,
                       minRating: 1,
@@ -105,6 +110,11 @@ class _MakeReviewState extends State<MakeReview> {
                         safety1 = rating;
                       },
                     ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
+                    child: Text('Not crowded',
+                        style: TextStyle(height: 1, fontSize: 15)),
                   ),
                 ]),
                 Padding(
@@ -277,7 +287,7 @@ Think of it as a rating you would made for a place when you use google maps.
                             title: Text('What should I write here?'),
                             content: const Text('''
 You can write anything related with the place. It would be good to include these information. \n
-2. How crowded is the place? \n
+1. How crowded is the place? \n
 2. How many people are wearing their masks? \n
 3. Are hand sanitizers well equipped? \n
 4. Are there any other policies for safety?\nFor example, some cafeterias do not allow people to sit face-to-face.
