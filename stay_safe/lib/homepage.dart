@@ -329,7 +329,7 @@ class _HomePageState extends State<HomePage> {
 
 String searchNearBy() {
   print(lat + lng);
-  return "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=$lat,$lng&radius=100&type=restaurant&key=AIzaSyDqOOHRnNiYaCweRNtiXVQswGAb1Pz88Yc";
+  return "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=$lat,$lng&radius=500&type=restaurant&key=AIzaSyDqOOHRnNiYaCweRNtiXVQswGAb1Pz88Yc";
 }
 
 Future<List<dynamic>> fetchAlbum() async {
