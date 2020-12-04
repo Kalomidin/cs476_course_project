@@ -367,7 +367,7 @@ You can determine the level of safety using these criteria:\n\
                               .toList();
                           //print(content[0]);
                           //print(content[0].runtimeType);
-                          //ReviewService().makeReview("swh", widget.selectedPlace.name, (safety1 + safety2 + safety3 +safety4)/4, overall, content);
+                          ReviewService().makeReview("swh", widget.selectedPlace.name, (safety1 + safety2 + safety3 +safety4)/4, overall, content);
                           showDialog(
                             context: context,
                             builder: (BuildContext context) {

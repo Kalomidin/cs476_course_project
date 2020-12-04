@@ -124,7 +124,7 @@ class ReviewServer {
       (ServRequest req, ServResponse res) async {
         await helper.downvote(
           req.body['username'],
-          req.body['place'],
+          req.body['place'],//
         );
         return res.status(200);
       }
@@ -146,7 +146,7 @@ class ReviewServerHelper {
   Db db;
 
   Future openDB() async {
-    db = await Db.create("mongodb+srv://admin:vcxz4321@cluster0.r7txg.mongodb.net/cs473?retryWrites=true&w=majority");
+    db = await Db.create("mongodb+srv://kalomidin:123kalom@cluster0.2rm32.mongodb.net/dbname?retryWrites=true&w=majority");
     await db.open();
   }
 
