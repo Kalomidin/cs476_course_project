@@ -151,6 +151,7 @@ class ReviewServerHelper {
   }
 
   Future makeReview(String username, String place, double safety, double overall, List<String> content) async {
+    println("Calling Make Review");
     //final db = await _db;
     final uc = db.collection(username);
     final pc = db.collection(place);
@@ -164,9 +165,11 @@ class ReviewServerHelper {
       "dislikes": 0,
       "comments": <Map<String, dynamic>>[]
     };
-
+    println("Hey there, data is being inserted");
     await uc.insert(data);
+    println("Hey there, data uc has been inserted");
     await pc.insert(data);
+    println("Hey there, data pc has been inserted");
   }
 
   Future<double> averageSafety(String place) async {
