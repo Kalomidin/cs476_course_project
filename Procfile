@@ -1,1 +1,1 @@
-api: dart run ./lib/db/review_server.dart
+web: dart run ./lib/db/review_server.dart
