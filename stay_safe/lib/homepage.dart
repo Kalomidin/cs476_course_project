@@ -78,9 +78,9 @@ class _HomePageState extends State<HomePage> {
                               //selectInitialPosition: true,
                               selectedPlaceWidgetBuilder: (_, selectedPlace,
                                   state, isSearchBarFocused) {
-                                print(
-                                    "state: $state, isSearchBarFocused: $isSearchBarFocused" +
-                                        selectedPlace.name);
+                                // print(
+                                //     "state: $state, isSearchBarFocused: $isSearchBarFocused" +
+                                //         selectedPlace.name);
                                 return isSearchBarFocused
                                     ? Container()
                                     : FloatingCard(
