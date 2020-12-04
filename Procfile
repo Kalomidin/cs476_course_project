@@ -1,1 +1,1 @@
-web: ./dart-sdk/bin/dart run stay_safe/lib/db/review_server.dart
+web: ./dart-sdk/bin/dart run bin/eview_server.dart
