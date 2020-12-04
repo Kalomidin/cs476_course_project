@@ -124,7 +124,7 @@ class ReviewServer {
       (ServRequest req, ServResponse res) async {
         await helper.downvote(
           req.body['username'],
-          req.body['place'],//
+          req.body['place'],
         );
         return res.status(200);
       }
