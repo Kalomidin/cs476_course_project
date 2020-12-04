@@ -1,1 +1,1 @@
-web: ./dart-sdk/bin/dart ./lib/db/review_server.dart
+web: ./dart-sdk/bin/dart stay_safe/lib/db/review_server.dart
