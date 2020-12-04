@@ -206,13 +206,13 @@
       "languageVersion": "2.2"
     },
     {
-      "name": "example",
+      "name": "dart_server",
       "rootUri": "../",
       "packageUri": "lib/",
       "languageVersion": "2.1"
     }
   ],
-  "generated": "2020-12-04T17:32:34.415423Z",
+  "generated": "2020-12-04T17:38:26.340201Z",
   "generator": "pub",
   "generatorVersion": "2.10.4"
 }
