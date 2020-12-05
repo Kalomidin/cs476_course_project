@@ -12,6 +12,7 @@ import './search.dart';
 import './review2.dart';
 import './make_review.dart';
 import './const.dart';
+import './settingspage.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key key}) : super(key: key);
@@ -214,10 +215,16 @@ class _HomePageState extends State<HomePage> {
                   );
                 },
               ),
-              // IconButton(
-              //   icon: Icon(Icons.account_box),
-              //   onPressed: () {},
-              // ),
+              IconButton(
+                  icon: Icon(Icons.account_box),
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              Settings(userinfo: "selectedPlace"),
+                        ));
+                  }),
             ],
           ),
         ),

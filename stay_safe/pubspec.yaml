@@ -30,6 +30,7 @@ dependencies:
   http: ^0.12.2
   dio: ^3.0.10 
   fluttertoast: ^7.1.4
+  toggle_switch: ^0.1.8
 
 dev_dependencies:
   flutter_test:
