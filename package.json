@@ -2,7 +2,7 @@
     "name": "stay_safe",
     "version": "1.0.0",
     "description": "Stay Safe App for CS476 project",
-    "main": "npm_server/server.js",
+    "main": "db_server/npm_server/server.js",
     "scripts": {
       "start": "cross-env NODE_ENV=production node server",
       "dev": "cross-env NODE_ENV=development nodemon server"
