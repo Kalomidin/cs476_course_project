@@ -12,7 +12,7 @@ class AuthService {
   login(name, password) async {
     try {
       Response response = await dio.post(
-        'https://stay-safe-cs476.herokuapp.com/authenticate',
+        'https://stay-safe-cs476-npm-server.herokuapp.com/authenticate',
         data: {
           "name": name,
           "password": password, 
@@ -58,5 +58,4 @@ class AuthService {
       );
     } 
   }
-
 }

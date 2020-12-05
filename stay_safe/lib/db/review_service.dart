@@ -16,15 +16,16 @@ class ReviewService {
 
   makeReview(String username, String place, double safety, double overall, List<String> content) async {
     print("Message will be send");
-    Response response = await dio.post(
-        base + '/makereview',
-        data: {
+    var sending_data = {
           "username": username,
           "place": place,
           "safety": safety,
           "overall": overall,
           "content": content,
-        },
+    };
+    Response response = await dio.post(
+        base + '/makereview',
+        data: sending_data,
         options: Options(contentType: Headers.formUrlEncodedContentType));
     print("Received response is: $response");
     return response;

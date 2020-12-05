@@ -78,7 +78,7 @@ class _LoginPageState extends State<LoginPage> {
               if (val.data['success']) {
                 print("Success happened");
                 token = val.data['token'];
-                Fluttertoast.showToast(msg: 'Autheticated haha');
+                Fluttertoast.showToast(msg: 'Autheticated');
                 Navigator.pushReplacementNamed(
             context, '/homepage');
               } else {
@@ -111,7 +111,7 @@ class _LoginPageState extends State<LoginPage> {
               if (val.data['success']) {
                 print("Success happened");
                 token = val.data['token'];
-                Fluttertoast.showToast(msg: 'Autheticated');
+                Fluttertoast.showToast(msg: 'Successfully Signed Up');
                 passwordFieldController = TextEditingController();
                 Navigator.pushReplacementNamed(
             context, '/signin');
