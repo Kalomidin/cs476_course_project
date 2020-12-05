@@ -1,5 +1,6 @@
 import "package:mongo_dart/mongo_dart.dart";
 import "package:sevr/sevr.dart";
+import "dart:io" show Platform;
 
 void main() async {
   ReviewServer().run();
@@ -13,7 +14,8 @@ class ReviewServer {
     return _instance;
   }
 
-  final port = 8081;
+  static final portEnv = Platform.environment['PORT'];
+  final port = portEnv == null ? 9999 : int.parse(portEnv);
   final serv = Sevr();
   final helper = ReviewServerHelper();
   final corsPaths = ['/'];
