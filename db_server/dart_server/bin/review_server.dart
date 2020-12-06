@@ -15,7 +15,7 @@ class ReviewServer {
   }
 
   static final portEnv = Platform.environment['PORT'];
-  final port = portEnv == null ? 9999 : int.parse(portEnv);
+  final port = portEnv == null ? 8081 : int.parse(portEnv);
   final serv = Sevr();
   final helper = ReviewServerHelper();
   final corsPaths = ['/'];
@@ -50,7 +50,8 @@ class ReviewServer {
           req.body['place'], 
           req.body['safety'], 
           req.body['overall'], 
-          List<String>.from(req.body['content'].map((x) => x.toString()).toList()),
+          //List<String>.from(req.body['content'].map((x) => x.toString()).toList()),
+          req.body['content'],
         );
         return res.status(200);
       }
@@ -159,7 +160,7 @@ class ReviewServerHelper {
     await db.open();
   }
 
-  Future makeReview(String username, String place, double safety, double overall, List<String> content) async {
+  Future makeReview(String username, String place, double safety, double overall, String content) async {
     print("Calling Make Review in db");
     //final db = await _db;
     final uc = db.collection(username);

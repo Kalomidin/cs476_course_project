@@ -20,13 +20,11 @@ class MakeReview extends StatefulWidget {
 }
 
 class _MakeReviewState extends State<MakeReview> {
-  final controllers = [
-    TextEditingController(),
-  ];
+  final controller = TextEditingController();
 
   double safety1, safety2, safety3, safety4;
   double overall;
-  List<String> content;
+  String content;
 
   String buildPhotoURL(String photoReference) {
     return "https://maps.googleapis.com/maps/api/place/photo?maxwidth=1000&photoreference=${photoReference}&key=AIzaSyDqOOHRnNiYaCweRNtiXVQswGAb1Pz88Yc";
@@ -35,7 +33,7 @@ class _MakeReviewState extends State<MakeReview> {
   @override
   void dispose() {
     // Clean up the controller when the widget is disposed.
-    controllers.forEach((controller) => controller.dispose());
+    controller.dispose();
     super.dispose();
   }
 
@@ -309,7 +307,7 @@ You can write anything related with the place. It would be good to include these
                 Padding(
                     padding: EdgeInsets.all(10.0),
                     child: TextField(
-                      controller: controllers[0],
+                      controller: controller,
                       decoration: InputDecoration(
                         border: OutlineInputBorder(),
                         labelText: 'Your Answer',
@@ -362,9 +360,7 @@ You can determine the level of safety using these criteria:\n\
                     child: RaisedButton(
                         color: Colors.lightBlue,
                         onPressed: () {
-                          content = controllers
-                              .map((controller) => controller.text)
-                              .toList();
+                          content = controller.text;
                           //print(content[0]);
                           print("Callling Make Review");
                           ReviewService().makeReview("swh", widget.selectedPlace.name, (safety1 + safety2 + safety3 +safety4)/4, overall, content);
