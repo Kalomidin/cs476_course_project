@@ -131,6 +131,13 @@ class ReviewServer {
         return res.status(200);
       }
     ]);
+
+    //get request
+  serv.get('/test', [
+    (ServRequest req, ServResponse res) {
+      return res.status(200).json({'status': 'ok'});
+    }
+  ]);
   }
 
   run() async {

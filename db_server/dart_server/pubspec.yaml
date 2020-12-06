@@ -19,3 +19,7 @@ environment:
 dependencies:
   mongo_dart: ^0.4.3
   sevr: ^1.0.4
+  build_web_compilers: ^2.10.0
+
+dependency_overrides:
+  analyzer: 0.39.14
