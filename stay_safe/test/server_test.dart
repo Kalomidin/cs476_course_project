@@ -3,7 +3,7 @@ void main() async {
 
   final service = ReviewService();
   var response;
-  response = await service.makeReview('woohyun', 'kaimaru', 10.0, 9.0, 'good');
+  response = await service.makeReview('woohyun', 'kaimaru', 10.0, 9.0, 'good', "what");
   print("response is: $response");
   response = await service.addComment('woohyun', 'kaimaru', 'juho', 'agree!');
   print("response is: $response");

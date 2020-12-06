@@ -14,7 +14,7 @@ class ReviewService {
   final dio = new Dio();
   final base = 'http://10.0.2.2:8081'; //"https://cs476-stay-safe-dart-server.herokuapp.com/"; 
 
-  makeReview(String username, String place, double safety, double overall, String content) async {
+  makeReview(String username, String place, double safety, double overall, String content, String date) async {
     print("Message will be send");
     var sending_data = {
           "username": username,
@@ -22,6 +22,7 @@ class ReviewService {
           "safety": safety,
           "overall": overall,
           "content": content,
+          "date": date,
     };
     Response response = await dio.post(
         base + '/makereview',
