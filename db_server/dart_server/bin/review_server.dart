@@ -157,7 +157,7 @@ class ReviewServer {
     // Listen for connections
     await serv.listen(port, callback: () {
       print('Server listening on port: $port');
-    });
+    }, address: "0.0.0.0");
     await helper.closeDB();
   }
 }
