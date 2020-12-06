@@ -78,11 +78,21 @@ class ReviewServer {
       }
     ]);
 
-    serv.post('/getreviews', [
+    serv.post('/getreviewsbyplace', [
       setCors,
       (ServRequest req, ServResponse res) async {
-        final reviews = await (await helper.getReviews(
+        final reviews = await (await helper.getReviewsByPlace(
           req.body['place'], 
+        )).toList();
+        return res.status(200).json({'reviews': reviews});
+      }
+    ]);
+
+    serv.post('/getreviewsbyusername', [
+      setCors,
+      (ServRequest req, ServResponse res) async {
+        final reviews = await (await helper.getReviewsByUsername(
+          req.body['username'], 
         )).toList();
         return res.status(200).json({'reviews': reviews});
       }
@@ -200,10 +210,16 @@ class ReviewServerHelper {
     return sum / length;
   }
 
-  Future<Stream<Map<String, dynamic>>> getReviews(String place) async {
+  Future<Stream<Map<String, dynamic>>> getReviewsByPlace(String place) async {
     //final db = await _db;
     final pc = db.collection(place);
-    return pc.find({"place": place});
+    return pc.find(where.eq("place", place).sortBy("date", descending: true));
+  }
+
+  Future<Stream<Map<String, dynamic>>> getReviewsByUsername(String username) async {
+    //final db = await _db;
+    final uc = db.collection(username);
+    return uc.find(where.eq("username", username).sortBy("date", descending: true));
   }
 
   Future<List<Map<String, dynamic>>> getComments(String username, String place) async {

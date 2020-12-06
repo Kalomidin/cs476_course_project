@@ -52,11 +52,21 @@ class ReviewService {
     return response;
   }
 
-  getReviews(String place) async {
+  getReviewsByPlace(String place) async {
     Response response = await dio.post(
-        base + '/getreviews',
+        base + '/getreviewsbyplace',
         data: {
           "place": place,
+        },
+        options: Options(contentType: Headers.formUrlEncodedContentType));
+    return response;
+  }
+
+  getReviewsByUsername(String username) async {
+    Response response = await dio.post(
+        base + '/getreviewsbyusername',
+        data: {
+          "username": username,
         },
         options: Options(contentType: Headers.formUrlEncodedContentType));
     return response;
