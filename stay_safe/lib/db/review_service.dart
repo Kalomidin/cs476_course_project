@@ -12,7 +12,7 @@ class ReviewService {
   ReviewService._internal();
 
   final dio = new Dio();
-  final base = 'http://10.0.2.2:8081'; //"https://cs476-stay-safe-dart-server.herokuapp.com/"; 
+  final base = "https://cs476-stay-safe-dart-server.herokuapp.com"; 
 
   makeReview(String username, String place, double safety, double overall, String content, String date) async {
     print("Message will be send");
