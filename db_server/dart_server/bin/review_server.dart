@@ -52,6 +52,7 @@ class ReviewServer {
           req.body['overall'], 
           //List<String>.from(req.body['content'].map((x) => x.toString()).toList()),
           req.body['content'],
+          req.body['date'],
         );
         return res.status(200);
       }
@@ -160,7 +161,7 @@ class ReviewServerHelper {
     await db.open();
   }
 
-  Future makeReview(String username, String place, double safety, double overall, String content) async {
+  Future makeReview(String username, String place, double safety, double overall, String content, String date) async {
     print("Calling Make Review in db");
     //final db = await _db;
     final uc = db.collection(username);
@@ -173,7 +174,8 @@ class ReviewServerHelper {
       "content": content,
       "likes": 0,
       "dislikes": 0,
-      "comments": <Map<String, dynamic>>[]
+      "comments": <Map<String, dynamic>>[],
+      "date": date,
     };
     print("Hey there, data is being inserted");
     await uc.insert(data);
