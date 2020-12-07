@@ -237,13 +237,12 @@ class _HomePageState extends State<HomePage> {
               print("snaplength:" + snapshot.data.length.toString());
               for (int i = 0; i < snapshot.data.length; i = i + 2) {
                 widgetlist.add(
-                  new Expanded(
-                    child: new Container(
+                  new Container(
                         margin: const EdgeInsets.only(left: 10.0, right: 20.0),
                         child: Divider(
                           color: Colors.black,
                           height: 36,
-                        )),
+                        )
                   ),
                 );
                 widgetlist.add(
@@ -314,8 +313,7 @@ class _HomePageState extends State<HomePage> {
                     ],
                   ),
                 );
-                widgetlist.add(new Expanded(
-                    child: Container(
+                widgetlist.add(new Container(
                         child: ConstrainedBox(
                             constraints: BoxConstraints(maxHeight: 200.0),
                             child: FlatButton(
@@ -332,7 +330,7 @@ class _HomePageState extends State<HomePage> {
                                 },
                                 padding: EdgeInsets.all(0.0),
                                 child: Image.network(
-                                    buildPhotoURL(snapshot.data[i + 1])))))));
+                                    buildPhotoURL(snapshot.data[i + 1]))))));
               }
               return new ListView(
                 children: widgetlist,
