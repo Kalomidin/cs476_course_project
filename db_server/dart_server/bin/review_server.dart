@@ -187,6 +187,9 @@ class ReviewServerHelper {
       "comments": <Map<String, dynamic>>[],
       "date": date,
     };
+    await uc.remove({"username": username, "place": place});
+    await pc.remove({"username": username, "place": place});
+
     print("Hey there, data is being inserted");
     await uc.insert(data);
     print("Hey there, data uc has been inserted");

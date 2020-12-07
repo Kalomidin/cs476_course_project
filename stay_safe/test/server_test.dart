@@ -9,7 +9,7 @@ void main() async {
   print("response is: $response");
   response = await service.upvote('woohyun', 'kaimaru');
   print("response is: $response");
-  response = await service.getReviews('kaimaru');
+  response = await service.getReviewsByPlace('kaimaru');
   print("response is: $response");
   print(response.data is Map<String, dynamic>);
 
