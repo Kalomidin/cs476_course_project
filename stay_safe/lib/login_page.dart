@@ -2,7 +2,7 @@
 //! 
 //! authors @kalo
 
-import 'package:example/db/auth_server.dart';
+import 'package:example/db/review_service.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import './homepage.dart';
@@ -73,7 +73,7 @@ class _LoginPageState extends State<LoginPage> {
         onPressed: () {
           print("Pressed Login: ${passwordField.controller.text}, ${emailField.controller.text}");
           // TODO: Make Some DB Calculations
-          AuthService().login(emailField.controller.text, passwordField.controller.text).then((val) {
+          ReviewService().login(emailField.controller.text, passwordField.controller.text).then((val) {
             try {
               if (val.data['success']) {
                 print("Success happened");
@@ -82,9 +82,10 @@ class _LoginPageState extends State<LoginPage> {
                 Navigator.pushReplacementNamed(
             context, '/homepage');
               } else {
-                print("Failure happened: ${val.data['success']}");
+                Fluttertoast.showToast(msg: 'Authetication failed. Username or Password is wrong');
               }
             } catch (e) {
+              Fluttertoast.showToast(msg: 'Authetication failed.\n Please retry');
               print("Failure happened: received val: $val\ Error: $e");
             }
           });
@@ -104,9 +105,9 @@ class _LoginPageState extends State<LoginPage> {
         minWidth: MediaQuery.of(context).size.width,
         padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
         onPressed: () {
-          print("Pressed Login: ${passwordField.controller.text}, ${emailField.controller.text}");
+          print("Pressed Signup: ${passwordField.controller.text}, ${emailField.controller.text}");
           // TODO: Make Some DB Calculations
-          AuthService().addUser(emailField.controller.text, passwordField.controller.text).then((val) {
+          ReviewService().signup(emailField.controller.text, passwordField.controller.text).then((val) {
             try {
               if (val.data['success']) {
                 print("Success happened");
@@ -116,9 +117,11 @@ class _LoginPageState extends State<LoginPage> {
                 Navigator.pushReplacementNamed(
             context, '/signin');
               } else {
+                Fluttertoast.showToast(msg: 'Failed to signup\n Username already exists');
                 print("Failure happened: ${val.data['success']}");
               }
             } catch (e) {
+              Fluttertoast.showToast(msg: 'Failed to signup\n Please retry');
               print("Failure happened: received val: $val\ Error: $e");
             }
           });
