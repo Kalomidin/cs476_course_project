@@ -29,6 +29,7 @@ class SearchResult extends StatelessWidget {
     } else {
       title = "Loading name...";
     }
+    
     return Scaffold(
         appBar: AppBar(
           title: Text(title),
@@ -44,6 +45,7 @@ class SearchResult extends StatelessWidget {
                       height: 400,
                       fit: BoxFit.fill),
                 )),
+            // TODO: Add setting safety level
             Text('Safety Level', style: TextStyle(height: 1, fontSize: 25)),
             Center(
                 child: RatingBar.builder(
@@ -63,7 +65,7 @@ class SearchResult extends StatelessWidget {
                 print(rating);
               },
             )),
-            Text('Overall Experience',
+            Text('Overall Experience in Google Map',
                 style: TextStyle(height: 1, fontSize: 25)),
             Center(
                 child: RatingBar.builder(

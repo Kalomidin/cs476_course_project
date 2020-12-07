@@ -76,7 +76,6 @@ class _LoginPageState extends State<LoginPage> {
           ReviewService().login(emailField.controller.text, passwordField.controller.text).then((val) {
             try {
               if (val.data['success']) {
-                print("Success happened");
                 token = val.data['token'];
                 Fluttertoast.showToast(msg: 'Autheticated');
                 Navigator.pushReplacementNamed(
@@ -117,7 +116,7 @@ class _LoginPageState extends State<LoginPage> {
                 Navigator.pushReplacementNamed(
             context, '/signin');
               } else {
-                Fluttertoast.showToast(msg: 'Failed to signup\n Username already exists');
+                Fluttertoast.showToast(msg: 'Failed to signup\n Username already exists or password does not contain strings');
                 print("Failure happened: ${val.data['success']}");
               }
             } catch (e) {

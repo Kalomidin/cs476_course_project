@@ -69,6 +69,7 @@ class ReviewService {
           "username": username,
         },
         options: Options(contentType: Headers.formUrlEncodedContentType));
+    print("Response received is: ${response.data['reviews']}");
     return response;
   }
 
@@ -143,3 +144,12 @@ class ReviewService {
     return response;
   }
 }
+/*
+Future main() async {
+  var response = await ReviewService().getReviewsByUsername("swh");
+  List<dynamic> answer = response.data['reviews'];
+  print("Reviews are following: $answer");
+  print("Reviews length: ${answer[0]['place']}");
+  return response;
+}
+*/

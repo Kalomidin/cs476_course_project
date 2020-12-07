@@ -222,7 +222,7 @@ class _HomePageState extends State<HomePage> {
                         context,
                         MaterialPageRoute(
                           builder: (context) =>
-                              Settings(userinfo: "selectedPlace"),
+                              Settings(userinfo: "swh"),
                         ));
                   }),
             ],
@@ -371,3 +371,13 @@ Future<List<dynamic>> fetchAlbum() async {
   print(user["results"][0]["name"]);
   return list;
 }
+
+/*
+Future<List<dynamic>> fetchAlbum() async {
+  String username = "swh";
+  final response = await ReviewService().getReviewsByUsername(username);
+  // TODO: Add OVerall Return future
+  print("[All Reviews]Received response is: ${response} for place: $place");
+  return response.data['reviews'];
+}
+*/

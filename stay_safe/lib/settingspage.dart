@@ -35,7 +35,7 @@ class Settings extends StatelessWidget {
                     context,
                     MaterialPageRoute(
                       builder: (context) =>
-                          MyReviews(userinfo: "selectedPlace"),
+                          MyReviews(userinfo: userinfo),
                     ));
               },
               child: Text(
