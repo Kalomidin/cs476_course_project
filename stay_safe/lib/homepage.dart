@@ -236,16 +236,35 @@ class _HomePageState extends State<HomePage> {
               List<Widget> widgetlist = new List<Widget>();
               print("snaplength:" + snapshot.data.length.toString());
               for (int i = 0; i < snapshot.data.length; i = i + 2) {
-                widgetlist.add(new Text(snapshot.data[i + 0],
-                    style: TextStyle(height: 1, fontSize: 25)));
+                widgetlist.add(
+                  new Expanded(
+                    child: new Container(
+                        margin: const EdgeInsets.only(left: 10.0, right: 20.0),
+                        child: Divider(
+                          color: Colors.black,
+                          height: 36,
+                        )),
+                  ),
+                );
                 widgetlist.add(
                   new Padding(
-                    padding:
-                        EdgeInsets.only(top: 16.0, left: 20.0, right: 20.0),
+                    padding: EdgeInsets.only(left: 20.0, right: 20.0),
                     child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text('Safety Level',
+                          new Text(snapshot.data[i + 0],
+                              style: TextStyle(height: 1, fontSize: 25)),
+                        ]),
+                  ),
+                );
+                widgetlist.add(
+                  new Padding(
+                    padding: EdgeInsets.only(
+                        top: 16.0, left: 20.0, right: 20.0, bottom: 10.0),
+                    child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text('   Safety Level',
                               style: TextStyle(height: 1, fontSize: 20)),
                           Text('Overall Experience',
                               style: TextStyle(height: 1, fontSize: 20)),
