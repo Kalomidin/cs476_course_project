@@ -45,7 +45,7 @@ class SearchResult extends StatelessWidget {
                       height: 400,
                       fit: BoxFit.fill),
                 )),
-            // TODO: Add setting safety level
+            // TODO: Add setting safety
             Text('Safety Level', style: TextStyle(height: 1, fontSize: 25)),
             Center(
                 child: RatingBar.builder(

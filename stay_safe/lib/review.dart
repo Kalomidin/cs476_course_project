@@ -30,7 +30,7 @@ class AllReviews extends StatelessWidget {
           future: infos,
           builder:
               (BuildContext context, AsyncSnapshot<List<dynamic>> snapshot) {
-            if (snapshot.hasData) {
+            if (snapshot.hasData && snapshot.data.length != 0) {
               List<Widget> widgetlist = new List<Widget>();
               print("snaplength:" + snapshot.data.length.toString());
               print("snapshot: $snapshot");
@@ -185,7 +185,15 @@ class AllReviews extends StatelessWidget {
                       style: TextStyle(height: 1, fontSize: 25)),
                 ],
               );
-            } else {
+            } else if (snapshot.data.length == 0) {
+              return ListView(
+                children: [
+                  Text(
+                      "No Reviews available...",
+                      style: TextStyle(height: 1, fontSize: 25)),
+                ],
+              );
+              } else {
               return CircularProgressIndicator();
             }
           },

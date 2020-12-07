@@ -11,6 +11,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import './search.dart';
 import './review2.dart';
+import './review.dart';
 import './make_review.dart';
 import './const.dart';
 import './settingspage.dart';
@@ -121,7 +122,7 @@ class _HomePageState extends State<HomePage> {
                                                     context,
                                                     MaterialPageRoute(
                                                       builder: (context) =>
-                                                          SearchResult(
+                                                          AllReviews(
                                                               selectedPlace:
                                                                   selectedPlace),
                                                     ),
