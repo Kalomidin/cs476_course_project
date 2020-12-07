@@ -2,6 +2,7 @@
 //!
 //! authors @rooknpown,
 
+import 'package:example/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_place_picker/google_maps_place_picker.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -15,7 +16,8 @@ import './const.dart';
 import './settingspage.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key key}) : super(key: key);
+  final String username;
+  const HomePage({Key key, this.username}) : super(key: key);
 
   static final kInitialPosition = LatLng(36.37379078760264, 127.35905994710093);
   @override
@@ -33,6 +35,14 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    if (widget.username == null) {
+      return  Scaffold(
+        appBar: AppBar(
+          title: Text("Stay Safe"),
+        ),
+        body: LoginPage(),
+      );
+    }
     return Scaffold(
         appBar: AppBar(
           title: Text("Stay Safe"),
@@ -45,7 +55,9 @@ class _HomePageState extends State<HomePage> {
               IconButton(
                 icon: Icon(Icons.home),
                 onPressed: () {
-                  Navigator.pushReplacementNamed(context, '/homepage');
+                Navigator.of(context).pop();
+
+                Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage(username: widget.username)));
                 },
               ),
               IconButton(
@@ -194,7 +206,9 @@ class _HomePageState extends State<HomePage> {
                                                       builder: (context) =>
                                                           MakeReview(
                                                               selectedPlace:
-                                                                  selectedPlace),
+                                                                  selectedPlace,
+                                                              username: widget.username
+                                                                  ),
                                                     ),
                                                   );
                                                   //Navigator.of(context).pop();
@@ -222,7 +236,7 @@ class _HomePageState extends State<HomePage> {
                         context,
                         MaterialPageRoute(
                           builder: (context) =>
-                              Settings(userinfo: "swh"),
+                              Settings(userinfo: widget.username),
                         ));
                   }),
             ],

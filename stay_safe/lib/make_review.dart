@@ -9,11 +9,13 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:http/http.dart' as http;
 import './const.dart';
 import 'db/review_service.dart';
+import './homepage.dart';
 
 class MakeReview extends StatefulWidget {
   final PickResult selectedPlace;
+  final String username;
 
-  MakeReview({@required this.selectedPlace});
+  MakeReview({@required this.selectedPlace, @required this.username});
 
   @override
   _MakeReviewState createState() => _MakeReviewState();
@@ -409,7 +411,7 @@ You can determine the level of safety using these criteria:\n\
                           content = controller.text;
                           //print(content[0]);
                           print("Callling Make Review");
-                          ReviewService().makeReview("swh", widget.selectedPlace.name, (safety1 + safety2 + safety3 +safety4)/4, overall, content, "fill the date");
+                          ReviewService().makeReview(widget.username, widget.selectedPlace.name, (safety1 + safety2 + safety3 +safety4)/4, overall, content, "fill the date");
                           showDialog(
                             context: context,
                             builder: (BuildContext context) {
@@ -420,9 +422,12 @@ You can determine the level of safety using these criteria:\n\
                                   FlatButton(
                                     child: Text('Ok'),
                                     onPressed: () {
-                                      //Navigator.popUntil(context, ModalRoute.withName('/homepage'));
-                                      Navigator.pushReplacementNamed(
-                                          context, '/homepage');
+                                    Navigator.of(context).pop();
+                                    Navigator.of(context).pop();
+                                    Navigator.of(context).pop();
+                                    Navigator.of(context).pop();
+                                    Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage(username: widget.username)));
+
                                     },
                                   ),
                                 ],

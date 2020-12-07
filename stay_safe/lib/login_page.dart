@@ -7,26 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import './homepage.dart';
 
-class LoginPage extends StatefulWidget {
-  LoginPage({Key key, this.title}) : super(key: key);
 
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
-
-  @override
-  _LoginPageState createState() => _LoginPageState();
-}
-
-
-class _LoginPageState extends State<LoginPage> {
+class LoginPage extends StatelessWidget {
   TextStyle style = TextStyle(fontFamily: 'Montserrat', fontSize: 20.0);
   var token;
 
@@ -78,8 +60,8 @@ class _LoginPageState extends State<LoginPage> {
               if (val.data['success']) {
                 token = val.data['token'];
                 Fluttertoast.showToast(msg: 'Autheticated');
-                Navigator.pushReplacementNamed(
-            context, '/homepage');
+                 Navigator.of(context).pop();
+                Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage(username: emailField.controller.text)));
               } else {
                 Fluttertoast.showToast(msg: 'Authetication failed. Username or Password is wrong');
               }
@@ -116,7 +98,7 @@ class _LoginPageState extends State<LoginPage> {
                 Navigator.pushReplacementNamed(
             context, '/signin');
               } else {
-                Fluttertoast.showToast(msg: 'Failed to signup\n Username already exists or password does not contain strings');
+                Fluttertoast.showToast(msg: 'Failed to signup\n Username already exists or password does not contain string');
                 print("Failure happened: ${val.data['success']}");
               }
             } catch (e) {
