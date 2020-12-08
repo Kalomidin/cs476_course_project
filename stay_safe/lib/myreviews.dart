@@ -8,7 +8,6 @@ import './homepage.dart';
 import 'dart:convert';
 import './const.dart';
 import './review.dart';
-import './review2.dart';
 
 class MyReviews extends StatelessWidget {
   final String userinfo;
@@ -175,8 +174,4 @@ Future<List<dynamic>> getUserInfos(String username) async {
   print(
       "[My Reviews]Received response is: ${response} for username: $username");
   return response.data['reviews'];
-}
-
-String buildPhotoURL(String photoReference) {
-  return "https://maps.googleapis.com/maps/api/place/photo?maxwidth=1000&photoreference=${photoReference}&key=AIzaSyDqOOHRnNiYaCweRNtiXVQswGAb1Pz88Yc";
 }

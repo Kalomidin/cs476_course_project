@@ -10,7 +10,6 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import './search.dart';
-import './review2.dart';
 import './review.dart';
 import './make_review.dart';
 import './const.dart';
@@ -29,10 +28,6 @@ class _HomePageState extends State<HomePage> {
   PickResult selectedPlace;
 
   Future<List<dynamic>> info = fetchAlbum();
-
-  String buildPhotoURL(String photoReference) {
-    return "https://maps.googleapis.com/maps/api/place/photo?maxwidth=1000&photoreference=${photoReference}&key=AIzaSyDqOOHRnNiYaCweRNtiXVQswGAb1Pz88Yc";
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -339,12 +334,10 @@ class _HomePageState extends State<HomePage> {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => AllReviews2(
-                                              selectedPlace: [
-                                                snapshot.data[i + 0],
-                                                snapshot.data[i + 1],
-                                                (5.0 - i / 2).toString()
-                                              ])));
+                                      builder: (context) => AllReviews(
+                                                selectedPlaceName: snapshot.data[i + 0],
+                                                selectedPlacePicture : snapshot.data[i + 1],
+                                              )));
                             },
                             padding: EdgeInsets.all(0.0),
                             child: Image.network(

@@ -15,9 +15,6 @@ import './review.dart';
 class SearchResult extends StatelessWidget {
   final PickResult selectedPlace;
   String title;
-  String buildPhotoURL(String photoReference) {
-    return "https://maps.googleapis.com/maps/api/place/photo?maxwidth=1000&photoreference=${photoReference}&key=AIzaSyDqOOHRnNiYaCweRNtiXVQswGAb1Pz88Yc";
-  }
 
   SearchResult({@required this.selectedPlace});
   @override

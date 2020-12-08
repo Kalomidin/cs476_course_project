@@ -8,18 +8,15 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:http/http.dart' as http;
 import './homepage.dart';
-import 'dart:convert'; //
+import 'dart:convert'; 
 import 'package:example/db/review_service.dart';
+import 'const.dart';
 
 class AllReviews extends StatelessWidget {
   final String selectedPlaceName;
   final String selectedPlacePicture;
   AllReviews(
       {@required this.selectedPlaceName, @required this.selectedPlacePicture});
-
-  String buildPhotoURL(String photoReference) {
-    return "https://maps.googleapis.com/maps/api/place/photo?maxwidth=1000&photoreference=${photoReference}&key=AIzaSyDqOOHRnNiYaCweRNtiXVQswGAb1Pz88Yc";
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -465,8 +462,4 @@ Future<List<dynamic>> getPlaceInfos(String place) async {
   final overall = await ReviewService().averageOverall(place);
   print("[All Reviews]Received response is: ${response} for place: $place");
   return response.data['reviews'];
-}
-
-String buildPhotoURL(String photoReference) {
-  return "https://maps.googleapis.com/maps/api/place/photo?maxwidth=1000&photoreference=${photoReference}&key=AIzaSyDqOOHRnNiYaCweRNtiXVQswGAb1Pz88Yc";
 }

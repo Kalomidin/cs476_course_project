@@ -28,10 +28,6 @@ class _MakeReviewState extends State<MakeReview> {
   double overall;
   String content;
 
-  String buildPhotoURL(String photoReference) {
-    return "https://maps.googleapis.com/maps/api/place/photo?maxwidth=1000&photoreference=${photoReference}&key=AIzaSyDqOOHRnNiYaCweRNtiXVQswGAb1Pz88Yc";
-  }
-
   @override
   void dispose() {
     // Clean up the controller when the widget is disposed.
