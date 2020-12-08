@@ -8,18 +8,15 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:http/http.dart' as http;
 import './homepage.dart';
-import 'dart:convert'; //
+import 'dart:convert'; 
 import 'package:example/db/review_service.dart';
+import 'const.dart';
 
 class AllReviews extends StatelessWidget {
   final String selectedPlaceName;
   final String selectedPlacePicture;
   AllReviews(
       {@required this.selectedPlaceName, @required this.selectedPlacePicture});
-
-  String buildPhotoURL(String photoReference) {
-    return "https://maps.googleapis.com/maps/api/place/photo?maxwidth=1000&photoreference=${photoReference}&key=AIzaSyDqOOHRnNiYaCweRNtiXVQswGAb1Pz88Yc";
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -63,42 +60,8 @@ class AllReviews extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    Center(
-                        child: RatingBar.builder(
-                      initialRating: snapshot.data[0]['safety'],
-                      minRating: 1,
-                      direction: Axis.horizontal,
-                      allowHalfRating: false,
-                      ignoreGestures: true,
-                      itemCount: 5,
-                      itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
-                      itemSize: 25.0,
-                      itemBuilder: (context, _) => Icon(
-                        Icons.star,
-                        color: Colors.amber,
-                      ),
-                      onRatingUpdate: (rating) {
-                        print(rating);
-                      },
-                    )),
-                    Center(
-                        child: RatingBar.builder(
-                      initialRating: snapshot.data[0]['overall'],
-                      minRating: 1,
-                      direction: Axis.horizontal,
-                      allowHalfRating: false,
-                      ignoreGestures: true,
-                      itemCount: 5,
-                      itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
-                      itemSize: 25.0,
-                      itemBuilder: (context, _) => Icon(
-                        Icons.star,
-                        color: Colors.lightBlue,
-                      ),
-                      onRatingUpdate: (rating) {
-                        print(rating);
-                      },
-                    )),
+                    Center(child: fixedStar(snapshot.data[0]['safety'], Colors.amber)),
+                    Center(child: fixedStar(snapshot.data[0]['overall'], Colors.lightBlue)),
                   ],
                 ),
               );
@@ -150,42 +113,8 @@ class AllReviews extends StatelessWidget {
                   new Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      Center(
-                          child: RatingBar.builder(
-                        initialRating: snapshot.data[i]['safety'],
-                        minRating: 1,
-                        direction: Axis.horizontal,
-                        allowHalfRating: false,
-                        ignoreGestures: true,
-                        itemCount: 5,
-                        itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
-                        itemSize: 25.0,
-                        itemBuilder: (context, _) => Icon(
-                          Icons.star,
-                          color: Colors.amber,
-                        ),
-                        onRatingUpdate: (rating) {
-                          print(rating);
-                        },
-                      )),
-                      Center(
-                          child: RatingBar.builder(
-                        initialRating: snapshot.data[i]['overall'],
-                        minRating: 1,
-                        direction: Axis.horizontal,
-                        allowHalfRating: false,
-                        ignoreGestures: true,
-                        itemCount: 5,
-                        itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
-                        itemSize: 25.0,
-                        itemBuilder: (context, _) => Icon(
-                          Icons.star,
-                          color: Colors.lightBlue,
-                        ),
-                        onRatingUpdate: (rating) {
-                          print(rating);
-                        },
-                      )),
+                      Center(child: fixedStar(snapshot.data[i]['safety'], Colors.amber)),
+                      Center(child: fixedStar(snapshot.data[i]['overall'], Colors.lightBlue)),
                     ],
                   ),
                 );
@@ -228,42 +157,8 @@ class AllReviews extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      Center(
-                          child: RatingBar.builder(
-                        initialRating: 3.0,
-                        minRating: 1,
-                        direction: Axis.horizontal,
-                        allowHalfRating: false,
-                        ignoreGestures: true,
-                        itemCount: 5,
-                        itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
-                        itemSize: 25.0,
-                        itemBuilder: (context, _) => Icon(
-                          Icons.star,
-                          color: Colors.amber,
-                        ),
-                        onRatingUpdate: (rating) {
-                          print(rating);
-                        },
-                      )),
-                      Center(
-                          child: RatingBar.builder(
-                        initialRating: 3,
-                        minRating: 1,
-                        direction: Axis.horizontal,
-                        allowHalfRating: false,
-                        ignoreGestures: true,
-                        itemCount: 5,
-                        itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
-                        itemSize: 25.0,
-                        itemBuilder: (context, _) => Icon(
-                          Icons.star,
-                          color: Colors.lightBlue,
-                        ),
-                        onRatingUpdate: (rating) {
-                          print(rating);
-                        },
-                      )),
+                      Center(child: fixedStar(3, Colors.amber)),
+                      Center(child: fixedStar(3, Colors.lightBlue)),
                     ],
                   ),
                   Row(
@@ -287,42 +182,8 @@ class AllReviews extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      Center(
-                          child: RatingBar.builder(
-                        initialRating: 2,
-                        minRating: 1,
-                        direction: Axis.horizontal,
-                        allowHalfRating: false,
-                        ignoreGestures: true,
-                        itemCount: 5,
-                        itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
-                        itemSize: 25.0,
-                        itemBuilder: (context, _) => Icon(
-                          Icons.star,
-                          color: Colors.amber,
-                        ),
-                        onRatingUpdate: (rating) {
-                          print(rating);
-                        },
-                      )),
-                      Center(
-                          child: RatingBar.builder(
-                        initialRating: 3,
-                        minRating: 1,
-                        direction: Axis.horizontal,
-                        allowHalfRating: false,
-                        itemCount: 5,
-                        itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
-                        itemSize: 25.0,
-                        itemBuilder: (context, _) => Icon(
-                          Icons.star,
-                          color: Colors.lightBlue,
-                        ),
-                        ignoreGestures: true,
-                        onRatingUpdate: (rating) {
-                          print(rating);
-                        },
-                      )),
+                      Center(child: fixedStar(2, Colors.amber)),
+                      Center(child: fixedStar(3, Colors.lightBlue)),
                     ],
                   ),
                   Row(
@@ -346,42 +207,8 @@ class AllReviews extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      Center(
-                          child: RatingBar.builder(
-                        initialRating: 3,
-                        minRating: 1,
-                        direction: Axis.horizontal,
-                        allowHalfRating: false,
-                        ignoreGestures: true,
-                        itemCount: 5,
-                        itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
-                        itemSize: 25.0,
-                        itemBuilder: (context, _) => Icon(
-                          Icons.star,
-                          color: Colors.amber,
-                        ),
-                        onRatingUpdate: (rating) {
-                          print(rating);
-                        },
-                      )),
-                      Center(
-                          child: RatingBar.builder(
-                        initialRating: 3,
-                        minRating: 1,
-                        direction: Axis.horizontal,
-                        allowHalfRating: false,
-                        ignoreGestures: true,
-                        itemCount: 5,
-                        itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
-                        itemSize: 25.0,
-                        itemBuilder: (context, _) => Icon(
-                          Icons.star,
-                          color: Colors.lightBlue,
-                        ),
-                        onRatingUpdate: (rating) {
-                          print(rating);
-                        },
-                      )),
+                      Center(child: fixedStar(3, Colors.amber)),
+                      Center(child: fixedStar(3, Colors.lightBlue)),
                     ],
                   ),
                   Row(
@@ -404,42 +231,8 @@ class AllReviews extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      Center(
-                          child: RatingBar.builder(
-                        initialRating: 4,
-                        minRating: 1,
-                        direction: Axis.horizontal,
-                        allowHalfRating: false,
-                        ignoreGestures: true,
-                        itemCount: 5,
-                        itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
-                        itemSize: 25.0,
-                        itemBuilder: (context, _) => Icon(
-                          Icons.star,
-                          color: Colors.amber,
-                        ),
-                        onRatingUpdate: (rating) {
-                          print(rating);
-                        },
-                      )),
-                      Center(
-                          child: RatingBar.builder(
-                        initialRating: 3,
-                        minRating: 1,
-                        direction: Axis.horizontal,
-                        allowHalfRating: false,
-                        ignoreGestures: true,
-                        itemCount: 5,
-                        itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
-                        itemSize: 25.0,
-                        itemBuilder: (context, _) => Icon(
-                          Icons.star,
-                          color: Colors.lightBlue,
-                        ),
-                        onRatingUpdate: (rating) {
-                          print(rating);
-                        },
-                      )),
+                      Center(child: fixedStar(4, Colors.amber)),
+                      Center(child: fixedStar(3, Colors.lightBlue)),
                     ],
                   ),
                 ],
@@ -465,8 +258,4 @@ Future<List<dynamic>> getPlaceInfos(String place) async {
   final overall = await ReviewService().averageOverall(place);
   print("[All Reviews]Received response is: ${response} for place: $place");
   return response.data['reviews'];
-}
-
-String buildPhotoURL(String photoReference) {
-  return "https://maps.googleapis.com/maps/api/place/photo?maxwidth=1000&photoreference=${photoReference}&key=AIzaSyDqOOHRnNiYaCweRNtiXVQswGAb1Pz88Yc";
 }

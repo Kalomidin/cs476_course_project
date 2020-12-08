@@ -8,7 +8,6 @@ import './homepage.dart';
 import 'dart:convert';
 import './const.dart';
 import './review.dart';
-import './review2.dart';
 
 class MyReviews extends StatelessWidget {
   final String userinfo;
@@ -91,42 +90,8 @@ class MyReviews extends StatelessWidget {
                   new Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      Center(
-                          child: RatingBar.builder(
-                        initialRating: snapshot.data[i]['safety'],
-                        minRating: 1,
-                        direction: Axis.horizontal,
-                        allowHalfRating: false,
-                        ignoreGestures: true,
-                        itemCount: 5,
-                        itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
-                        itemSize: 25.0,
-                        itemBuilder: (context, _) => Icon(
-                          Icons.star,
-                          color: Colors.amber,
-                        ),
-                        onRatingUpdate: (rating) {
-                          print(rating);
-                        },
-                      )),
-                      Center(
-                          child: RatingBar.builder(
-                        initialRating: snapshot.data[i]['overall'],
-                        minRating: 1,
-                        direction: Axis.horizontal,
-                        allowHalfRating: false,
-                        ignoreGestures: true,
-                        itemCount: 5,
-                        itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
-                        itemSize: 25.0,
-                        itemBuilder: (context, _) => Icon(
-                          Icons.star,
-                          color: Colors.lightBlue,
-                        ),
-                        onRatingUpdate: (rating) {
-                          print(rating);
-                        },
-                      )),
+                      Center(child: fixedStar(snapshot.data[i]['safety'], Colors.amber)),
+                      Center(child: fixedStar(snapshot.data[i]['overall'], Colors.lightBlue)),
                     ],
                   ),
                 );
@@ -175,8 +140,4 @@ Future<List<dynamic>> getUserInfos(String username) async {
   print(
       "[My Reviews]Received response is: ${response} for username: $username");
   return response.data['reviews'];
-}
-
-String buildPhotoURL(String photoReference) {
-  return "https://maps.googleapis.com/maps/api/place/photo?maxwidth=1000&photoreference=${photoReference}&key=AIzaSyDqOOHRnNiYaCweRNtiXVQswGAb1Pz88Yc";
 }
