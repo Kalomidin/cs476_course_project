@@ -44,44 +44,10 @@ class SearchResult extends StatelessWidget {
                 )),
             // TODO: Add setting safety
             Text('Safety Level', style: TextStyle(height: 1, fontSize: 25)),
-            Center(
-                child: RatingBar.builder(
-              initialRating: 3,
-              minRating: 1,
-              direction: Axis.horizontal,
-              allowHalfRating: false,
-              ignoreGestures: true,
-              itemCount: 5,
-              itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
-              itemSize: 65.0,
-              itemBuilder: (context, _) => Icon(
-                Icons.star,
-                color: Colors.amber,
-              ),
-              onRatingUpdate: (rating) {
-                print(rating);
-              },
-            )),
+            Center(child: fixedStar(3, Colors.amber)),
             Text('Overall Experience in Google Map',
                 style: TextStyle(height: 1, fontSize: 25)),
-            Center(
-                child: RatingBar.builder(
-              initialRating: selectedPlace.rating,
-              minRating: 1,
-              direction: Axis.horizontal,
-              allowHalfRating: false,
-              ignoreGestures: true,
-              itemCount: 5,
-              itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
-              itemSize: 65.0,
-              itemBuilder: (context, _) => Icon(
-                Icons.star,
-                color: Colors.lightBlue,
-              ),
-              onRatingUpdate: (rating) {
-                print(rating);
-              },
-            )),
+            Center(child: fixedStar(selectedPlace.rating, Colors.lightBlue)),
             Center(
               child: ElevatedButton(
                 onPressed: () {

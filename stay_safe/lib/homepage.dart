@@ -287,42 +287,8 @@ class _HomePageState extends State<HomePage> {
                   new Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      Center(
-                          child: RatingBar.builder(
-                        initialRating: 5.0 - i / 2,
-                        minRating: 1,
-                        direction: Axis.horizontal,
-                        allowHalfRating: false,
-                        ignoreGestures: true,
-                        itemCount: 5,
-                        itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
-                        itemSize: 25.0,
-                        itemBuilder: (context, _) => Icon(
-                          Icons.star,
-                          color: Colors.amber,
-                        ),
-                        onRatingUpdate: (rating) {
-                          print(rating);
-                        },
-                      )),
-                      Center(
-                          child: RatingBar.builder(
-                        initialRating: 3,
-                        minRating: 1,
-                        direction: Axis.horizontal,
-                        allowHalfRating: false,
-                        ignoreGestures: true,
-                        itemCount: 5,
-                        itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
-                        itemSize: 25.0,
-                        itemBuilder: (context, _) => Icon(
-                          Icons.star,
-                          color: Colors.lightBlue,
-                        ),
-                        onRatingUpdate: (rating) {
-                          print(rating);
-                        },
-                      )),
+                      Center(child: fixedStar(5.0 - i / 2, Colors.amber)),
+                      Center(child: fixedStar(3, Colors.lightBlue)),
                     ],
                   ),
                 );
