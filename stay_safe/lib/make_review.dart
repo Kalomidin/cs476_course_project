@@ -81,218 +81,242 @@ class _MakeReviewState extends State<MakeReview> {
             Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Card (
+                Card(
                   margin: EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 8.0),
                   child: Padding(
-                    padding: EdgeInsets.all(12.0),
-                    child: Column (
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
-                          child: Text('Crowdedness', style: TextStyle(height: 1, fontSize: 20)),
-                        ),
-                        Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                      padding: EdgeInsets.all(12.0),
+                      child: Column(
+                        children: [
                           Padding(
                             padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
-                            child: Text('Very crowded',
-                                style: TextStyle(height: 1, fontSize: 15)),
+                            child: Text('Crowdedness',
+                                style: TextStyle(height: 1, fontSize: 20)),
                           ),
-                          Padding(
-                            padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
-                            child: RatingBar.builder(
-                              initialRating: 0,
-                              minRating: 1,
-                              direction: Axis.horizontal,
-                              allowHalfRating: true,
-                              itemCount: 5,
-                              itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
-                              itemSize: 25.0,
-                              itemBuilder: (context, _) => Icon(
-                                Icons.star,
-                                color: Colors.amber,
-                              ),
-                              onRatingUpdate: (rating) {
-                                safety1 = rating;
-                              },
-                            ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
-                            child: Text('Not crowded',
-                                style: TextStyle(height: 1, fontSize: 15)),
-                          ),
-                        ]),
-                      ],
-                    )
-                  ),
+                          Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Padding(
+                                  padding:
+                                      EdgeInsets.only(top: 10.0, bottom: 10.0),
+                                  child: Text('Very crowded',
+                                      style:
+                                          TextStyle(height: 1, fontSize: 15)),
+                                ),
+                                Padding(
+                                  padding:
+                                      EdgeInsets.only(top: 10.0, bottom: 10.0),
+                                  child: RatingBar.builder(
+                                    initialRating: 0,
+                                    minRating: 1,
+                                    direction: Axis.horizontal,
+                                    allowHalfRating: true,
+                                    itemCount: 5,
+                                    itemPadding:
+                                        EdgeInsets.symmetric(horizontal: 4.0),
+                                    itemSize: 25.0,
+                                    itemBuilder: (context, _) => Icon(
+                                      Icons.star,
+                                      color: Colors.red,
+                                    ),
+                                    onRatingUpdate: (rating) {
+                                      safety1 = rating;
+                                    },
+                                  ),
+                                ),
+                                Padding(
+                                  padding:
+                                      EdgeInsets.only(top: 10.0, bottom: 10.0),
+                                  child: Text('Not crowded',
+                                      style:
+                                          TextStyle(height: 1, fontSize: 15)),
+                                ),
+                              ]),
+                        ],
+                      )),
                 ),
-                Card (
+                Card(
                   margin: EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 8.0),
                   child: Padding(
-                    padding: EdgeInsets.all(12.0),
-                    child: Column (
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
-                          child: Text('Wearing Mask', style: TextStyle(height: 1, fontSize: 20)),
-                        ),
-                        Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                      padding: EdgeInsets.all(12.0),
+                      child: Column(
+                        children: [
                           Padding(
                             padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
-                            child: RatingBar.builder(
-                              initialRating: 0,
-                              minRating: 1,
-                              direction: Axis.horizontal,
-                              allowHalfRating: true,
-                              itemCount: 5,
-                              itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
-                              itemSize: 25.0,
-                              itemBuilder: (context, _) => Icon(
-                                Icons.star,
-                                color: Colors.amber,
-                              ),
-                              onRatingUpdate: (rating) {
-                                safety2 = rating;
-                              },
-                            ),
+                            child: Text('Wearing Mask',
+                                style: TextStyle(height: 1, fontSize: 20)),
                           ),
-                        ]),
-                      ],
-                    )
-                  ),
+                          Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Padding(
+                                  padding:
+                                      EdgeInsets.only(top: 10.0, bottom: 10.0),
+                                  child: RatingBar.builder(
+                                    initialRating: 0,
+                                    minRating: 1,
+                                    direction: Axis.horizontal,
+                                    allowHalfRating: true,
+                                    itemCount: 5,
+                                    itemPadding:
+                                        EdgeInsets.symmetric(horizontal: 4.0),
+                                    itemSize: 25.0,
+                                    itemBuilder: (context, _) => Icon(
+                                      Icons.star,
+                                      color: Colors.orange,
+                                    ),
+                                    onRatingUpdate: (rating) {
+                                      safety2 = rating;
+                                    },
+                                  ),
+                                ),
+                              ]),
+                        ],
+                      )),
                 ),
-                Card (
+                Card(
                   margin: EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 8.0),
                   child: Padding(
-                    padding: EdgeInsets.all(12.0),
-                    child: Column (
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
-                          child: Text('Cleanliness', style: TextStyle(height: 1, fontSize: 20)),
-                        ),
-                        Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                      padding: EdgeInsets.all(12.0),
+                      child: Column(
+                        children: [
                           Padding(
                             padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
-                            child: RatingBar.builder(
-                              initialRating: 0,
-                              minRating: 1,
-                              direction: Axis.horizontal,
-                              allowHalfRating: true,
-                              itemCount: 5,
-                              itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
-                              itemSize: 25.0,
-                              itemBuilder: (context, _) => Icon(
-                                Icons.star,
-                                color: Colors.amber,
-                              ),
-                              onRatingUpdate: (rating) {
-                                safety3 = rating;
-                              },
-                            ),
+                            child: Text('Cleanliness',
+                                style: TextStyle(height: 1, fontSize: 20)),
                           ),
-                        ]),
-                      ],
-                    )
-                  ),
+                          Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Padding(
+                                  padding:
+                                      EdgeInsets.only(top: 10.0, bottom: 10.0),
+                                  child: RatingBar.builder(
+                                    initialRating: 0,
+                                    minRating: 1,
+                                    direction: Axis.horizontal,
+                                    allowHalfRating: true,
+                                    itemCount: 5,
+                                    itemPadding:
+                                        EdgeInsets.symmetric(horizontal: 4.0),
+                                    itemSize: 25.0,
+                                    itemBuilder: (context, _) => Icon(
+                                      Icons.star,
+                                      color: Colors.green,
+                                    ),
+                                    onRatingUpdate: (rating) {
+                                      safety3 = rating;
+                                    },
+                                  ),
+                                ),
+                              ]),
+                        ],
+                      )),
                 ),
-                Card (
+                Card(
                   margin: EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 8.0),
                   child: Padding(
-                    padding: EdgeInsets.all(12.0),
-                    child: Column (
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
-                          child: Text('Following Corona Policies', style: TextStyle(height: 1, fontSize: 20)),
-                        ),
-                        Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                      padding: EdgeInsets.all(12.0),
+                      child: Column(
+                        children: [
                           Padding(
                             padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
-                            child: RatingBar.builder(
-                              initialRating: 0,
-                              minRating: 1,
-                              direction: Axis.horizontal,
-                              allowHalfRating: true,
-                              itemCount: 5,
-                              itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
-                              itemSize: 25.0,
-                              itemBuilder: (context, _) => Icon(
-                                Icons.star,
-                                color: Colors.amber,
-                              ),
-                              onRatingUpdate: (rating) {
-                                safety4 = rating;
-                              },
-                            ),
+                            child: Text('Following Corona Policies',
+                                style: TextStyle(height: 1, fontSize: 20)),
                           ),
-                        ]),
-                      ],
-                    )
-                  ),
+                          Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Padding(
+                                  padding:
+                                      EdgeInsets.only(top: 10.0, bottom: 10.0),
+                                  child: RatingBar.builder(
+                                    initialRating: 0,
+                                    minRating: 1,
+                                    direction: Axis.horizontal,
+                                    allowHalfRating: true,
+                                    itemCount: 5,
+                                    itemPadding:
+                                        EdgeInsets.symmetric(horizontal: 4.0),
+                                    itemSize: 25.0,
+                                    itemBuilder: (context, _) => Icon(
+                                      Icons.star,
+                                      color: Colors.purple,
+                                    ),
+                                    onRatingUpdate: (rating) {
+                                      safety4 = rating;
+                                    },
+                                  ),
+                                ),
+                              ]),
+                        ],
+                      )),
                 ),
-                Card (
+                Card(
                   margin: EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 8.0),
                   child: Padding(
-                    padding: EdgeInsets.all(12.0),
-                    child: Column (
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
-                          child: Text('Overall Experience',
-                              style: TextStyle(height: 1, fontSize: 20)),
-                        ),
-                        Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                          Spacer(),
+                      padding: EdgeInsets.all(12.0),
+                      child: Column(
+                        children: [
                           Padding(
                             padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
-                            child: RatingBar.builder(
-                              initialRating: 0,
-                              minRating: 1,
-                              direction: Axis.horizontal,
-                              allowHalfRating: true,
-                              itemCount: 5,
-                              itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
-                              itemSize: 25.0,
-                              itemBuilder: (context, _) => Icon(
-                                Icons.star,
-                                color: Colors.lightBlue,
-                              ),
-                              onRatingUpdate: (rating) {
-                                overall = rating;
-                              },
-                            ),
+                            child: Text('Overall Experience',
+                                style: TextStyle(height: 1, fontSize: 20)),
                           ),
-                          Expanded(
-                              child: IconButton(
-                            icon: Icon(Icons.help_center),
-                            onPressed: () {
-                              showDialog(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return AlertDialog(
-                                    title: Text('What does overall experience mean?'),
-                                    content: const Text('''
+                          Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Spacer(),
+                                Padding(
+                                  padding:
+                                      EdgeInsets.only(top: 10.0, bottom: 10.0),
+                                  child: RatingBar.builder(
+                                    initialRating: 0,
+                                    minRating: 1,
+                                    direction: Axis.horizontal,
+                                    allowHalfRating: true,
+                                    itemCount: 5,
+                                    itemPadding:
+                                        EdgeInsets.symmetric(horizontal: 4.0),
+                                    itemSize: 25.0,
+                                    itemBuilder: (context, _) => Icon(
+                                      Icons.star,
+                                      color: Colors.lightBlue,
+                                    ),
+                                    onRatingUpdate: (rating) {
+                                      overall = rating;
+                                    },
+                                  ),
+                                ),
+                                Expanded(
+                                    child: IconButton(
+                                  icon: Icon(Icons.help_center),
+                                  onPressed: () {
+                                    showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return AlertDialog(
+                                          title: Text(
+                                              'What does overall experience mean?'),
+                                          content: const Text('''
 It literally refers to your overall rating to the place, not limited to its safety.\n
 Think of it as a rating you would made for a place when you use google maps.
         '''),
-                                    actions: [
-                                      FlatButton(
-                                        child: Text('Got it!'),
-                                        onPressed: () {
-                                          Navigator.of(context).pop();
-                                        },
-                                      ),
-                                    ],
-                                  );
-                                },
-                              );
-                            },
-                          ))
-                        ]),
-                      ],
-                    )
-                  ),
+                                          actions: [
+                                            FlatButton(
+                                              child: Text('Got it!'),
+                                              onPressed: () {
+                                                Navigator.of(context).pop();
+                                              },
+                                            ),
+                                          ],
+                                        );
+                                      },
+                                    );
+                                  },
+                                ))
+                              ]),
+                        ],
+                      )),
                 ),
                 Row(children: <Widget>[
                   Expanded(
@@ -411,7 +435,15 @@ You can determine the level of safety using these criteria:\n\
                           content = controller.text;
                           //print(content[0]);
                           print("Callling Make Review");
-                          ReviewService().makeReview(widget.username, widget.selectedPlace.photos[0].photoReference, widget.selectedPlace.name, (safety1 + safety2 + safety3 +safety4)/4, overall, content, "fill the date");
+                          ReviewService().makeReview(
+                              widget.username,
+                              widget.selectedPlace.photos[0].photoReference,
+                              widget.selectedPlace.name,
+                              (safety1 + safety2 + safety3 + safety4) / 4,
+                              overall,
+                              content,
+                              "fill the date");
+
                           showDialog(
                             context: context,
                             builder: (BuildContext context) {
@@ -422,12 +454,15 @@ You can determine the level of safety using these criteria:\n\
                                   FlatButton(
                                     child: Text('Ok'),
                                     onPressed: () {
-                                    Navigator.of(context).pop();
-                                    Navigator.of(context).pop();
-                                    Navigator.of(context).pop();
-                                    Navigator.of(context).pop();
-                                    Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage(username: widget.username)));
-
+                                      Navigator.of(context).pop();
+                                      Navigator.of(context).pop();
+                                      Navigator.of(context).pop();
+                                      Navigator.of(context).pop();
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => HomePage(
+                                                  username: widget.username)));
                                     },
                                   ),
                                 ],

@@ -8,13 +8,14 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:http/http.dart' as http;
 import './homepage.dart';
-import 'dart:convert';//
+import 'dart:convert'; //
 import 'package:example/db/review_service.dart';
 
 class AllReviews extends StatelessWidget {
   final String selectedPlaceName;
   final String selectedPlacePicture;
-  AllReviews({@required this.selectedPlaceName, @required this.selectedPlacePicture});
+  AllReviews(
+      {@required this.selectedPlaceName, @required this.selectedPlacePicture});
 
   String buildPhotoURL(String photoReference) {
     return "https://maps.googleapis.com/maps/api/place/photo?maxwidth=1000&photoreference=${photoReference}&key=AIzaSyDqOOHRnNiYaCweRNtiXVQswGAb1Pz88Yc";
@@ -37,12 +38,26 @@ class AllReviews extends StatelessWidget {
               print("snapshot: $snapshot");
               widgetlist.add(
                 new Padding(
-                  padding: EdgeInsets.only(right: 1.0),
-                  child: SizedBox(
-                    height: 200,
-                    child: Image.network(buildPhotoURL(selectedPlacePicture),
-                    height: 200, fit: BoxFit.fill),
-                  )),
+                    padding: EdgeInsets.only(right: 1.0),
+                    child: SizedBox(
+                      height: 200,
+                      child: Image.network(buildPhotoURL(selectedPlacePicture),
+                          height: 200, fit: BoxFit.fill),
+                    )),
+              );
+              widgetlist.add(
+                new Padding(
+                  padding: EdgeInsets.only(
+                      top: 16.0, left: 20.0, right: 20.0, bottom: 10.0),
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text('Safety',
+                            style: TextStyle(height: 1, fontSize: 20)),
+                        Text('Overall',
+                            style: TextStyle(height: 1, fontSize: 20)),
+                      ]),
+                ),
               );
               widgetlist.add(
                 Row(
@@ -91,12 +106,11 @@ class AllReviews extends StatelessWidget {
               for (int i = 0; i < snapshot.data.length; i = i + 1) {
                 widgetlist.add(
                   new Container(
-                        margin: const EdgeInsets.only(left: 10.0, right: 20.0),
-                        child: Divider(
-                          color: Colors.black,
-                          height: 36,
-                        )
-                  ),
+                      margin: const EdgeInsets.only(left: 10.0, right: 20.0),
+                      child: Divider(
+                        color: Colors.black,
+                        height: 36,
+                      )),
                 );
                 widgetlist.add(
                   Row(
@@ -111,7 +125,8 @@ class AllReviews extends StatelessWidget {
                                 style: TextStyle(height: 3, fontSize: 20)),
                           ),
                         ),
-                        Text("${snapshot.data[i]['content']}                         ",
+                        Text(
+                            "${snapshot.data[i]['content']}                         ",
                             style: TextStyle(height: 1, fontSize: 15))
                       ])
                     ],
@@ -189,20 +204,260 @@ class AllReviews extends StatelessWidget {
             } else if (snapshot.data.length == 0) {
               return ListView(
                 children: [
-                  Text(
-                      "No Reviews available...",
-                      style: TextStyle(height: 1, fontSize: 25)),
+                  Padding(
+                      padding: EdgeInsets.only(right: 1.0),
+                      child: SizedBox(
+                        height: 200,
+                        child: Image.network(
+                            buildPhotoURL(selectedPlacePicture),
+                            height: 200,
+                            fit: BoxFit.fill),
+                      )),
+                  Padding(
+                    padding:
+                        EdgeInsets.only(top: 16.0, left: 20.0, right: 20.0),
+                    child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text('Safety Level',
+                              style: TextStyle(height: 1, fontSize: 20)),
+                          Text('Overall Experience',
+                              style: TextStyle(height: 1, fontSize: 20)),
+                        ]),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Center(
+                          child: RatingBar.builder(
+                        initialRating: 3.0,
+                        minRating: 1,
+                        direction: Axis.horizontal,
+                        allowHalfRating: false,
+                        ignoreGestures: true,
+                        itemCount: 5,
+                        itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+                        itemSize: 25.0,
+                        itemBuilder: (context, _) => Icon(
+                          Icons.star,
+                          color: Colors.amber,
+                        ),
+                        onRatingUpdate: (rating) {
+                          print(rating);
+                        },
+                      )),
+                      Center(
+                          child: RatingBar.builder(
+                        initialRating: 3,
+                        minRating: 1,
+                        direction: Axis.horizontal,
+                        allowHalfRating: false,
+                        ignoreGestures: true,
+                        itemCount: 5,
+                        itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+                        itemSize: 25.0,
+                        itemBuilder: (context, _) => Icon(
+                          Icons.star,
+                          color: Colors.lightBlue,
+                        ),
+                        onRatingUpdate: (rating) {
+                          print(rating);
+                        },
+                      )),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Icon(Icons.account_box),
+                      Column(children: [
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Container(
+                            child: Text(
+                                'Anonymous                                          ',
+                                style: TextStyle(height: 3, fontSize: 20)),
+                          ),
+                        ),
+                        Text(
+                            "People can't help taking off their masks while eating.",
+                            style: TextStyle(height: 1, fontSize: 15))
+                      ])
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Center(
+                          child: RatingBar.builder(
+                        initialRating: 2,
+                        minRating: 1,
+                        direction: Axis.horizontal,
+                        allowHalfRating: false,
+                        ignoreGestures: true,
+                        itemCount: 5,
+                        itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+                        itemSize: 25.0,
+                        itemBuilder: (context, _) => Icon(
+                          Icons.star,
+                          color: Colors.amber,
+                        ),
+                        onRatingUpdate: (rating) {
+                          print(rating);
+                        },
+                      )),
+                      Center(
+                          child: RatingBar.builder(
+                        initialRating: 3,
+                        minRating: 1,
+                        direction: Axis.horizontal,
+                        allowHalfRating: false,
+                        itemCount: 5,
+                        itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+                        itemSize: 25.0,
+                        itemBuilder: (context, _) => Icon(
+                          Icons.star,
+                          color: Colors.lightBlue,
+                        ),
+                        ignoreGestures: true,
+                        onRatingUpdate: (rating) {
+                          print(rating);
+                        },
+                      )),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Icon(Icons.account_box),
+                      Column(children: [
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Container(
+                            child: Text(
+                                'Will kenny                                           ',
+                                style: TextStyle(height: 3, fontSize: 20)),
+                          ),
+                        ),
+                        Text(
+                            'Safe, since people are not allowed to sit face to face.',
+                            style: TextStyle(height: 1, fontSize: 15))
+                      ])
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Center(
+                          child: RatingBar.builder(
+                        initialRating: 3,
+                        minRating: 1,
+                        direction: Axis.horizontal,
+                        allowHalfRating: false,
+                        ignoreGestures: true,
+                        itemCount: 5,
+                        itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+                        itemSize: 25.0,
+                        itemBuilder: (context, _) => Icon(
+                          Icons.star,
+                          color: Colors.amber,
+                        ),
+                        onRatingUpdate: (rating) {
+                          print(rating);
+                        },
+                      )),
+                      Center(
+                          child: RatingBar.builder(
+                        initialRating: 3,
+                        minRating: 1,
+                        direction: Axis.horizontal,
+                        allowHalfRating: false,
+                        ignoreGestures: true,
+                        itemCount: 5,
+                        itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+                        itemSize: 25.0,
+                        itemBuilder: (context, _) => Icon(
+                          Icons.star,
+                          color: Colors.lightBlue,
+                        ),
+                        onRatingUpdate: (rating) {
+                          print(rating);
+                        },
+                      )),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Icon(Icons.account_box),
+                      Column(children: [
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Container(
+                            child: Text(
+                                '    Harry Kim                                           ',
+                                style: TextStyle(height: 3, fontSize: 20)),
+                          ),
+                        ),
+                        Text('This place is very clean and neat!',
+                            style: TextStyle(height: 1, fontSize: 15))
+                      ])
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Center(
+                          child: RatingBar.builder(
+                        initialRating: 4,
+                        minRating: 1,
+                        direction: Axis.horizontal,
+                        allowHalfRating: false,
+                        ignoreGestures: true,
+                        itemCount: 5,
+                        itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+                        itemSize: 25.0,
+                        itemBuilder: (context, _) => Icon(
+                          Icons.star,
+                          color: Colors.amber,
+                        ),
+                        onRatingUpdate: (rating) {
+                          print(rating);
+                        },
+                      )),
+                      Center(
+                          child: RatingBar.builder(
+                        initialRating: 3,
+                        minRating: 1,
+                        direction: Axis.horizontal,
+                        allowHalfRating: false,
+                        ignoreGestures: true,
+                        itemCount: 5,
+                        itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+                        itemSize: 25.0,
+                        itemBuilder: (context, _) => Icon(
+                          Icons.star,
+                          color: Colors.lightBlue,
+                        ),
+                        onRatingUpdate: (rating) {
+                          print(rating);
+                        },
+                      )),
+                    ],
+                  ),
                 ],
               );
-              } else {
+              // return ListView(
+              //   children: [
+              //     Text(
+              //         "No Reviews available...",
+              //         style: TextStyle(height: 1, fontSize: 25)),
+              //   ],
+              // );
+            } else {
               return CircularProgressIndicator();
             }
           },
-    ));
+        ));
   }
 }
-
-
 
 Future<List<dynamic>> getPlaceInfos(String place) async {
   final response = await ReviewService().getReviewsByPlace(place);

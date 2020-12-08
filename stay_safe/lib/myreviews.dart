@@ -10,13 +10,10 @@ import './const.dart';
 import './review.dart';
 import './review2.dart';
 
-
-
 class MyReviews extends StatelessWidget {
   final String userinfo;
   String title;
   MyReviews({@required this.userinfo});
-
 
   @override
   Widget build(BuildContext context) {
@@ -36,12 +33,11 @@ class MyReviews extends StatelessWidget {
               for (int i = 0; i < snapshot.data.length; i = i + 1) {
                 widgetlist.add(
                   new Container(
-                        margin: const EdgeInsets.only(left: 10.0, right: 20.0),
-                        child: Divider(
-                          color: Colors.black,
-                          height: 36,
-                        )
-                  ),
+                      margin: const EdgeInsets.only(left: 10.0, right: 20.0),
+                      child: Divider(
+                        color: Colors.black,
+                        height: 36,
+                      )),
                 );
                 widgetlist.add(
                   new Padding(
@@ -50,19 +46,23 @@ class MyReviews extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Container(
-                            margin: const EdgeInsets.only(left: 10.0, right: 20.0),
-                            child: Divider(
-                              color: Colors.black,
-                              height: 36,
-                            )
-                          ),
+                              margin: const EdgeInsets.only(
+                                  left: 10.0, right: 20.0),
+                              child: Divider(
+                                color: Colors.black,
+                                height: 36,
+                              )),
                           FlatButton(
                             onPressed: () {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) =>
-                                        AllReviews(selectedPlaceName: snapshot.data[i]['place'], selectedPlacePicture: snapshot.data[i]['picture'],),
+                                    builder: (context) => AllReviews(
+                                      selectedPlaceName: snapshot.data[i]
+                                          ['place'],
+                                      selectedPlacePicture: snapshot.data[i]
+                                          ['picture'],
+                                    ),
                                   ));
                             },
                             child: Text(
@@ -131,14 +131,25 @@ class MyReviews extends StatelessWidget {
                   ),
                 );
                 widgetlist.add(new Container(
-                        child: ConstrainedBox(
-                            constraints: BoxConstraints(maxHeight: 200.0),
-                            child: FlatButton(
-                                onPressed: () {
-                                },
-                                padding: EdgeInsets.all(0.0),
-                                child: Image.network(
-                                    buildPhotoURL(snapshot.data[i]['picture']))))));
+                    child: ConstrainedBox(
+                        constraints: BoxConstraints(maxHeight: 200.0),
+                        child: FlatButton(
+                            onPressed: () {},
+                            padding: EdgeInsets.all(0.0),
+                            child: Image.network(
+                                buildPhotoURL(snapshot.data[i]['picture']))))));
+
+                widgetlist.add(
+                  new Row(
+                    children: [
+                      Icon(Icons.account_box),
+                      Column(children: [
+                        Text("   ${snapshot.data[i]['content']}              ",
+                            style: TextStyle(height: 1, fontSize: 20))
+                      ])
+                    ],
+                  ),
+                );
               }
               return new ListView(
                 children: widgetlist,
@@ -155,18 +166,17 @@ class MyReviews extends StatelessWidget {
               return CircularProgressIndicator();
             }
           },
-    ));
+        ));
   }
 }
 
-
 Future<List<dynamic>> getUserInfos(String username) async {
   final response = await ReviewService().getReviewsByUsername(username);
-  print("[My Reviews]Received response is: ${response} for username: $username");
+  print(
+      "[My Reviews]Received response is: ${response} for username: $username");
   return response.data['reviews'];
 }
 
 String buildPhotoURL(String photoReference) {
   return "https://maps.googleapis.com/maps/api/place/photo?maxwidth=1000&photoreference=${photoReference}&key=AIzaSyDqOOHRnNiYaCweRNtiXVQswGAb1Pz88Yc";
 }
-

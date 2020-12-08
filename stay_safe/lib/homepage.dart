@@ -37,7 +37,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     if (widget.username == null) {
-      return  Scaffold(
+      return Scaffold(
         appBar: AppBar(
           title: Text("Stay Safe"),
         ),
@@ -56,9 +56,13 @@ class _HomePageState extends State<HomePage> {
               IconButton(
                 icon: Icon(Icons.home),
                 onPressed: () {
-                Navigator.of(context).pop();
+                  Navigator.of(context).pop();
 
-                Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage(username: widget.username)));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              HomePage(username: widget.username)));
                 },
               ),
               IconButton(
@@ -208,8 +212,8 @@ class _HomePageState extends State<HomePage> {
                                                           MakeReview(
                                                               selectedPlace:
                                                                   selectedPlace,
-                                                              username: widget.username
-                                                                  ),
+                                                              username: widget
+                                                                  .username),
                                                     ),
                                                   );
                                                   //Navigator.of(context).pop();
@@ -253,12 +257,11 @@ class _HomePageState extends State<HomePage> {
               for (int i = 0; i < snapshot.data.length; i = i + 2) {
                 widgetlist.add(
                   new Container(
-                        margin: const EdgeInsets.only(left: 10.0, right: 20.0),
-                        child: Divider(
-                          color: Colors.black,
-                          height: 36,
-                        )
-                  ),
+                      margin: const EdgeInsets.only(left: 10.0, right: 20.0),
+                      child: Divider(
+                        color: Colors.black,
+                        height: 36,
+                      )),
                 );
                 widgetlist.add(
                   new Padding(
@@ -329,23 +332,23 @@ class _HomePageState extends State<HomePage> {
                   ),
                 );
                 widgetlist.add(new Container(
-                        child: ConstrainedBox(
-                            constraints: BoxConstraints(maxHeight: 200.0),
-                            child: FlatButton(
-                                onPressed: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => AllReviews2(
-                                                  selectedPlace: [
-                                                    snapshot.data[i + 0],
-                                                    snapshot.data[i + 1],
-                                                    (5.0 - i / 2).toString()
-                                                  ])));
-                                },
-                                padding: EdgeInsets.all(0.0),
-                                child: Image.network(
-                                    buildPhotoURL(snapshot.data[i + 1]))))));
+                    child: ConstrainedBox(
+                        constraints: BoxConstraints(maxHeight: 200.0),
+                        child: FlatButton(
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => AllReviews2(
+                                              selectedPlace: [
+                                                snapshot.data[i + 0],
+                                                snapshot.data[i + 1],
+                                                (5.0 - i / 2).toString()
+                                              ])));
+                            },
+                            padding: EdgeInsets.all(0.0),
+                            child: Image.network(
+                                buildPhotoURL(snapshot.data[i + 1]))))));
               }
               return new ListView(
                 children: widgetlist,
