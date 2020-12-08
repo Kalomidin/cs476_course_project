@@ -411,7 +411,7 @@ You can determine the level of safety using these criteria:\n\
                           content = controller.text;
                           //print(content[0]);
                           print("Callling Make Review");
-                          ReviewService().makeReview(widget.username, widget.selectedPlace.name, (safety1 + safety2 + safety3 +safety4)/4, overall, content, "fill the date");
+                          ReviewService().makeReview(widget.username, widget.selectedPlace.photos[0].photoReference, widget.selectedPlace.name, (safety1 + safety2 + safety3 +safety4)/4, overall, content, "fill the date");
                           showDialog(
                             context: context,
                             builder: (BuildContext context) {

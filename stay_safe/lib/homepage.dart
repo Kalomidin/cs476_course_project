@@ -123,8 +123,8 @@ class _HomePageState extends State<HomePage> {
                                                     MaterialPageRoute(
                                                       builder: (context) =>
                                                           AllReviews(
-                                                              selectedPlace:
-                                                                  selectedPlace),
+                                                              selectedPlaceName:
+                                                                  selectedPlace.name, selectedPlacePicture: selectedPlace.photos[0].photoReference,),
                                                     ),
                                                   );
                                                   //Navigator.of(context).pop();

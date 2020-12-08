@@ -92,7 +92,7 @@ class SearchResult extends StatelessWidget {
                       context,
                       MaterialPageRoute(
                           builder: (context) =>
-                              AllReviews(selectedPlace: selectedPlace)));
+                              AllReviews(selectedPlaceName: selectedPlace.name, selectedPlacePicture: selectedPlace.photos[0].photoReference,)));
                 },
                 child: Text('SEE ALL REVIEWS'),
               ),

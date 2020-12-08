@@ -49,8 +49,27 @@ class MyReviews extends StatelessWidget {
                     child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          new Text(snapshot.data[i]['place'],
-                              style: TextStyle(height: 1, fontSize: 25)),
+                          Container(
+                            margin: const EdgeInsets.only(left: 10.0, right: 20.0),
+                            child: Divider(
+                              color: Colors.black,
+                              height: 36,
+                            )
+                          ),
+                          FlatButton(
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        AllReviews(selectedPlaceName: snapshot.data[i]['place'], selectedPlacePicture: snapshot.data[i]['picture'],),
+                                  ));
+                            },
+                            child: Text(
+                              snapshot.data[i]['place'],
+                              style: TextStyle(fontSize: 20.0),
+                            ),
+                          ),
                         ]),
                   ),
                 );
@@ -119,7 +138,7 @@ class MyReviews extends StatelessWidget {
                                 },
                                 padding: EdgeInsets.all(0.0),
                                 child: Image.network(
-                                    buildPhotoURL(snapshot.data[i]['place']))))));
+                                    buildPhotoURL(snapshot.data[i]['picture']))))));
               }
               return new ListView(
                 children: widgetlist,

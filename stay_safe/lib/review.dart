@@ -12,8 +12,9 @@ import 'dart:convert';//
 import 'package:example/db/review_service.dart';
 
 class AllReviews extends StatelessWidget {
-  final PickResult selectedPlace;
-  AllReviews({@required this.selectedPlace});
+  final String selectedPlaceName;
+  final String selectedPlacePicture;
+  AllReviews({@required this.selectedPlaceName, @required this.selectedPlacePicture});
 
   String buildPhotoURL(String photoReference) {
     return "https://maps.googleapis.com/maps/api/place/photo?maxwidth=1000&photoreference=${photoReference}&key=AIzaSyDqOOHRnNiYaCweRNtiXVQswGAb1Pz88Yc";
@@ -21,10 +22,10 @@ class AllReviews extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Future<List<dynamic>> infos = getPlaceInfos(selectedPlace.name);
+    Future<List<dynamic>> infos = getPlaceInfos(selectedPlaceName);
     return Scaffold(
         appBar: AppBar(
-          title: Text("Reviews: ${selectedPlace.name}"),
+          title: Text("Reviews: $selectedPlaceName"),
         ),
         body: FutureBuilder<List<dynamic>>(
           future: infos,
@@ -39,7 +40,7 @@ class AllReviews extends StatelessWidget {
                   padding: EdgeInsets.only(right: 1.0),
                   child: SizedBox(
                     height: 200,
-                    child: Image.network(buildPhotoURL(selectedPlace.photos[0].photoReference),
+                    child: Image.network(buildPhotoURL(selectedPlacePicture),
                     height: 200, fit: BoxFit.fill),
                   )),
               );
