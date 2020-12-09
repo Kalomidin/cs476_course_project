@@ -34,13 +34,11 @@ class AllReviews extends StatelessWidget {
               print("snaplength:" + snapshot.data.length.toString());
               print("snapshot: $snapshot");
               widgetlist.add(
-                new Padding(
-                    padding: EdgeInsets.only(right: 1.0),
-                    child: SizedBox(
+                new SizedBox(
                       height: 200,
                       child: Image.network(buildPhotoURL(selectedPlacePicture),
                           height: 200, fit: BoxFit.fill),
-                    )),
+                    )
               );
               widgetlist.add(
                 new Padding(
@@ -49,10 +47,8 @@ class AllReviews extends StatelessWidget {
                   child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text('Safety',
-                            style: TextStyle(height: 1, fontSize: 20)),
-                        Text('Overall',
-                            style: TextStyle(height: 1, fontSize: 20)),
+                        
+                        
                       ]),
                 ),
               );
@@ -60,13 +56,41 @@ class AllReviews extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    Center(child: fixedStar(snapshot.data[0]['safety'], Colors.amber)),
-                    Center(child: fixedStar(snapshot.data[0]['overall'], Colors.lightBlue)),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Text('Safety Level',
+                            style: TextStyle(height: 1, fontSize: 20)),
+                        Center(child: fixedStar(snapshot.data[0]['safety'], Colors.amber)),
+                        Text('${snapshot.data[0]["safety"]}',
+                            style: TextStyle(height: 1, fontSize: 15)),
+                      ],
+                    ),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Text('Overall Experience',
+                            style: TextStyle(height: 1, fontSize: 20)),
+                        Center(child: fixedStar(snapshot.data[0]['overall'], Colors.lightBlue)),
+                        Text('${snapshot.data[0]["overall"]}',
+                            style: TextStyle(height: 1, fontSize: 15)),
+                      ],
+                    ),
                   ],
                 ),
               );
 
+              widgetlist.add(
+                new Container(
+                    margin: const EdgeInsets.only(left: 10.0, right: 20.0),
+                    child: Divider(
+                      color: Colors.black,
+                      height: 36,
+                    )),
+              );
+
               for (int i = 0; i < snapshot.data.length; i = i + 1) {
+                /*
                 widgetlist.add(
                   new Container(
                       margin: const EdgeInsets.only(left: 10.0, right: 20.0),
@@ -75,6 +99,79 @@ class AllReviews extends StatelessWidget {
                         height: 36,
                       )),
                 );
+                */
+                widgetlist.add(
+                  Card(
+                    margin: EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 8.0),
+                    child: InkWell(
+                      onTap: () {
+                        
+                      },
+                      child: Padding(
+                        padding: EdgeInsets.all(12.0),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              flex: 5,
+                              child: CircleAvatar(
+                                //TODO: fill this with default profile image
+                              ),
+                            ),
+                            Expanded(
+                              flex: 12,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "${snapshot.data[i]['username']}",
+                                    style: TextStyle(height: 1, fontSize: 20, fontWeight: FontWeight.bold)),
+                                  Text(
+                                    "${snapshot.data[i]['content']}",
+                                    style: TextStyle(height: 1, fontSize: 15))
+                                ],
+                              ),
+                            ),
+                            Expanded(
+                              flex: 3,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      Icon (
+                                        Icons.star,
+                                        color: Colors.amber,
+                                      ),
+                                      Text (
+                                        "${snapshot.data[i]['safety']}",
+                                        style: TextStyle(height: 1, fontSize: 12),
+                                      )
+                                    ],
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      Icon (
+                                        Icons.star,
+                                        color: Colors.lightBlue,
+                                      ),
+                                      Text (
+                                        "${snapshot.data[i]['overall']}",
+                                        style: TextStyle(height: 1, fontSize: 12),
+                                      )
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                );
+                /*
                 widgetlist.add(
                   Row(
                     children: [
@@ -118,6 +215,7 @@ class AllReviews extends StatelessWidget {
                     ],
                   ),
                 );
+                */
               }
               return new ListView(
                 children: widgetlist,
