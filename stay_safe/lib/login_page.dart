@@ -2,31 +2,13 @@
 //! 
 //! authors @kalo
 
-import 'package:example/db/auth_server.dart';
+import 'package:example/db/review_service.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import './homepage.dart';
 
-class LoginPage extends StatefulWidget {
-  LoginPage({Key key, this.title}) : super(key: key);
 
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
-
-  @override
-  _LoginPageState createState() => _LoginPageState();
-}
-
-
-class _LoginPageState extends State<LoginPage> {
+class LoginPage extends StatelessWidget {
   TextStyle style = TextStyle(fontFamily: 'Montserrat', fontSize: 20.0);
   var token;
 
@@ -73,18 +55,18 @@ class _LoginPageState extends State<LoginPage> {
         onPressed: () {
           print("Pressed Login: ${passwordField.controller.text}, ${emailField.controller.text}");
           // TODO: Make Some DB Calculations
-          AuthService().login(emailField.controller.text, passwordField.controller.text).then((val) {
+          ReviewService().login(emailField.controller.text, passwordField.controller.text).then((val) {
             try {
               if (val.data['success']) {
-                print("Success happened");
                 token = val.data['token'];
                 Fluttertoast.showToast(msg: 'Autheticated');
-                Navigator.pushReplacementNamed(
-            context, '/homepage');
+                 Navigator.of(context).pop();
+                Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage(username: emailField.controller.text)));
               } else {
-                print("Failure happened: ${val.data['success']}");
+                Fluttertoast.showToast(msg: 'Authetication failed. Username or Password is wrong');
               }
             } catch (e) {
+              Fluttertoast.showToast(msg: 'Authetication failed.\n Please retry');
               print("Failure happened: received val: $val\ Error: $e");
             }
           });
@@ -104,9 +86,9 @@ class _LoginPageState extends State<LoginPage> {
         minWidth: MediaQuery.of(context).size.width,
         padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
         onPressed: () {
-          print("Pressed Login: ${passwordField.controller.text}, ${emailField.controller.text}");
+          print("Pressed Signup: ${passwordField.controller.text}, ${emailField.controller.text}");
           // TODO: Make Some DB Calculations
-          AuthService().addUser(emailField.controller.text, passwordField.controller.text).then((val) {
+          ReviewService().signup(emailField.controller.text, passwordField.controller.text).then((val) {
             try {
               if (val.data['success']) {
                 print("Success happened");
@@ -116,9 +98,11 @@ class _LoginPageState extends State<LoginPage> {
                 Navigator.pushReplacementNamed(
             context, '/signin');
               } else {
+                Fluttertoast.showToast(msg: 'Failed to signup\n Username already exists or password does not contain string');
                 print("Failure happened: ${val.data['success']}");
               }
             } catch (e) {
+              Fluttertoast.showToast(msg: 'Failed to signup\n Please retry');
               print("Failure happened: received val: $val\ Error: $e");
             }
           });

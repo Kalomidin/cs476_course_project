@@ -48,12 +48,8 @@ class MyApp extends StatelessWidget {
       theme: lightTheme,
       darkTheme: darkTheme,
       themeMode: ThemeMode.light,
-      home: LoginPage(),
+      home: HomePage(),
       debugShowCheckedModeBanner: false,
-      routes: {
-        "/homepage": (_) => new HomePage(),
-        "/signin": (_) => new LoginPage()
-      },
     );
   }
 }

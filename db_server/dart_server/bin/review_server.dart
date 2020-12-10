@@ -44,7 +44,6 @@ class ReviewServer {
         //final x = req.body['content'];
         //print(x[0]);
         //print(x[0].runtimeType);
-        print("Reached herehere");
         await helper.makeReview(
           req.body['username'], 
           req.body['place'], 
@@ -144,6 +143,42 @@ class ReviewServer {
       }
     ]);
 
+    serv.post('/login', [
+      setCors,
+      (ServRequest req, ServResponse res) async {
+        //final x = req.body['content'];
+        //print(x[0]);
+        //print(x[0].runtimeType);
+        try {
+          await helper.login(
+            req.body['username'], 
+            req.body['password'],
+          );
+          return res.status(200).json({'success': true, 'message': 'successfully logged in'});
+        } catch(e) {
+          return res.status(200).json({'success': false, 'message': 'Invalid User Error: NoSuchMethodError'});
+        }
+      }
+    ]);
+
+    serv.post('/signup', [
+      setCors,
+      (ServRequest req, ServResponse res) async {
+        //final x = req.body['content'];
+        //print(x[0]);
+        //print(x[0].runtimeType);
+        try {
+          await helper.signup(
+            req.body['username'], 
+            req.body['password'],
+          );
+          return res.status(200).json({'success': true, 'message': 'successfully signed in'});
+        } catch(e) {
+          return res.status(200).json({'success': false, 'message': 'Invalid User Error: NoSuchMethodError'});
+        }
+      }
+    ]);
+
     //get request
   serv.get('/test', [
     (ServRequest req, ServResponse res) {
@@ -187,6 +222,9 @@ class ReviewServerHelper {
       "comments": <Map<String, dynamic>>[],
       "date": date,
     };
+    await uc.remove({"username": username, "place": place});
+    await pc.remove({"username": username, "place": place});
+
     print("Hey there, data is being inserted");
     await uc.insert(data);
     print("Hey there, data uc has been inserted");
@@ -259,13 +297,46 @@ class ReviewServerHelper {
     //final db = await _db;
     final uc = db.collection(username);
     var review = await uc.findOne({"username": username, "place": place});
-    review["dislikes"]++;
-    await uc.save(review);
+    print("Review is: $review");
+    try {
+      review["dislikes"]++;
+      await uc.save(review);
+      final pc = db.collection(place);
+      review = await pc.findOne({"username": username, "place": place});
+      try {
+        review["dislikes"]++;
+      } on NoSuchMethodError catch(e) {
+        print("It is error 1: $e");
+        return;
+      }
+      await pc.save(review);
+    } on NoSuchMethodError catch(e) {
+      print("It is error 2: $e");
+      return;
+    }
+  }
 
-    final pc = db.collection(place);
-    review = await pc.findOne({"username": username, "place": place});
-    review["dislikes"]++;
-    await pc.save(review);
+  Future login(String username, String password) async {
+    print("Logging in with username: $username and password: $password");
+    final uc = db.collection(username);
+    var user_password = await uc.findOne({"password": password});
+    user_password['password'];
+  }
+
+  Future signup(String username, String password) async {
+    final uc = db.collection(username);
+    print("Signup with username: $username and password: $password");
+    final data = {
+      "password": password,
+    };
+    try {
+      var user_password = await uc.findOne({"password": password});
+      user_password['password'];
+      throw(NoSuchMethodError);
+    } on NoSuchMethodError {
+      await uc.insert(data);
+
+    }
   }
 
   Future closeDB() async {

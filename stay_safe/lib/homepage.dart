@@ -2,6 +2,7 @@
 //!
 //! authors @rooknpown,
 
+import 'package:example/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_place_picker/google_maps_place_picker.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -9,13 +10,14 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import './search.dart';
-import './review2.dart';
+import './review.dart';
 import './make_review.dart';
 import './const.dart';
 import './settingspage.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key key}) : super(key: key);
+  final String username;
+  const HomePage({Key key, this.username}) : super(key: key);
 
   static final kInitialPosition = LatLng(36.37379078760264, 127.35905994710093);
   @override
@@ -27,12 +29,16 @@ class _HomePageState extends State<HomePage> {
 
   Future<List<dynamic>> info = fetchAlbum();
 
-  String buildPhotoURL(String photoReference) {
-    return "https://maps.googleapis.com/maps/api/place/photo?maxwidth=1000&photoreference=${photoReference}&key=AIzaSyDqOOHRnNiYaCweRNtiXVQswGAb1Pz88Yc";
-  }
-
   @override
   Widget build(BuildContext context) {
+    if (widget.username == null) {
+      return Scaffold(
+        appBar: AppBar(
+          title: Text("Stay Safe"),
+        ),
+        body: LoginPage(),
+      );
+    }
     return Scaffold(
         appBar: AppBar(
           title: Text("Stay Safe"),
@@ -45,7 +51,13 @@ class _HomePageState extends State<HomePage> {
               IconButton(
                 icon: Icon(Icons.home),
                 onPressed: () {
-                  Navigator.pushReplacementNamed(context, '/homepage');
+                  Navigator.of(context).pop();
+
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              HomePage(username: widget.username)));
                 },
               ),
               IconButton(
@@ -109,9 +121,9 @@ class _HomePageState extends State<HomePage> {
                                                     context,
                                                     MaterialPageRoute(
                                                       builder: (context) =>
-                                                          SearchResult(
-                                                              selectedPlace:
-                                                                  selectedPlace),
+                                                          AllReviews(
+                                                              selectedPlaceName:
+                                                                  selectedPlace.name, selectedPlacePicture: selectedPlace.photos[0].photoReference,),
                                                     ),
                                                   );
                                                   //Navigator.of(context).pop();
@@ -194,7 +206,9 @@ class _HomePageState extends State<HomePage> {
                                                       builder: (context) =>
                                                           MakeReview(
                                                               selectedPlace:
-                                                                  selectedPlace),
+                                                                  selectedPlace,
+                                                              username: widget
+                                                                  .username),
                                                     ),
                                                   );
                                                   //Navigator.of(context).pop();
@@ -222,7 +236,7 @@ class _HomePageState extends State<HomePage> {
                         context,
                         MaterialPageRoute(
                           builder: (context) =>
-                              Settings(userinfo: "selectedPlace"),
+                              Settings(userinfo: widget.username),
                         ));
                   }),
             ],
@@ -236,16 +250,33 @@ class _HomePageState extends State<HomePage> {
               List<Widget> widgetlist = new List<Widget>();
               print("snaplength:" + snapshot.data.length.toString());
               for (int i = 0; i < snapshot.data.length; i = i + 2) {
-                widgetlist.add(new Text(snapshot.data[i + 0],
-                    style: TextStyle(height: 1, fontSize: 25)));
+                widgetlist.add(
+                  new Container(
+                      margin: const EdgeInsets.only(left: 10.0, right: 20.0),
+                      child: Divider(
+                        color: Colors.black,
+                        height: 36,
+                      )),
+                );
                 widgetlist.add(
                   new Padding(
-                    padding:
-                        EdgeInsets.only(top: 16.0, left: 20.0, right: 20.0),
+                    padding: EdgeInsets.only(left: 20.0, right: 20.0),
                     child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text('Safety Level',
+                          new Text(snapshot.data[i + 0],
+                              style: TextStyle(height: 1, fontSize: 25)),
+                        ]),
+                  ),
+                );
+                widgetlist.add(
+                  new Padding(
+                    padding: EdgeInsets.only(
+                        top: 16.0, left: 20.0, right: 20.0, bottom: 10.0),
+                    child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text('   Safety Level',
                               style: TextStyle(height: 1, fontSize: 20)),
                           Text('Overall Experience',
                               style: TextStyle(height: 1, fontSize: 20)),
@@ -256,64 +287,27 @@ class _HomePageState extends State<HomePage> {
                   new Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      Center(
-                          child: RatingBar.builder(
-                        initialRating: 5.0 - i / 2,
-                        minRating: 1,
-                        direction: Axis.horizontal,
-                        allowHalfRating: false,
-                        ignoreGestures: true,
-                        itemCount: 5,
-                        itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
-                        itemSize: 25.0,
-                        itemBuilder: (context, _) => Icon(
-                          Icons.star,
-                          color: Colors.amber,
-                        ),
-                        onRatingUpdate: (rating) {
-                          print(rating);
-                        },
-                      )),
-                      Center(
-                          child: RatingBar.builder(
-                        initialRating: 3,
-                        minRating: 1,
-                        direction: Axis.horizontal,
-                        allowHalfRating: false,
-                        ignoreGestures: true,
-                        itemCount: 5,
-                        itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
-                        itemSize: 25.0,
-                        itemBuilder: (context, _) => Icon(
-                          Icons.star,
-                          color: Colors.lightBlue,
-                        ),
-                        onRatingUpdate: (rating) {
-                          print(rating);
-                        },
-                      )),
+                      Center(child: fixedStar(5.0 - i / 2, Colors.amber)),
+                      Center(child: fixedStar(3, Colors.lightBlue)),
                     ],
                   ),
                 );
-                widgetlist.add(new Expanded(
-                    child: Container(
-                        child: ConstrainedBox(
-                            constraints: BoxConstraints(maxHeight: 200.0),
-                            child: FlatButton(
-                                onPressed: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => AllReviews2(
-                                                  selectedPlace: [
-                                                    snapshot.data[i + 0],
-                                                    snapshot.data[i + 1],
-                                                    (5.0 - i / 2).toString()
-                                                  ])));
-                                },
-                                padding: EdgeInsets.all(0.0),
-                                child: Image.network(
-                                    buildPhotoURL(snapshot.data[i + 1])))))));
+                widgetlist.add(new Container(
+                    child: ConstrainedBox(
+                        constraints: BoxConstraints(maxHeight: 200.0),
+                        child: FlatButton(
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => AllReviews(
+                                                selectedPlaceName: snapshot.data[i + 0],
+                                                selectedPlacePicture : snapshot.data[i + 1],
+                                              )));
+                            },
+                            padding: EdgeInsets.all(0.0),
+                            child: Image.network(
+                                buildPhotoURL(snapshot.data[i + 1]))))));
               }
               return new ListView(
                 children: widgetlist,
@@ -354,3 +348,13 @@ Future<List<dynamic>> fetchAlbum() async {
   print(user["results"][0]["name"]);
   return list;
 }
+
+/*
+Future<List<dynamic>> fetchAlbum() async {
+  String username = "swh";
+  final response = await ReviewService().getReviewsByUsername(username);
+  // TODO: Add OVerall Return future
+  print("[All Reviews]Received response is: ${response} for place: $place");
+  return response.data['reviews'];
+}
+*/

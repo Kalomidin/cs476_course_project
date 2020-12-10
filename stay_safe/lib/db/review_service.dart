@@ -12,13 +12,14 @@ class ReviewService {
   ReviewService._internal();
 
   final dio = new Dio();
-  final base = "https://cs476-stay-safe-dart-server.herokuapp.com"; 
+  final base = 'https://cs476-stay-safe-dart-server.herokuapp.com'; //'http://10.0.2.2:8081'; //
 
-  makeReview(String username, String place, double safety, double overall, String content, String date) async {
+  makeReview(String username, String picture, String place, double safety, double overall, String content, String date) async {
     print("Message will be send");
     var sending_data = {
           "username": username,
           "place": place,
+          "picture": picture,
           "safety": safety,
           "overall": overall,
           "content": content,
@@ -69,6 +70,7 @@ class ReviewService {
           "username": username,
         },
         options: Options(contentType: Headers.formUrlEncodedContentType));
+    print("Response received is: ${response.data['reviews']}");
     return response;
   }
 
@@ -115,6 +117,40 @@ class ReviewService {
           "place": place,
         },
         options: Options(contentType: Headers.formUrlEncodedContentType));
+    print("Received response is: $response");
+    return response;
+  }
+
+  login(String username, String password) async {
+    Response response = await dio.post(
+        base + '/login',
+        data: {
+          "username": username,
+          "password": password,
+        },
+        options: Options(contentType: Headers.formUrlEncodedContentType));
+    print("Received response is: $response");
+    return response;
+  }
+
+    signup(String username, String password) async {
+    Response response = await dio.post(
+        base + '/signup',
+        data: {
+          "username": username,
+          "password": password,
+        },
+        options: Options(contentType: Headers.formUrlEncodedContentType));
+    print("Received response is: $response");
     return response;
   }
 }
+/*
+Future main() async {
+  var response = await ReviewService().getReviewsByUsername("swh");
+  List<dynamic> answer = response.data['reviews'];
+  print("Reviews are following: $answer");
+  print("Reviews length: ${answer[0]['place']}");
+  return response;
+}
+*/

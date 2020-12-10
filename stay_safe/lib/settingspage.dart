@@ -22,13 +22,12 @@ class Settings extends StatelessWidget {
         ),
         body: ListView(
           children: [
-            Expanded(
-              child: new Container(
-                  margin: const EdgeInsets.only(left: 10.0, right: 20.0),
-                  child: Divider(
-                    color: Colors.black,
-                    height: 36,
-                  )),
+            Container(
+              margin: const EdgeInsets.only(left: 10.0, right: 20.0),
+              child: Divider(
+                color: Colors.black,
+                height: 36,
+              )
             ),
             FlatButton(
               onPressed: () {
@@ -36,7 +35,7 @@ class Settings extends StatelessWidget {
                     context,
                     MaterialPageRoute(
                       builder: (context) =>
-                          MyReviews(userinfo: "selectedPlace"),
+                          MyReviews(userinfo: userinfo),
                     ));
               },
               child: Text(
@@ -44,13 +43,12 @@ class Settings extends StatelessWidget {
                 style: TextStyle(fontSize: 20.0),
               ),
             ),
-            Expanded(
-              child: new Container(
-                  margin: const EdgeInsets.only(left: 10.0, right: 20.0),
-                  child: Divider(
-                    color: Colors.black,
-                    height: 36,
-                  )),
+            Container(
+              margin: const EdgeInsets.only(left: 10.0, right: 20.0),
+              child: Divider(
+                color: Colors.black,
+                height: 36,
+              )
             ),
             FlatButton(
               onPressed: () {
@@ -65,13 +63,12 @@ class Settings extends StatelessWidget {
                 style: TextStyle(fontSize: 20.0),
               ),
             ),
-            Expanded(
-              child: new Container(
-                  margin: const EdgeInsets.only(left: 10.0, right: 20.0),
-                  child: Divider(
-                    color: Colors.black,
-                    height: 36,
-                  )),
+            Container(
+              margin: const EdgeInsets.only(left: 10.0, right: 20.0),
+              child: Divider(
+                color: Colors.black,
+                height: 36,
+              )
             ),
           ],
         ));
