@@ -122,8 +122,10 @@ class _HomePageState extends State<HomePage> {
                                                     MaterialPageRoute(
                                                       builder: (context) =>
                                                           AllReviews(
-                                                              selectedPlaceName:
-                                                                  selectedPlace.name, selectedPlacePicture: selectedPlace.photos[0].photoReference,),
+                                                            selectedPlaceName: selectedPlace.name, 
+                                                            selectedPlacePicture: selectedPlace.photos[0].photoReference,
+                                                            username: widget.username,
+                                                          ),
                                                     ),
                                                   );
                                                   //Navigator.of(context).pop();
@@ -303,6 +305,7 @@ class _HomePageState extends State<HomePage> {
                                       builder: (context) => AllReviews(
                                                 selectedPlaceName: snapshot.data[i + 0],
                                                 selectedPlacePicture : snapshot.data[i + 1],
+                                                username: widget.username,
                                               )));
                             },
                             padding: EdgeInsets.all(0.0),

@@ -61,6 +61,7 @@ class MyReviews extends StatelessWidget {
                                           ['place'],
                                       selectedPlacePicture: snapshot.data[i]
                                           ['picture'],
+                                      username: userinfo,
                                     ),
                                   ));
                             },
