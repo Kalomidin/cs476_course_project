@@ -11,19 +11,29 @@ import './homepage.dart';
 import 'dart:convert'; 
 import 'package:example/db/review_service.dart';
 import 'const.dart';
+//import 'comment.dart';
 
-class AllReviews extends StatelessWidget {
+class AllReviews extends StatefulWidget {
   final String selectedPlaceName;
   final String selectedPlacePicture;
+  final String username;
   AllReviews(
-      {@required this.selectedPlaceName, @required this.selectedPlacePicture});
+      {@required this.selectedPlaceName, @required this.selectedPlacePicture, @required this.username});
+
+  @override
+  _AllReviewsState createState() => _AllReviewsState();
+}
+
+class _AllReviewsState extends State<AllReviews> {
+  int open = -1;
+  final controller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    Future<List<dynamic>> infos = getPlaceInfos(selectedPlaceName);
+    Future<List<dynamic>> infos = getPlaceInfos(widget.selectedPlaceName);
     return Scaffold(
         appBar: AppBar(
-          title: Text("Reviews: $selectedPlaceName"),
+          title: Text("Reviews: ${widget.selectedPlaceName}"),
         ),
         body: FutureBuilder<List<dynamic>>(
           future: infos,
@@ -36,7 +46,7 @@ class AllReviews extends StatelessWidget {
               widgetlist.add(
                 new SizedBox(
                       height: 200,
-                      child: Image.network(buildPhotoURL(selectedPlacePicture),
+                      child: Image.network(buildPhotoURL(widget.selectedPlacePicture),
                           height: 200, fit: BoxFit.fill),
                     )
               );
@@ -105,7 +115,25 @@ class AllReviews extends StatelessWidget {
                     margin: EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 8.0),
                     child: InkWell(
                       onTap: () {
-                        
+                        /*
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => 
+                            Comment(
+                              username: snapshot.data[i]['username'], 
+                              place: widget.selectedPlaceName, 
+                              commenter: widget.username,
+                            )
+                          )
+                        );*/
+                        setState(() {
+                          if(open == i) {
+                            open = -1;
+                          }
+                          else {
+                            open = i;
+                          }
+                        });
                       },
                       child: Padding(
                         padding: EdgeInsets.all(12.0),
@@ -171,6 +199,116 @@ class AllReviews extends StatelessWidget {
                     ),
                   ),
                 );
+                String reviewer = snapshot.data[i]['username'];
+                widgetlist.add(
+                  open == i ?
+                  FutureBuilder<List<dynamic>>(
+                    future: getComments(reviewer, widget.selectedPlaceName),
+                    builder:
+                      (BuildContext context, AsyncSnapshot<List<dynamic>> snapshot) {
+                        if (snapshot.hasData) {
+                          return Column (
+                            children: snapshot.data.map<Widget>( (comment) => 
+                            
+                            Padding(
+                              padding: EdgeInsets.fromLTRB(16.0+12.0, 8.0+12.0, 16.0+12.0, 8.0+12.0),
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    flex: 5,
+                                    child: CircleAvatar(
+                                      //TODO: fill this with default profile image
+                                    ),
+                                  ),
+                                  Expanded(
+                                    flex: 12,
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          "${comment['username']}",
+                                          style: TextStyle(height: 1, fontSize: 20, fontWeight: FontWeight.bold)),
+                                        Text(
+                                          "${comment['content']}",
+                                          style: TextStyle(height: 1, fontSize: 15))
+                                      ],
+                                    ),
+                                  ),
+                                  Expanded(
+                                    flex: 3,
+                                    child: Container(),
+                                  )
+                                ],
+                              )
+                            )
+                            ).toList()
+                            +
+                            <Widget> [
+                              Padding(
+                                padding: EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 8.0),
+                                child: TextFormField(
+                                  controller: controller,
+                                  decoration: new InputDecoration(
+                                    labelText: "Comment",
+                                    fillColor: Colors.white,
+                                    border: new OutlineInputBorder(
+                                      borderRadius: new BorderRadius.circular(10.0),
+                                      borderSide: new BorderSide(
+                                      ),
+                                    ),
+                                    suffixIcon: IconButton(
+                                      icon: Icon(Icons.send),
+                                      onPressed: () async {
+                                        
+                                        showDialog(
+                                          context: context,
+                                          builder: (BuildContext context) {
+                                            return Center(child: CircularProgressIndicator());
+                                          },
+                                        );
+                                        
+                                        print("first point");
+                                        String content = controller.text;
+                                        final tmp = ReviewService().addComment (
+                                          reviewer,
+                                          widget.selectedPlaceName,
+                                          widget.username,
+                                          content,
+                                        );
+                                        print("second point");
+                                        setState(() {
+                                          controller.clear();
+                                        });
+                                        print("third point");
+                                        await tmp;
+                                        print("fourth point");
+                                        Navigator.pop(context);
+                                      },
+                                      color: Colors.lightBlue,
+                                    ),
+                                  ),
+                                  validator: (text) {
+                                    if(text.length == 0) {
+                                      return "Comment can't be empty.";
+                                    } else {
+                                      return null;
+                                    }
+                                  },
+                                ),
+                              )
+                            ]
+                          );
+                        }
+                        else {
+                          return Center(
+                            child: CircularProgressIndicator()
+                          );
+                        }
+                      }
+                  )
+                  :
+                  Container()
+                );
                 /*
                 widgetlist.add(
                   Row(
@@ -217,7 +355,7 @@ class AllReviews extends StatelessWidget {
                 );
                 */
               }
-              return new ListView(
+              return ListView(
                 children: widgetlist,
               );
             } else if (snapshot.hasError) {
@@ -236,7 +374,7 @@ class AllReviews extends StatelessWidget {
                       child: SizedBox(
                         height: 200,
                         child: Image.network(
-                            buildPhotoURL(selectedPlacePicture),
+                            buildPhotoURL(widget.selectedPlacePicture),
                             height: 200,
                             fit: BoxFit.fill),
                       )),
@@ -348,6 +486,13 @@ class AllReviews extends StatelessWidget {
           },
         ));
   }
+
+  Future<List<dynamic>> getComments(String username, String place) async {
+    final response = await ReviewService().getComments(username, place);
+    print("Comments: $response for $username, $place");
+    return response.data['comments'];
+  }
+
 }
 
 Future<List<dynamic>> getPlaceInfos(String place) async {

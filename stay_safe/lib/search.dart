@@ -15,8 +15,9 @@ import './review.dart';
 class SearchResult extends StatelessWidget {
   final PickResult selectedPlace;
   String title;
+  final String username;
 
-  SearchResult({@required this.selectedPlace});
+  SearchResult({@required this.selectedPlace, @required this.username});
   @override
   Widget build(BuildContext context) {
     lat = selectedPlace.geometry.location.lat.toString();
@@ -55,7 +56,13 @@ class SearchResult extends StatelessWidget {
                       context,
                       MaterialPageRoute(
                           builder: (context) =>
-                              AllReviews(selectedPlaceName: selectedPlace.name, selectedPlacePicture: selectedPlace.photos[0].photoReference,)));
+                              AllReviews(
+                                selectedPlaceName: selectedPlace.name, 
+                                selectedPlacePicture: selectedPlace.photos[0].photoReference,
+                                username: username,
+                              )
+                      )
+                  );
                 },
                 child: Text('SEE ALL REVIEWS'),
               ),
