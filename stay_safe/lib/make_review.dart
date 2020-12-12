@@ -4,9 +4,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:google_maps_place_picker/google_maps_place_picker.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:http/http.dart' as http;
 import './const.dart';
 import 'db/review_service.dart';
 import './homepage.dart';
@@ -438,7 +436,7 @@ You can determine the level of safety using these criteria:\n\
                               (safety1 + safety2 + safety3 + safety4) / 4,
                               overall,
                               content,
-                              "fill the date");
+                              DateTime.now().toString());
 
                           showDialog(
                             context: context,

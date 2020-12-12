@@ -1,17 +1,11 @@
 //! This file is used to show Reviews for the given place
 //!
-//! authors @rooknpown
+//! authors @rooknpown @castlecowrice
 
 import 'package:flutter/material.dart';
-import 'package:google_maps_place_picker/google_maps_place_picker.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:http/http.dart' as http;
-import './homepage.dart';
-import 'dart:convert'; 
 import 'package:example/db/review_service.dart';
 import 'const.dart';
-//import 'comment.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
 class AllReviews extends StatefulWidget {
   final String selectedPlaceName;
@@ -115,17 +109,6 @@ class _AllReviewsState extends State<AllReviews> {
                     margin: EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 8.0),
                     child: InkWell(
                       onTap: () {
-                        /*
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => 
-                            Comment(
-                              username: snapshot.data[i]['username'], 
-                              place: widget.selectedPlaceName, 
-                              commenter: widget.username,
-                            )
-                          )
-                        );*/
                         setState(() {
                           if(open == i) {
                             open = -1;
@@ -146,18 +129,32 @@ class _AllReviewsState extends State<AllReviews> {
                               ),
                             ),
                             Expanded(
-                              flex: 12,
+                              flex: 11,
                               child: Column(
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(
-                                    "${snapshot.data[i]['username']}",
-                                    style: TextStyle(height: 1, fontSize: 20, fontWeight: FontWeight.bold)),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        "${snapshot.data[i]['username']}",
+                                        style: TextStyle(height: 1, fontSize: 20, fontWeight: FontWeight.bold)
+                                      ),
+                                      Text(
+                                        "${timeago.format(DateTime.parse(snapshot.data[i]['date']))}"
+                                      )
+                                    ]
+                                  ),
                                   Text(
                                     "${snapshot.data[i]['content']}",
                                     style: TextStyle(height: 1, fontSize: 15))
                                 ],
                               ),
+                            ),
+                            Expanded(
+                              flex: 1,
+                              child: Container(),
                             ),
                             Expanded(
                               flex: 3,
@@ -266,8 +263,6 @@ class _AllReviewsState extends State<AllReviews> {
                                             return Center(child: CircularProgressIndicator());
                                           },
                                         );
-                                        
-                                        print("first point");
                                         String content = controller.text;
                                         final tmp = ReviewService().addComment (
                                           reviewer,
@@ -275,13 +270,10 @@ class _AllReviewsState extends State<AllReviews> {
                                           widget.username,
                                           content,
                                         );
-                                        print("second point");
                                         setState(() {
                                           controller.clear();
                                         });
-                                        print("third point");
                                         await tmp;
-                                        print("fourth point");
                                         Navigator.pop(context);
                                       },
                                       color: Colors.lightBlue,
@@ -493,12 +485,13 @@ class _AllReviewsState extends State<AllReviews> {
     return response.data['comments'];
   }
 
+  Future<List<dynamic>> getPlaceInfos(String place) async {
+    final response = await ReviewService().getReviewsByPlace(place);
+    // TODO: Add OVerall Return future
+    final overall = await ReviewService().averageOverall(place);
+    print("[All Reviews]Received response is: ${response} for place: $place");
+    return response.data['reviews'];
+  }
+
 }
 
-Future<List<dynamic>> getPlaceInfos(String place) async {
-  final response = await ReviewService().getReviewsByPlace(place);
-  // TODO: Add OVerall Return future
-  final overall = await ReviewService().averageOverall(place);
-  print("[All Reviews]Received response is: ${response} for place: $place");
-  return response.data['reviews'];
-}
