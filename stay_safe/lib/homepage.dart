@@ -6,8 +6,10 @@ import 'package:example/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_place_picker/google_maps_place_picker.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:flutter_google_places/flutter_google_places.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:http/http.dart' as http;
+import 'package:google_maps_webservice/places.dart';
 import 'dart:convert';
 import './search.dart';
 import './review.dart';
@@ -73,7 +75,7 @@ class _HomePageState extends State<HomePage> {
                               automaticallyImplyLeading: false,
                             ),
                             body: PlacePicker(
-                              apiKey: "AIzaSyDqOOHRnNiYaCweRNtiXVQswGAb1Pz88Yc",
+                              apiKey: "AIzaSyCzWl1iTZWgXLzzBSg6PIFalxYDjYBaN4U",
                               initialPosition: HomePage.kInitialPosition,
                               useCurrentLocation: true,
                               selectInitialPosition: true,
@@ -81,6 +83,8 @@ class _HomePageState extends State<HomePage> {
                               //usePlaceDetailSearch: true,
                               onPlacePicked: (result) {
                                 selectedPlace = result;
+                                print(result.adrAddress);
+                      
                                 Navigator.of(context).pop();
                                 setState(() {});
                               },
@@ -116,7 +120,6 @@ class _HomePageState extends State<HomePage> {
                                                   print(
                                                       "do something with [selectedPlace] data");
                                                   print(selectedPlace.placeId);
-                                                  print(selectedPlace.rating);
                                                   Navigator.push(
                                                     context,
                                                     MaterialPageRoute(
@@ -153,13 +156,14 @@ class _HomePageState extends State<HomePage> {
                     context,
                     MaterialPageRoute(
                       builder: (context) {
+                        print("Initial positions are: ${HomePage.kInitialPosition}");
                         return Scaffold(
                             appBar: AppBar(
                               title: Text('Add Review'),
                               automaticallyImplyLeading: false,
                             ),
                             body: PlacePicker(
-                              apiKey: "AIzaSyDqOOHRnNiYaCweRNtiXVQswGAb1Pz88Yc",
+                              apiKey: "AIzaSyCzWl1iTZWgXLzzBSg6PIFalxYDjYBaN4U",
                               initialPosition: HomePage.kInitialPosition,
                               useCurrentLocation: true,
                               selectInitialPosition: true,
@@ -167,16 +171,18 @@ class _HomePageState extends State<HomePage> {
                               //usePlaceDetailSearch: true,
                               onPlacePicked: (result) {
                                 selectedPlace = result;
+                                print("Selected place is following: ${selectedPlace.name} ${selectedPlace.openingHours}");
                                 Navigator.of(context).pop();
                                 setState(() {});
                               },
-                              //forceSearchOnZoomChanged: true,
-                              //automaticallyImplyAppBarLeading: false,
-                              //autocompleteLanguage: "ko",
-                              //region: 'au',
-                              //selectInitialPosition: true,
+                              // forceSearchOnZoomChanged: true,
+                              // automaticallyImplyAppBarLeading: false,
+                              // autocompleteLanguage: "ko",
+                              // region: 'au',
+                              // selectInitialPosition: true,
                               selectedPlaceWidgetBuilder: (_, selectedPlace,
                                   state, isSearchBarFocused) {
+                                print("Picked the place waiting for press");
                                 print(
                                     "state: $state, isSearchBarFocused: $isSearchBarFocused");
                                 return isSearchBarFocused
@@ -200,7 +206,7 @@ class _HomePageState extends State<HomePage> {
                                                   //            this will override default 'Select here' Button.
                                                   print(
                                                       "do something with [selectedPlace] data");
-                                                  print(selectedPlace.placeId);
+                                                  print(selectedPlace.name);
                                                   print(selectedPlace.rating);
                                                   Navigator.push(
                                                     context,
@@ -218,13 +224,13 @@ class _HomePageState extends State<HomePage> {
                                               ),
                                       );
                               },
-                              // pinBuilder: (context, state) {
-                              //   if (state == PinState.Idle) {
-                              //     return Icon(Icons.favorite_border);
-                              //   } else {
-                              //     return Icon(Icons.favorite);
-                              //   }
-                              // },
+                              pinBuilder: (context, state) {
+                                if (state == PinState.Idle) {
+                                  return Icon(Icons.favorite_border);
+                                } else {
+                                  return Icon(Icons.favorite);
+                                }
+                              },
                             ));
                       },
                     ),
@@ -333,7 +339,7 @@ class _HomePageState extends State<HomePage> {
 
 String searchNearBy() {
   print(lat + lng);
-  return "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=$lat,$lng&radius=500&type=restaurant&key=AIzaSyDqOOHRnNiYaCweRNtiXVQswGAb1Pz88Yc";
+  return "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=$lat,$lng&radius=500&type=restaurant&key=AIzaSyCzWl1iTZWgXLzzBSg6PIFalxYDjYBaN4U";
 }
 
 Future<List<dynamic>> fetchAlbum() async {

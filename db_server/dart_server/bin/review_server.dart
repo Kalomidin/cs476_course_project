@@ -202,7 +202,7 @@ class ReviewServerHelper {
   Db db;
 
   Future openDB() async {
-    db = await Db.create("mongodb+srv://kalomidin:123kalom@cluster0.2rm32.mongodb.net/dbname?retryWrites=true&w=majority");
+    db = await Db.create("mongodb+srv://staysafe:123staysafe@cluster0.ffm1l.mongodb.net/Cluster0?retryWrites=true&w=majority");
     await db.open();
   }
 

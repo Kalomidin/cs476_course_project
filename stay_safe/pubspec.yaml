@@ -27,6 +27,9 @@ dependencies:
   cupertino_icons: ^0.1.2
   flutter_rating_bar: ^3.2.0+1
   google_maps_place_picker: ^1.0.0
+  google_maps_flutter: ^1.0.2
+  flutter_google_places: ^0.2.3
+  geolocator: '^6.0.0+4'
   http: ^0.12.2
   dio: ^3.0.10 
   fluttertoast: ^7.1.4

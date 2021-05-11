@@ -11,6 +11,7 @@ import './homepage.dart';
 
 class MakeReview extends StatefulWidget {
   final PickResult selectedPlace;
+
   final String username;
 
   MakeReview({@required this.selectedPlace, @required this.username});
@@ -20,10 +21,13 @@ class MakeReview extends StatefulWidget {
 }
 
 class _MakeReviewState extends State<MakeReview> {
+  
   final controller = TextEditingController();
 
   double safety1, safety2, safety3, safety4;
+  
   double overall;
+  
   String content;
 
   @override
